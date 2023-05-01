@@ -34,7 +34,7 @@ pip install -r requirements.txt
 ### Running
 
 ```bash
-python cm-wizard.py
+python -m cm_wizard.main
 ```
 
 ### Running the tests
