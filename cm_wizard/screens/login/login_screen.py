@@ -35,8 +35,6 @@ class LoginScreen(ft.UserControl):
                 username,
                 password,
             ],
-            info_children=[
-                ft.Text("Why do I need to enter my credentials?"),
-                # TODO: answer this question for the user
-            ],
+            # TODO: answer this question for the user
+            info_child=ft.Text("Why do I need to enter my credentials?"),
         )
