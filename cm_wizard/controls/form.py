@@ -28,10 +28,10 @@ class Form(ft.UserControl):
 
     def build(self) -> ft.Control:
         def on_submit(_):
-            all_valid = all(form_field.validate() for form_field in self.form_fields)
+            all_valid = all([form_field.validate() for form_field in self.form_fields])
             if all_valid:
                 self.on_valid_submit(
-                    form_field.get_value() for form_field in self.form_fields
+                    [form_field.get_value() for form_field in self.form_fields]
                 )
 
         # for i in range(len(self.form_fields)):
