@@ -1,9 +1,14 @@
+import logging
+
 import flet as ft
 
 from cm_wizard.screens.login.login_screen import LoginScreen
 
 
 def main(page: ft.Page):
+    logger = logging.getLogger("cm_wizard_main")
+    logger.setLevel(logging.DEBUG)
+
     page.title = "Cardmarket Wizard 🧙‍♂️"
 
     views: list[ft.View] = [
@@ -17,7 +22,7 @@ def main(page: ft.Page):
     page.route = views[0].route
 
     def route_change(route: str):
-        print(f"route change: {route}")
+        logger.debug(f"route change: {route}")
         page.views.clear()
         troute = ft.TemplateRoute(page.route)
 
@@ -28,7 +33,7 @@ def main(page: ft.Page):
         page.update()
 
     def view_pop(_):
-        print(f"view pop")
+        logger.debug(f"view pop")
         page.views.pop()
         top_view = page.views[-1]
         page.go(top_view.route)
@@ -38,4 +43,7 @@ def main(page: ft.Page):
     page.go(page.route)
 
 
+# This logging level is passed to the flet server.
+# Overriding it via environment variables did not work.
+logging.basicConfig(level=logging.WARNING)
 ft.app(target=main)
