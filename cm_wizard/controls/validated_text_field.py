@@ -32,6 +32,9 @@ class ValidatedTextField(ft.UserControl):
     def get_value(self) -> str:
         return self._ref.current.value
 
+    def focus(self) -> None:
+        self._ref.current.focus()
+
     def validate(self) -> bool:
         self._validate_on_changed = True
         error_text = self._validate(self.get_value())

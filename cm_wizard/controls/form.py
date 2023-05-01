@@ -34,8 +34,13 @@ class Form(ft.UserControl):
                     [form_field.get_value() for form_field in self.form_fields]
                 )
 
-        # for i in range(len(self.form_fields)):
         if len(self.form_fields) != 0:
+            # focus traversal on enter
+            for i in range(len(self.form_fields) - 1):
+                self.form_fields[i].on_submit = lambda _: self.form_fields[
+                    i + 1
+                ].focus()
+            # submit the last field on enter
             self.form_fields[-1].on_submit = on_submit
 
         return ft.Column(
