@@ -33,8 +33,16 @@ pip install -r requirements.txt
 
 ### Running
 
+Run with hot reload (so code changes are automatically reflected by the application)
+
 ```bash
-python -m cm_wizard.main
+flet run cm_wizard.py -r
+```
+
+This is equivalent to running (without hot reload):
+
+```bash
+python cm_wizard.py
 ```
 
 ### Running the tests
