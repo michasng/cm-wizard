@@ -8,7 +8,8 @@ ValidSubmitCallable = Callable[[list[str]], None]
 
 
 class Form(ft.UserControl):
-    title: str
+    title_label: str
+    submit_label: str
     form_fields: list[ValidatedTextField]
     info_child: ft.Control
     on_valid_submit: ValidSubmitCallable
@@ -16,13 +17,15 @@ class Form(ft.UserControl):
     def __init__(
         self,
         on_valid_submit: ValidSubmitCallable,
-        title: str,
+        title_label: str,
+        submit_label: str,
         form_fields: list[ValidatedTextField],
         info_child: ft.Control,
     ):
         super().__init__()
         self.on_valid_submit = on_valid_submit
-        self.title = title
+        self.title_label = title_label
+        self.submit_label = submit_label
         self.form_fields = form_fields
         self.info_child = info_child
 
@@ -48,13 +51,13 @@ class Form(ft.UserControl):
             height=400,
             alignment=ft.MainAxisAlignment.CENTER,
             controls=[
-                ft.Text(self.title, size=30),
+                ft.Text(self.title_label, size=30),
                 *self.form_fields,
                 ft.Row(
                     alignment=ft.MainAxisAlignment.SPACE_BETWEEN,
                     controls=[
                         self.info_child,
-                        ft.ElevatedButton(text="Submit", on_click=on_submit),
+                        ft.ElevatedButton(text=self.submit_label, on_click=on_submit),
                     ],
                 ),
             ],

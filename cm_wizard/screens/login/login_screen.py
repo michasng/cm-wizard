@@ -29,7 +29,8 @@ class LoginScreen(ft.UserControl):
         )
 
         return Form(
-            title="Login to cardmarket",
+            title_label="Login to cardmarket",
+            submit_label="Login",
             on_valid_submit=lambda values: print(f"submit {list(values)}"),
             form_fields=[
                 username,
