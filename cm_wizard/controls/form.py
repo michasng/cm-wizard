@@ -1,4 +1,4 @@
-from typing import Callable, Optional
+from typing import Callable
 
 import flet as ft
 
@@ -33,6 +33,10 @@ class Form(ft.UserControl):
                 self.on_valid_submit(
                     form_field.get_value() for form_field in self.form_fields
                 )
+
+        # for i in range(len(self.form_fields)):
+        if len(self.form_fields) != 0:
+            self.form_fields[-1].on_submit = on_submit
 
         return ft.Column(
             width=400,

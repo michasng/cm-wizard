@@ -3,12 +3,14 @@ from typing import Callable, Optional
 import flet as ft
 
 ValidateCallable = Callable[[str], Optional[str]]
+SubmitCallable = Callable[[str], None]
 
 
 class ValidatedTextField(ft.UserControl):
     _ref: ft.Ref[ft.TextField]
     label: str
     password: bool
+    on_submit: SubmitCallable
     _validate: ValidateCallable
     _validate_on_changed: bool
 
@@ -17,6 +19,7 @@ class ValidatedTextField(ft.UserControl):
         label: str,
         validate: ValidateCallable,
         password: bool = False,
+        on_submit: SubmitCallable = None,
     ):
         super().__init__()
         self._ref = ft.Ref[ft.TextField]()
@@ -24,6 +27,7 @@ class ValidatedTextField(ft.UserControl):
         self.password = password
         self._validate = validate
         self._validate_on_changed = False
+        self.on_submit = on_submit
 
     def get_value(self) -> str:
         return self._ref.current.value
@@ -45,4 +49,5 @@ class ValidatedTextField(ft.UserControl):
             label=self.label,
             password=self.password,
             on_change=on_change,
+            on_submit=None if self.on_submit is None else self.on_submit,
         )
