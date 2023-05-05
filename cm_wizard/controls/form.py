@@ -48,7 +48,6 @@ class Form(ft.UserControl):
 
         return ft.Column(
             width=400,
-            height=400,
             alignment=ft.MainAxisAlignment.CENTER,
             controls=[
                 ft.Text(self.title_label, size=30),
