@@ -6,7 +6,7 @@ from cm_wizard.screens.login.login_screen import LoginScreen
 
 
 def main(page: ft.Page):
-    logger = logging.getLogger("cm_wizard_main")
+    logger = logging.getLogger(__name__)
     logger.setLevel(logging.DEBUG)
 
     page.title = "Cardmarket Wizard 🧙‍♂️"
