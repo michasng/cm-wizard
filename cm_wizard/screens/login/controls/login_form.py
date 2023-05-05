@@ -4,11 +4,22 @@ import flet as ft
 
 from cm_wizard.controls.form import Form
 from cm_wizard.controls.validated_text_field import ValidatedTextField
+from cm_wizard.services.cardmarket.cardmarket_service import (
+    cardmarket_service,
+    CardmarketException,
+)
 
 
 class LoginForm(ft.UserControl):
     def login(self, username: str, password: str):
-        print(f"submit {username}, {password}")
+        try:
+            cardmarket_service.login(username, password)
+        except CardmarketException as err:
+            self.errorText.value = err
+            # TODO: fix snackbar. Why is it not showing?
+            self.page.show_snack_bar(ft.SnackBar(ft.Text(err)))
+            self.update()
+            return
         self.page.route = "/wishlists"
         self.page.update()
 
@@ -33,14 +44,25 @@ class LoginForm(ft.UserControl):
             validate=validate_password,
         )
 
-        return Form(
-            title_label="Login to cardmarket",
-            submit_label="Login",
-            on_valid_submit=self.login,
-            form_fields=[
-                username,
-                password,
+        self.errorText = ft.Text(None, color="#ee5555")
+        return ft.Column(
+            alignment=ft.MainAxisAlignment.CENTER,
+            horizontal_alignment=ft.CrossAxisAlignment.CENTER,
+            expand=False,
+            tight=True,
+            controls=[
+                Form(
+                    title_label="Login to cardmarket",
+                    submit_label="Login",
+                    on_valid_submit=self.login,
+                    form_fields=[
+                        username,
+                        password,
+                    ],
+                    # TODO: answer this question for the user
+                    info_child=ft.Text("Why do I need to enter my credentials?"),
+                ),
+                ft.Container(height=32),
+                self.errorText,
             ],
-            # TODO: answer this question for the user
-            info_child=ft.Text("Why do I need to enter my credentials?"),
         )

@@ -9,6 +9,7 @@ SubmitCallable = Callable[[str], None]
 class ValidatedTextField(ft.UserControl):
     _ref: ft.Ref[ft.TextField]
     label: str
+    value: str
     password: bool
     on_submit: SubmitCallable
     _validate: ValidateCallable
@@ -18,12 +19,14 @@ class ValidatedTextField(ft.UserControl):
         self,
         label: str,
         validate: ValidateCallable,
+        value: str = None,
         password: bool = False,
         on_submit: SubmitCallable = None,
     ):
         super().__init__()
         self._ref = ft.Ref[ft.TextField]()
         self.label = label
+        self.value = value
         self.password = password
         self._validate = validate
         self._validate_on_changed = False
@@ -48,6 +51,7 @@ class ValidatedTextField(ft.UserControl):
                 self.validate()
 
         return ft.TextField(
+            value=self.value,
             ref=self._ref,
             label=self.label,
             password=self.password,
