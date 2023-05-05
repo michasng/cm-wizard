@@ -55,6 +55,7 @@ class ValidatedTextField(ft.UserControl):
             ref=self._ref,
             label=self.label,
             password=self.password,
+            can_reveal_password=True,
             on_change=on_change,
             on_submit=None if self.on_submit is None else self.on_submit,
         )
