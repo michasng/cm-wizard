@@ -5,11 +5,12 @@ from http.cookiejar import CookieJar
 
 import browser_cookie3
 import requests
-from bs4 import BeautifulSoup
+from bs4 import BeautifulSoup, ResultSet, Tag
 
 from cm_wizard.services.browser import Browser
 from cm_wizard.services.cardmarket.cardmarket_game import CardmarketGame
 from cm_wizard.services.cardmarket.cardmarket_language import CardmarketLanguage
+from cm_wizard.services.cardmarket.model.wants_lists import WantsLists, WantsListsItem
 
 CARDMARKET_COOKIE_DOMAIN = ".cardmarket.com"
 CARDMARKET_BASE_URL = f"https://www{CARDMARKET_COOKIE_DOMAIN}"
@@ -22,9 +23,14 @@ class CardmarketException(Exception):
 
 class CardmarketService:
     _session: requests.Session = None
+    _language: CardmarketLanguage
+    _game: CardmarketGame
 
     _logger = logging.getLogger(__name__)
     _logger.setLevel(logging.DEBUG)
+
+    def _cardmarket_url(self) -> str:
+        return f"{CARDMARKET_BASE_URL}/{self._language.value}/{self._game.value}"
 
     def login(
         self,
@@ -36,7 +42,7 @@ class CardmarketService:
     ):
         self._logger.info("login")
 
-        self._open_new_session(browser)
+        self._open_new_session(browser, language, game)
 
         login_page_response = self._session.get(f"{CARDMARKET_BASE_URL}/Login")
         if login_page_response.status_code != 200:
@@ -60,7 +66,7 @@ class CardmarketService:
         token = token_match.group("token")
 
         login_response = self._session.post(
-            f"{CARDMARKET_BASE_URL}/{language.value}/{game.value}/PostGetAction/User_Login",
+            f"{self._cardmarket_url()}/PostGetAction/User_Login",
             data={
                 "__cmtkn": token,
                 "referalPage": f"/{language.value}/{game.value}",
@@ -89,11 +95,58 @@ class CardmarketService:
         self._logger.info("logout")
         self._close_session()
 
-    def _open_new_session(self, browser: Browser):
+    def get_wants_lists(self) -> WantsLists:
+        self._logger.info("get_wants_lists")
+
+        wants_page_response = self._session.get(f"{self._cardmarket_url()}/Wants")
+        if wants_page_response.status_code != 200:
+            self._logger.error(
+                f"Failed to request wants lists page with status {wants_page_response.status_code}."
+            )
+            if wants_page_response.status_code == 403:
+                raise CardmarketException(
+                    "Your session may have expired. Please re-login."
+                )
+            self._logger.debug(wants_page_response.text)
+            raise CardmarketException("Unexpected page error. Check the console logs.")
+
+        wants_page_html = BeautifulSoup(wants_page_response.text, "html.parser")
+        cards_html: ResultSet[Tag] = wants_page_html.find_all(class_="card")
+        self._logger.info(f"{len(cards_html)} wants lists found.")
+
+        items: list[WantsListsItem] = []
+        for card_html in cards_html:
+            link_html = card_html.find(class_="card-link-img-top")
+            id_match = re.search(r"(?P<id>\d+)$", link_html.attrs["href"])
+            title_html = card_html.find(class_="card-title")
+            subtitle_html = card_html.find(class_="card-subtitle")
+            count_matches = re.findall(r"\d+", subtitle_html.text)
+            image_html = card_html.find("img")
+
+            items.append(
+                WantsListsItem(
+                    id=id_match.group("id"),
+                    title=title_html.text,
+                    distinct_cards_count=count_matches[0],
+                    cards_count=count_matches[1],
+                    image_url=f"https:{image_html.attrs['data-echo']}",
+                )
+            )
+
+        return WantsLists(items=items)
+
+    def _open_new_session(
+        self,
+        browser: Browser,
+        language: CardmarketLanguage,
+        game: CardmarketGame,
+    ):
         if self._session != None:
             self._close_session()
 
         self._session = requests.Session()
+        self._language = language
+        self._game = game
 
         self._session.headers.update(
             {
@@ -114,9 +167,12 @@ class CardmarketService:
         self._logger.debug("New session opened.")
 
     def _close_session(self):
-        self._session.close()
+        if self._session:
+            self._session.close()
+            self._logger.debug("Session closed.")
         self._session = None
-        self._logger.debug("Session closed.")
+        self._language = None
+        self._game = None
 
     # The cookies are system and browser dependent. The user-agent is apparently compared against the cookies.
     def _create_user_agent_header(self, browser: Browser):

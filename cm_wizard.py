@@ -2,7 +2,9 @@ import logging
 
 import flet as ft
 
+from cm_wizard.screens.abstract_screen import AbstractScreen
 from cm_wizard.screens.login.login_screen import LoginScreen
+from cm_wizard.screens.wants_lists.wants_lists_screen import WantsListsScreen
 
 
 def main(page: ft.Page):
@@ -11,26 +13,25 @@ def main(page: ft.Page):
 
     page.title = "Cardmarket Wizard 🧙‍♂️"
 
-    views: list[ft.View] = [
+    views: list[AbstractScreen] = [
         LoginScreen(),
-        ft.View(
-            route="/wishlists",
-            appbar=ft.AppBar(title=ft.Text("Wishlists")),
-            controls=[ft.Text("TODO: Select your wishlist...")],
-        ),
+        WantsListsScreen(),
     ]
     page.route = views[0].route
 
     def route_change(route: str):
         logger.debug(f"route change: {route}")
-        page.views.clear()
         troute = ft.TemplateRoute(page.route)
 
+        page.views.clear()
         for view in views:
             if troute.match(view.route):
                 page.views.append(view)
-                break
         page.update()
+
+        top_view: AbstractScreen = page.views[-1]
+        if top_view.on_visit:
+            top_view.on_visit()
 
     def view_pop(_):
         logger.debug(f"view pop")

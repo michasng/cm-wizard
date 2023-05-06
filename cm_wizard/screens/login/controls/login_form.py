@@ -27,7 +27,7 @@ class LoginForm(ft.UserControl):
         self.page.show_snack_bar(
             ft.SnackBar(ft.Text("Logged in successfully."), open=True)
         )
-        self.page.route = "/wishlists"
+        self.page.route = "/wants"
         self.page.update()
 
     def build(self) -> ft.Control:
