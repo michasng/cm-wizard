@@ -13,6 +13,7 @@ flet = "^0.6.2"
 requests = "^2.29.0"
 browser-cookie3 = "^0.18.0"
 beautifulsoup4 = "^4.12.2"
+pillow = "^9.5.0"
 
 [tool.poetry.group.dev.dependencies]
 black = "^23.3.0"

@@ -1,5 +1,6 @@
 import flet as ft
 
+from cm_wizard.controls.cardmarket_icon import CardmarketIcon, CardmarketIcons
 from cm_wizard.services.cardmarket.cardmarket_service import cardmarket_service
 
 
@@ -66,10 +67,26 @@ class WantsListTable(ft.UserControl):
                         ft.DataColumn(ft.Text("Expansions")),
                         ft.DataColumn(ft.Text("Languages")),
                         ft.DataColumn(ft.Text("Min Condition")),
-                        ft.DataColumn(ft.Text("Reverse Holo?")),
-                        ft.DataColumn(ft.Text("Signed?")),
-                        ft.DataColumn(ft.Text("First Edition?")),
-                        ft.DataColumn(ft.Text("Altered?")),
+                        ft.DataColumn(
+                            tooltip="Reverse Holo?",
+                            label=CardmarketIcon(
+                                icon_data=CardmarketIcons.REVERSE_HOLO
+                            ),
+                        ),
+                        ft.DataColumn(
+                            tooltip="Signed?",
+                            label=CardmarketIcon(icon_data=CardmarketIcons.SIGNED),
+                        ),
+                        ft.DataColumn(
+                            tooltip="First Edition?",
+                            label=CardmarketIcon(
+                                icon_data=CardmarketIcons.FIRST_EDITION
+                            ),
+                        ),
+                        ft.DataColumn(
+                            label=CardmarketIcon(icon_data=CardmarketIcons.ALTERED),
+                            tooltip="Altered?",
+                        ),
                     ],
                     rows=[],
                 ),
