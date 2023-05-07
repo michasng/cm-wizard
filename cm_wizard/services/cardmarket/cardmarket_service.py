@@ -11,6 +11,7 @@ from cm_wizard.services.browser import Browser
 from cm_wizard.services.cardmarket.cardmarket_game import CardmarketGame
 from cm_wizard.services.cardmarket.cardmarket_language import CardmarketLanguage
 from cm_wizard.services.cardmarket.model.wants_lists import WantsLists, WantsListsItem
+from cm_wizard.services.cardmarket.model.wants_list import WantsList
 
 CARDMARKET_COOKIE_DOMAIN = ".cardmarket.com"
 CARDMARKET_BASE_URL = f"https://www{CARDMARKET_COOKIE_DOMAIN}"
@@ -96,22 +97,22 @@ class CardmarketService:
         self._close_session()
 
     def get_wants_lists(self) -> WantsLists:
-        self._logger.info("get_wants_lists")
+        self._logger.info("get wants lists")
         session = self._get_session()
 
-        wants_page_response = session.get(f"{self._cardmarket_url()}/Wants")
-        if wants_page_response.status_code != 200:
+        wants_lists_page_response = session.get(f"{self._cardmarket_url()}/Wants")
+        if wants_lists_page_response.status_code != 200:
             self._logger.error(
-                f"Failed to request wants lists page with status {wants_page_response.status_code}."
+                f"Failed to request wants lists page with status {wants_lists_page_response.status_code}."
             )
-            if wants_page_response.status_code == 403:
+            if wants_lists_page_response.status_code == 401:
                 raise CardmarketException(
                     "Your session may have expired. Please re-login."
                 )
-            self._logger.debug(wants_page_response.text)
+            self._logger.debug(wants_lists_page_response.text)
             raise CardmarketException("Unexpected page error. Check the console logs.")
 
-        wants_page_html = BeautifulSoup(wants_page_response.text, "html.parser")
+        wants_page_html = BeautifulSoup(wants_lists_page_response.text, "html.parser")
         cards_html: ResultSet[Tag] = wants_page_html.find_all(class_="card")
         self._logger.info(f"{len(cards_html)} wants lists found.")
 
