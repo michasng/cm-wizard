@@ -3,13 +3,13 @@ from typing import Optional
 
 import flet as ft
 
+from cm_wizard.controls.conditional import Conditional
 from cm_wizard.controls.form import Form
 from cm_wizard.controls.validated_text_field import ValidatedTextField
 from cm_wizard.services.cardmarket.cardmarket_service import (
     CardmarketException,
     cardmarket_service,
 )
-from cm_wizard.controls.conditional import Conditional
 
 
 class LoginForm(ft.UserControl):
