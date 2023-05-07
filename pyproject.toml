@@ -1,0 +1,23 @@
+[tool.poetry]
+name = "cm-wizard"
+version = "0.1.0"
+description = "A wizard that helps you find the cheapest prices for cards on you wants lists."
+authors = ["Micha Sengotta <micha.sengotta@gmail.com>"]
+license = "MIT License"
+readme = "README.md"
+packages = [{include = "cm_wizard"}]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+flet = "^0.6.2"
+requests = "^2.29.0"
+browser-cookie3 = "^0.18.0"
+beautifulsoup4 = "^4.12.2"
+
+[tool.poetry.group.dev.dependencies]
+black = "^23.3.0"
+isort = "^5.12.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

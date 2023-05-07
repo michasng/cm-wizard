@@ -1,34 +1,26 @@
 # Cardmarket wizard
 
-This project is inspired by [cw-wizard](https://github.com/BenSouchet/cw-wizard).
-
+A wizard that helps you find the cheapest prices for cards on you wants lists.
+This project is inspired by and in part based on [cw-wizard](https://github.com/BenSouchet/cw-wizard).
 
 ## Getting Started
 
-### Create virtual enviroment
+### Prerequisites
 
-Create a virtual environment
+You need [Poetry](https://python-poetry.org/docs/).
 
-```bash
-python -m venv .venv
-```
+### Installation
 
-Enable the virtual environment (windows):
+Install dependencies (including development dependencies):
 
 ```bash
-.\.venv\Scripts\activate
+poetry install
 ```
 
-Enable the virtual environment (linux / macOS):
+If you don't need development depdencies, run:
 
 ```bash
-source .venv2/bin/activate
-```
-
-### Install dependencies
-
-```
-pip install -r requirements.txt
+poetry install --without dev
 ```
 
 ### Running
@@ -36,16 +28,38 @@ pip install -r requirements.txt
 Run with hot reload (so code changes are automatically reflected by the application)
 
 ```bash
-flet run cm_wizard.py -r
+poetry run flet run cm_wizard.py -r
 ```
 
 This is equivalent to running (without hot reload):
 
 ```bash
-python cm_wizard.py
+poetry run python cm_wizard.py
 ```
 
+Most IDEs can be configured to have hotkeys for these actions.
+For VSCode on Windows, press Alt + Shift + O to sort imports and Alt + Shift + F to format code.
+
 ### Running the tests
+
+TODO
+
+### Formatting
+
+Sort imports:
+
+```bash
+poetry run isort .
+```
+
+Format code:
+
+```bash
+poetry run black .
+```
+
+Note that `isort` and `black` apply some conflicting changes.
+For now, `isort` should be used first and then `black` should run afterwards.
 
 ## Versioning
 
