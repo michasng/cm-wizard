@@ -9,9 +9,9 @@ SubmitCallable = Callable[[str], None]
 class ValidatedTextField(ft.UserControl):
     _ref: ft.Ref[ft.TextField]
     label: str
-    value: str
+    value: str | None
     password: bool
-    on_submit: SubmitCallable
+    on_submit: SubmitCallable | None
     _validate: ValidateCallable
     _validate_on_changed: bool
 
@@ -19,9 +19,9 @@ class ValidatedTextField(ft.UserControl):
         self,
         label: str,
         validate: ValidateCallable,
-        value: str = None,
+        value: str | None = None,
         password: bool = False,
-        on_submit: SubmitCallable = None,
+        on_submit: SubmitCallable | None = None,
     ):
         super().__init__()
         self._ref = ft.Ref[ft.TextField]()

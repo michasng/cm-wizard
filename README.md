@@ -44,6 +44,14 @@ For VSCode on Windows, press Alt + Shift + O to sort imports and Alt + Shift + F
 
 TODO
 
+### Static type checking
+
+Check for type errors:
+
+```bash
+poetry run mypy .
+```
+
 ### Formatting
 
 Sort imports:

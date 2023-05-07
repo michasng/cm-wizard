@@ -22,7 +22,7 @@ class CardmarketException(Exception):
 
 
 class CardmarketService:
-    _session: requests.Session = None
+    _session: requests.Session | None = None
     _language: CardmarketLanguage
     _game: CardmarketGame
 
@@ -42,9 +42,9 @@ class CardmarketService:
     ):
         self._logger.info("login")
 
-        self._open_new_session(browser, language, game)
+        session = self._open_new_session(browser, language, game)
 
-        login_page_response = self._session.get(f"{CARDMARKET_BASE_URL}/Login")
+        login_page_response = session.get(f"{CARDMARKET_BASE_URL}/Login")
         if login_page_response.status_code != 200:
             self._logger.error(
                 f"Failed to request login page with status {login_page_response.status_code}."
@@ -59,13 +59,13 @@ class CardmarketService:
         token_match = re.search(
             r'name="__cmtkn" value="(?P<token>\w+)"', login_page_response.text
         )
-        if token_match.lastindex is None:
+        if token_match is None or token_match.lastindex is None:
             self._logger.error("Token not found.")
             self._logger.debug(login_page_response.text)
             raise CardmarketException("No token found. Check the console logs.")
         token = token_match.group("token")
 
-        login_response = self._session.post(
+        login_response = session.post(
             f"{self._cardmarket_url()}/PostGetAction/User_Login",
             data={
                 "__cmtkn": token,
@@ -97,8 +97,9 @@ class CardmarketService:
 
     def get_wants_lists(self) -> WantsLists:
         self._logger.info("get_wants_lists")
+        session = self._get_session()
 
-        wants_page_response = self._session.get(f"{self._cardmarket_url()}/Wants")
+        wants_page_response = session.get(f"{self._cardmarket_url()}/Wants")
         if wants_page_response.status_code != 200:
             self._logger.error(
                 f"Failed to request wants lists page with status {wants_page_response.status_code}."
@@ -118,6 +119,7 @@ class CardmarketService:
         for card_html in cards_html:
             link_html = card_html.find(class_="card-link-img-top")
             id_match = re.search(r"(?P<id>\d+)$", link_html.attrs["href"])
+            assert id_match is not None
             title_html = card_html.find(class_="card-title")
             subtitle_html = card_html.find(class_="card-subtitle")
             count_matches = re.findall(r"\d+", subtitle_html.text)
@@ -135,12 +137,16 @@ class CardmarketService:
 
         return WantsLists(items=items)
 
+    def _get_session(self) -> requests.Session:
+        assert self._session is not None
+        return self._session
+
     def _open_new_session(
         self,
         browser: Browser,
         language: CardmarketLanguage,
         game: CardmarketGame,
-    ):
+    ) -> requests.Session:
         if self._session != None:
             self._close_session()
 
@@ -162,9 +168,12 @@ class CardmarketService:
         self._logger.debug(
             f"{len(cookies)} cookies extracted from browser {browser.value}."
         )
-        self._session.cookies = cookies
+        self._session.cookies.clear()
+        for cookie in cookies:
+            self._session.cookies.set_cookie(cookie)
 
         self._logger.debug("New session opened.")
+        return self._session
 
     def _close_session(self):
         if self._session:
