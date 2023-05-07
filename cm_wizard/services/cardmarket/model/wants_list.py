@@ -23,4 +23,5 @@ class WantsListItem:
 
 @dataclass
 class WantsList:
+    title: str
     items: list[WantsListItem]

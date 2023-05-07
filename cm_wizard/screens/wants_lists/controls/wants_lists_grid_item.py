@@ -21,9 +21,8 @@ class WantsListsGridItem(ft.UserControl):
             self.update()
 
         def on_click(_: ft.ContainerTapEvent):
-            wantslist = cardmarket_service.get_wants_list(self.item.id)
-            print("WANTSLIST")
-            print(wantslist)
+            self.page.route = f"/wants/{self.item.id}"
+            self.page.update()
 
         return ft.Container(
             on_hover=on_hover,

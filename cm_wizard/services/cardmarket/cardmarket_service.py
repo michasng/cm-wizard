@@ -35,6 +35,12 @@ class CardmarketService:
     def _cardmarket_url(self) -> str:
         return f"{CARDMARKET_BASE_URL}/{self._language.value}/{self._game.value}"
 
+    def get_language(self) -> CardmarketLanguage:
+        return self._language
+
+    def get_game(self) -> CardmarketGame:
+        return self._game
+
     def login(
         self,
         username: str,
@@ -242,7 +248,10 @@ class CardmarketService:
                 )
             )
 
-        return WantsList(items=items)
+        return WantsList(
+            title=wants_page_html.find("h1").text,
+            items=items,
+        )
 
     def _log_to_file(self, path: str, content: str):
         self._logger.info(f'Start logging to file "{path}".')

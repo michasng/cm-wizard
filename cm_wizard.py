@@ -4,6 +4,7 @@ import flet as ft
 
 from cm_wizard.screens.abstract_screen import AbstractScreen
 from cm_wizard.screens.login.login_screen import LoginScreen
+from cm_wizard.screens.wants_list.wants_list_screen import WantsListScreen
 from cm_wizard.screens.wants_lists.wants_lists_screen import WantsListsScreen
 
 
@@ -13,20 +14,22 @@ def main(page: ft.Page):
 
     page.title = "Cardmarket Wizard 🧙‍♂️"
 
-    views: list[AbstractScreen] = [
-        LoginScreen(),
-        WantsListsScreen(),
-    ]
-    page.route = views[0].route
+    page.route = LoginScreen.route
 
     def route_change(route: str):
         logger.debug(f"route change: {route}")
         troute = ft.TemplateRoute(page.route)
 
         page.views.clear()
-        for view in views:
-            if troute.match(view.route):
-                page.views.append(view)
+        if troute.match(LoginScreen.route):
+            page.views.append(LoginScreen())
+        elif troute.match(WantsListsScreen.route):
+            page.views.append(WantsListsScreen())
+        elif troute.match(WantsListScreen.route):
+            page.views.append(WantsListScreen(troute.id))
+        else:
+            raise NotImplementedError(f'Unknown route "{page.route}".')
+
         page.update()
 
         top_view: AbstractScreen = page.views[-1]

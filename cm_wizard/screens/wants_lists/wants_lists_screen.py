@@ -6,6 +6,7 @@ from cm_wizard.services.cardmarket.cardmarket_service import cardmarket_service
 
 
 class WantsListsScreen(AbstractScreen):
+    route: str = "/wants"
     _wants_list_grid_ref: ft.Ref[WantsListsGrid]
 
     def __init__(self):
@@ -20,7 +21,7 @@ class WantsListsScreen(AbstractScreen):
             self.page.update()
 
         super().__init__(
-            route="/wants",
+            route=self.route,
             on_visit=on_visit,
             appbar=ft.AppBar(
                 leading=ft.IconButton(ft.icons.LOGOUT_OUTLINED, on_click=logout),
