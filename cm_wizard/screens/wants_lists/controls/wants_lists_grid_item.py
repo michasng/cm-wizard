@@ -1,5 +1,6 @@
 import flet as ft
 
+from cm_wizard.services.cardmarket.cardmarket_service import cardmarket_service
 from cm_wizard.services.cardmarket.model.wants_lists import WantsListsItem
 
 
@@ -19,8 +20,10 @@ class WantsListsGridItem(ft.UserControl):
                 self._image_ref.current.color = ft.colors.BLACK54
             self.update()
 
-        def on_click(e: ft.ContainerTapEvent):
-            print(e)  # TODO: show wants list
+        def on_click(_: ft.ContainerTapEvent):
+            wantslist = cardmarket_service.get_wants_list(self.item.id)
+            print("WANTSLIST")
+            print(wantslist)
 
         return ft.Container(
             on_hover=on_hover,

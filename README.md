@@ -25,20 +25,19 @@ poetry install --without dev
 
 ### Running
 
-Run with hot reload (so code changes are automatically reflected by the application)
-
-```bash
-poetry run flet run cm_wizard.py -r
-```
-
-This is equivalent to running (without hot reload):
+Run without hot reload:
 
 ```bash
 poetry run python cm_wizard.py
 ```
 
-Most IDEs can be configured to have hotkeys for these actions.
-For VSCode on Windows, press Alt + Shift + O to sort imports and Alt + Shift + F to format code.
+Run with hot reload (so code changes are automatically reflected by the application).
+Note that this will also restart the app while an error response is written to a file, so the file will not be written.
+This option is therefore really only useful for development.
+
+```bash
+poetry run flet run cm_wizard.py -r
+```
 
 ### Running the tests
 
@@ -68,6 +67,9 @@ poetry run black .
 
 Note that `isort` and `black` apply some conflicting changes.
 For now, `isort` should be used first and then `black` should run afterwards.
+
+Most IDEs can be configured to have hotkeys for these actions.
+For VSCode on Windows, press Alt + Shift + O to sort imports and Alt + Shift + F to format code.
 
 ## Versioning
 
