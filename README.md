@@ -41,6 +41,14 @@ poetry run flet run -m -r cm_wizard
 
 TODO
 
+### Run pre-commit hooks
+
+Manually run pre-commit hooks for static type checking and formatting.
+
+```bash
+poetry run pre-commit run --all-files
+```
+
 ### Static type checking
 
 Check for type errors:
