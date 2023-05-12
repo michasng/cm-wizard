@@ -1,5 +1,4 @@
 import logging
-import platform
 import re
 from http.cookiejar import CookieJar
 from typing import Callable, TypeVar
@@ -13,6 +12,11 @@ from cm_wizard.services.cardmarket.cardmarket_game import CardmarketGame
 from cm_wizard.services.cardmarket.cardmarket_language import CardmarketLanguage
 from cm_wizard.services.cardmarket.model.card_condition import CardCondition
 from cm_wizard.services.cardmarket.model.card_language import CardLanguage
+from cm_wizard.services.cardmarket.model.card_offers import (
+    CardOffer,
+    CardOffers,
+    CardOfferSeller,
+)
 from cm_wizard.services.cardmarket.model.wants_list import WantsList, WantsListItem
 from cm_wizard.services.cardmarket.model.wants_lists import WantsLists, WantsListsItem
 
@@ -113,8 +117,6 @@ class CardmarketService:
         self._close_session()
 
     def find_wants_lists(self) -> WantsLists:
-        self._logger.info("find wants lists")
-
         return self._get_authenticated_page(
             "wants lists",
             f"{self._cardmarket_url()}/Wants",
@@ -122,18 +124,18 @@ class CardmarketService:
         )
 
     def _parse_wants_lists(self, html: BeautifulSoup) -> WantsLists:
-        cards_html: ResultSet[Tag] = html.find_all(class_="card")
-        self._logger.info(f"{len(cards_html)} wants lists found.")
+        wants_lists: ResultSet[Tag] = html.find_all(class_="card")
+        self._logger.info(f"{len(wants_lists)} wants lists found.")
 
         items: list[WantsListsItem] = []
-        for card_html in cards_html:
-            link_html = card_html.find(class_="card-link-img-top")
+        for wants_list in wants_lists:
+            link_html = wants_list.find(class_="card-link-img-top")
             id_match = re.search(r"(?P<id>\d+)$", link_html.attrs["href"])
             assert id_match is not None
-            title_html = card_html.find(class_="card-title")
-            subtitle_html = card_html.find(class_="card-subtitle")
+            title_html = wants_list.find(class_="card-title")
+            subtitle_html = wants_list.find(class_="card-subtitle")
             count_matches = re.findall(r"\d+", subtitle_html.text)
-            image_html = card_html.find("img")
+            image_html = wants_list.find("img")
 
             items.append(
                 WantsListsItem(
@@ -148,47 +150,45 @@ class CardmarketService:
         return WantsLists(items=items)
 
     def find_wants_list(self, wants_list_id: str) -> WantsList:
-        self._logger.info(f"find wants {wants_list_id}")
-
         return self._get_authenticated_page(
-            "wants",
+            f"wants {wants_list_id}",
             f"{self._cardmarket_url()}/Wants/{wants_list_id}",
             self._parse_wants_list,
         )
 
     def _parse_wants_list(self, html: BeautifulSoup) -> WantsList:
-        table_html = html.find(class_="data-table")
-        table_header_html = table_html.find("thead")
-        table_body_html = table_html.find("tbody")
-        rows_html: ResultSet[Tag] = table_body_html.find_all("tr")
-        self._logger.info(f"{len(rows_html)} wanted found.")
+        table = html.find(class_="data-table")
+        table_header_row = table.find("thead")
+        table_body = table.find("tbody")
+        rows: ResultSet[Tag] = table_body.find_all("tr")
+        self._logger.info(f"{len(rows)} wanted found.")
 
         def find_bool_th(title: str) -> Tag | None:
-            th_content = table_header_html.find("span", attrs={"title": title})
-            if th_content is None:
+            th_span = table_header_row.find("span", attrs={"title": title})
+            if th_span is None:
                 return None
-            return th_content.parent
+            return th_span.parent
 
         table_column_indexes = {
-            key: table_header_html.index(th_element) if th_element is not None else None
-            for key, th_element in {
-                "name": table_header_html.find(class_="name"),
-                "preview": table_header_html.find(class_="preview"),
-                "amount": table_header_html.find(class_="amount"),
-                "expansion": table_header_html.find(class_="expansion"),
-                "languages": table_header_html.find(class_="languages"),
-                "min_condition": table_header_html.find(class_="condition"),
+            key: table_header_row.index(th_tag) if th_tag is not None else None
+            for key, th_tag in {
+                "name": table_header_row.find(class_="name"),
+                "preview": table_header_row.find(class_="preview"),
+                "amount": table_header_row.find(class_="amount"),
+                "expansion": table_header_row.find(class_="expansion"),
+                "languages": table_header_row.find(class_="languages"),
+                "min_condition": table_header_row.find(class_="condition"),
                 "is_reverse_holo": find_bool_th("Reverse Holo?"),
                 "is_signed": find_bool_th("Signed?"),
                 "is_first_edition": find_bool_th("First Edition?"),
                 "is_altered": find_bool_th("Altered?"),
-                "buy_price": table_header_html.find(class_="buyPrice"),
-                "has_mail_alert": table_header_html.find(class_="mailAlert"),
+                "buy_price": table_header_row.find(class_="buyPrice"),
+                "has_mail_alert": table_header_row.find(class_="mailAlert"),
             }.items()
         }
 
         items: list[WantsListItem] = []
-        for row in rows_html:
+        for row in rows:
 
             def find_td(key: str) -> Tag:
                 index = table_column_indexes[key]
@@ -220,22 +220,12 @@ class CardmarketService:
             ), f'Card ID not found in URL "{name_link["href"]}".'
             card_id = id_match.group("general_id") or id_match.group("product_id")
 
-            tooltip_img_tag = find_td("preview").find("span").attrs["title"]
-            image_url_match = re.search(r"src=\"(?P<image_url>.*?)\"", tooltip_img_tag)
-            assert (
-                image_url_match is not None
-            ), f'Image URL not found in tooltip "{tooltip_img_tag}".'
-
-            buy_price_unit_matches = re.findall(
-                r"\d+", find_td("buy_price").find("span").text
-            )
-
             items.append(
                 WantsListItem(
                     id=card_id,
                     name=name_link.text,
                     amount=int(find_td("amount").text),
-                    image_url=f"https:{image_url_match.group('image_url')}",
+                    image_url=self._extract_tooltip_image_url(find_td("preview")),
                     expansions=[
                         tooltip.find("span").text
                         for tooltip in find_td_tooltips("expansion")
@@ -253,9 +243,9 @@ class CardmarketService:
                     is_signed=find_td_optional_bool("is_signed"),
                     is_first_edition=find_td_optional_bool("is_first_edition"),
                     is_altered=find_td_optional_bool("is_altered"),
-                    buy_price_euro_cents=None
-                    if len(buy_price_unit_matches) == 0
-                    else int(f"{buy_price_unit_matches[0]}{buy_price_unit_matches[1]}"),
+                    buy_price_euro_cents=self._try_parse_euro_cents(
+                        find_td("buy_price").find("span").text
+                    ),
                     has_mail_alert=find_td("has_mail_alert").text == "Y",
                 )
             )
@@ -264,6 +254,120 @@ class CardmarketService:
             title=html.find("h1").text,
             items=items,
         )
+
+    def find_card_offers(self, wants_list_item: WantsListItem):
+        return self._get_authenticated_page(
+            f"card offers {wants_list_item.id}",
+            f"{self._cardmarket_url()}/Cards/{wants_list_item.id}",
+            self._parse_card_offers,
+        )
+
+    def _parse_card_offers(self, html: BeautifulSoup) -> CardOffers:
+        card_infos = html.find(id="info").find(class_="infoContainer")
+        card_infos_dl_dd = card_infos.find(class_="labeled").find_all("dd")
+        table = html.find(id="table")
+        rows: ResultSet[Tag] = table.find(class_="table-body").find_all(
+            class_="article-row"
+        )
+        self._logger.info(f"{len(rows)} offers found.")
+
+        offers: list[CardOffer] = []
+
+        for row in rows:
+            seller_column = row.find(class_="col-seller")
+            seller_col_ext = seller_column.find(class_="seller-extended")
+            seller_ext_tooltips: ResultSet[Tag] = seller_col_ext.find_all(
+                attrs={"data-toggle": "tooltip"}
+            )
+            rating_match = re.search(
+                r"fonticon-seller-rating-(?P<rating>\w+)",
+                seller_ext_tooltips[0]["class"][0],
+            )
+            assert (
+                rating_match is not None
+            ), f'Rating not found in classes of tooltip "{seller_ext_tooltips[0]}".'
+
+            sell_count_matches = re.findall(
+                r"\d+", seller_ext_tooltips[1].attrs["title"]
+            )
+            assert (
+                len(sell_count_matches) == 2
+            ), f'Sale and item counts not found in tooltip title "{seller_ext_tooltips[1].attrs["title"]}".'
+
+            eta_matches = re.findall(
+                r":\s*(\d+)", seller_ext_tooltips[2].attrs["title"]
+            )
+            assert (
+                len(eta_matches) > 0
+            ), f'Eta not found in tooltip title "{seller_ext_tooltips[2].attrs["title"]}".'
+
+            seller_col_name = seller_column.find(class_="seller-name")
+            location_tooltip_title = seller_col_name.find(
+                attrs={"data-toggle": "tooltip"}
+            ).attrs["title"]
+            location_matches = re.findall(r":\s*(\w+)", location_tooltip_title)
+            assert (
+                len(location_matches) == 1
+            ), f'Location not found in tooltip title "{location_tooltip_title}".'
+
+            # product_column = row.find(class_="col-product")
+            offer_column = row.find(class_="col-offer")
+            offers.append(
+                CardOffer(
+                    image_url=self._extract_tooltip_image_url(
+                        row.find(class_="col-icon")
+                    ),
+                    seller=CardOfferSeller(
+                        name=seller_col_name.find("a").text,
+                        rating=rating_match.group("rating")
+                        if rating_match.group("rating") is not "none"
+                        else None,
+                        sale_count=int(sell_count_matches[0]),
+                        item_count=int(sell_count_matches[1]),
+                        eta_days=int(eta_matches[0]) if len(eta_matches) == 2 else None,
+                        eta_country_days=int(
+                            eta_matches[1] if len(eta_matches) == 2 else eta_matches[0]
+                        ),
+                        location=location_matches[0],
+                    ),
+                    product=None,
+                    price_euro_cents=self._parse_euro_cents(
+                        offer_column.find(class_="price-container").find("span").text
+                    ),
+                    amount=int(
+                        offer_column.find(class_="amount-container").find("span").text
+                    ),
+                )
+            )
+
+        return CardOffers(
+            name=html.find("h1").text,
+            rules_text=card_infos.find("div").text,
+            item_count=int(card_infos_dl_dd[0].text),
+            version_count=int(card_infos_dl_dd[1].text),
+            min_price_euro_cents=self._parse_euro_cents(card_infos_dl_dd[2].text),
+            price_trend_euro_cents=self._parse_euro_cents(card_infos_dl_dd[3].text),
+            offers=offers,
+        )
+
+    def _extract_tooltip_image_url(self, container: Tag) -> str:
+        tooltip_title = container.find(attrs={"data-toggle": "tooltip"}).attrs["title"]
+        image_url_match = re.search(r"src=\"(?P<image_url>.*?)\"", tooltip_title)
+        assert (
+            image_url_match is not None
+        ), f'Image URL not found in tooltip title "{tooltip_title}".'
+        return f"https:{image_url_match.group('image_url')}"
+
+    def _try_parse_euro_cents(self, text: str) -> int | None:
+        unit_matches = re.findall(r"\d+", text)
+        if len(unit_matches) == 0:
+            return None
+        return int(f"{unit_matches[0]}{unit_matches[1]}")
+
+    def _parse_euro_cents(self, text: str) -> int:
+        result = self._try_parse_euro_cents(text)
+        assert result is not None, f'Could not parse price from text "{text}".'
+        return result
 
     def _log_to_file(self, path: str, content: str):
         self._logger.info(f'Start logging to file "{path}".')
@@ -274,6 +378,8 @@ class CardmarketService:
     def _get_authenticated_page(
         self, page_name: str, url: str, parse_callback: Callable[[BeautifulSoup], T]
     ) -> T:
+        self._logger.info(f"find {page_name}")
+
         def log_page_error() -> CardmarketException:
             error_file_name = f"{page_name.replace(' ', '_')}_page_response.html"
             self._log_to_file(error_file_name, page_response.text)

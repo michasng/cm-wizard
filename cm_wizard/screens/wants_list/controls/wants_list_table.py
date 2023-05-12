@@ -68,7 +68,11 @@ class WantsListTable(ft.UserControl):
         self.update()
 
     def find_best_prices(self, _):
-        print("find best prices")
+        if len(self.wants_list.items) > 0:
+            res = cardmarket_service.find_card_offers(self.wants_list.items[0])
+            print(
+                f'Staring price for "{res.name}" is {res.offers[0].price_euro_cents} cents.'
+            )
 
     def build(self) -> ft.Control:
         return ft.Column(
