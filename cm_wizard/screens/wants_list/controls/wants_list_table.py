@@ -16,7 +16,7 @@ class WantsListTable(ft.UserControl):
         self._table_ref = ft.Ref[ft.DataTable]()
 
     def on_visit(self):
-        wants_list = cardmarket_service.get_wants_list(self._wants_list_id)
+        wants_list = cardmarket_service.find_wants_list(self._wants_list_id)
 
         self._title_ref.current.value = wants_list.title
 

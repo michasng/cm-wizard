@@ -108,8 +108,8 @@ class CardmarketService:
         self._logger.info("logout")
         self._close_session()
 
-    def get_wants_lists(self) -> WantsLists:
-        self._logger.info("get wants lists")
+    def find_wants_lists(self) -> WantsLists:
+        self._logger.info("find wants lists")
 
         wants_lists_page_response = self._get_authenticated_page(
             page_name="wants lists",
@@ -144,12 +144,12 @@ class CardmarketService:
 
         return WantsLists(items=items)
 
-    def get_wants_list(self, id: str) -> WantsList:
-        self._logger.info(f"get wants {id}")
+    def find_wants_list(self, wants_list_id: str) -> WantsList:
+        self._logger.info(f"find wants {wants_list_id}")
 
         wants_page_response = self._get_authenticated_page(
             page_name="wants",
-            url=f"{self._cardmarket_url()}/Wants/{id}",
+            url=f"{self._cardmarket_url()}/Wants/{wants_list_id}",
         )
 
         wants_page_html = BeautifulSoup(wants_page_response.text, "html.parser")
