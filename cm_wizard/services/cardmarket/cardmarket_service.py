@@ -5,16 +5,12 @@ from typing import Callable, TypeVar
 
 import browser_cookie3
 import requests
-from bs4 import BeautifulSoup, ResultSet, Tag
+from bs4 import BeautifulSoup, Tag
 
 from cm_wizard.services.browser import Browser
 from cm_wizard.services.cardmarket.cardmarket_game import CardmarketGame
 from cm_wizard.services.cardmarket.cardmarket_language import CardmarketLanguage
-from cm_wizard.services.cardmarket.model.card_offers import (
-    CardOffer,
-    CardOffers,
-    CardOfferSeller,
-)
+from cm_wizard.services.cardmarket.pages.card_page import CardPage
 from cm_wizard.services.cardmarket.pages.wants_list_page import (
     WantsListPage,
     WantsListPageItem,
@@ -135,115 +131,8 @@ class CardmarketService:
         return self._get_authenticated_page(
             f"card offers {wants_list_item.id}",
             f"{self._cardmarket_url()}/Cards/{wants_list_item.id}",
-            self._parse_card_offers,
+            lambda html: CardPage(html, self.get_language()),
         )
-
-    def _parse_card_offers(self, html: BeautifulSoup) -> CardOffers:
-        card_infos = html.find(id="info").find(class_="infoContainer")
-        card_infos_dl_dd = card_infos.find(class_="labeled").find_all("dd")
-        table = html.find(id="table")
-        rows: ResultSet[Tag] = table.find(class_="table-body").find_all(
-            class_="article-row"
-        )
-        self._logger.info(f"{len(rows)} offers found.")
-
-        offers: list[CardOffer] = []
-
-        for row in rows:
-            seller_column = row.find(class_="col-seller")
-            seller_col_ext = seller_column.find(class_="seller-extended")
-            seller_ext_tooltips: ResultSet[Tag] = seller_col_ext.find_all(
-                attrs={"data-toggle": "tooltip"}
-            )
-            rating_match = re.search(
-                r"fonticon-seller-rating-(?P<rating>\w+)",
-                seller_ext_tooltips[0]["class"][0],
-            )
-            assert (
-                rating_match is not None
-            ), f'Rating not found in classes of tooltip "{seller_ext_tooltips[0]}".'
-
-            sell_count_matches = re.findall(
-                r"\d+", seller_ext_tooltips[1].attrs["title"]
-            )
-            assert (
-                len(sell_count_matches) == 2
-            ), f'Sale and item counts not found in tooltip title "{seller_ext_tooltips[1].attrs["title"]}".'
-
-            eta_matches = re.findall(
-                r":\s*(\d+)", seller_ext_tooltips[2].attrs["title"]
-            )
-            assert (
-                len(eta_matches) > 0
-            ), f'Eta not found in tooltip title "{seller_ext_tooltips[2].attrs["title"]}".'
-
-            seller_col_name = seller_column.find(class_="seller-name")
-            location_tooltip_title = seller_col_name.find(
-                attrs={"data-toggle": "tooltip"}
-            ).attrs["title"]
-            location_matches = re.findall(r":\s*(\w+)", location_tooltip_title)
-            assert (
-                len(location_matches) == 1
-            ), f'Location not found in tooltip title "{location_tooltip_title}".'
-
-            # product_column = row.find(class_="col-product")
-            offer_column = row.find(class_="col-offer")
-            offers.append(
-                CardOffer(
-                    image_url=self._extract_tooltip_image_url(
-                        row.find(class_="col-icon")
-                    ),
-                    seller=CardOfferSeller(
-                        name=seller_col_name.find("a").text,
-                        rating=None
-                        if rating_match.group("rating") == "none"
-                        else rating_match.group("rating"),
-                        sale_count=int(sell_count_matches[0]),
-                        item_count=int(sell_count_matches[1]),
-                        eta_days=int(eta_matches[0]) if len(eta_matches) == 2 else None,
-                        eta_country_days=int(
-                            eta_matches[1] if len(eta_matches) == 2 else eta_matches[0]
-                        ),
-                        location=location_matches[0],
-                    ),
-                    product=None,
-                    price_euro_cents=self._parse_euro_cents(
-                        offer_column.find(class_="price-container").find("span").text
-                    ),
-                    amount=int(
-                        offer_column.find(class_="amount-container").find("span").text
-                    ),
-                )
-            )
-
-        return CardOffers(
-            name=html.find("h1").text,
-            rules_text=card_infos.find("div").text,
-            item_count=int(card_infos_dl_dd[0].text),
-            version_count=int(card_infos_dl_dd[1].text),
-            min_price_euro_cents=self._parse_euro_cents(card_infos_dl_dd[2].text),
-            price_trend_euro_cents=self._parse_euro_cents(card_infos_dl_dd[3].text),
-            offers=offers,
-        )
-
-    def _extract_tooltip_image_url(self, container: Tag) -> str:
-        tooltip_title = container.find(attrs={"data-toggle": "tooltip"}).attrs["title"]
-        image_url_match = re.search(r"src=\"(?P<image_url>.*?)\"", tooltip_title)
-        assert (
-            image_url_match is not None
-        ), f'Image URL not found in tooltip title "{tooltip_title}".'
-        return f"https:{image_url_match.group('image_url')}"
-
-    def _try_parse_euro_cents(self, text: str) -> int | None:
-        unit_matches = re.findall(r"\d+", text)
-        if len(unit_matches) == 0:
-            return None
-        return int(f"{unit_matches[0]}{unit_matches[1]}")
-
-    def _parse_euro_cents(self, text: str) -> int:
-        result = self._try_parse_euro_cents(text)
-        assert result is not None, f'Could not parse price from text "{text}".'
-        return result
 
     def _log_to_file(self, path: str, content: str):
         self._logger.info(f'Start logging to file "{path}".')
