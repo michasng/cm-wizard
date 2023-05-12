@@ -19,7 +19,7 @@ class WantsListTable(ft.UserControl):
 
     def on_visit(self):
         self.wants_list = cardmarket_service.find_wants_list(self._wants_list_id)
-            
+
         self._title_ref.current.controls = [
             ft.Text(self.wants_list.title, size=30),
             ft.FilledButton(
@@ -27,7 +27,9 @@ class WantsListTable(ft.UserControl):
                 text="Find best prices",
                 icon="search",
                 on_click=self.find_best_prices,
-            ) if len(self.wants_list.items) > 0 else ft.Text("(empty)"),
+            )
+            if len(self.wants_list.items) > 0
+            else ft.Text("(empty)"),
         ]
 
         def map_bool(value: bool | None) -> ft.Control:
@@ -73,7 +75,7 @@ class WantsListTable(ft.UserControl):
             controls=[
                 ft.Row(
                     ref=self._title_ref,
-                    controls= [],
+                    controls=[],
                 ),
                 ft.DataTable(
                     ref=self._table_ref,

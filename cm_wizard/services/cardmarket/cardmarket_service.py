@@ -45,13 +45,14 @@ class CardmarketService:
         self,
         username: str,
         password: str,
-        browser: Browser = Browser.EDGE,
+        browser: Browser,
+        user_agent: str,
         language: CardmarketLanguage = CardmarketLanguage.ENGLISH,
         game: CardmarketGame = CardmarketGame.YU_GI_OH,
     ):
         self._logger.info("login")
 
-        session = self._open_new_session(browser, language, game)
+        session = self._open_new_session(browser, user_agent, language, game)
 
         login_page_response = session.get(f"{CARDMARKET_BASE_URL}/Login")
         if login_page_response.status_code != 200:
@@ -270,7 +271,9 @@ class CardmarketService:
                 raise CardmarketException(
                     "Your session may have expired. Please re-login."
                 )
-            self._log_to_file(f"{page_name.replace(' ', '_')}_page_response.html", page_response.text)
+            self._log_to_file(
+                f"{page_name.replace(' ', '_')}_page_response.html", page_response.text
+            )
             raise CardmarketException(
                 f"Unexpected page error. Check {page_name}_page_response.html."
             )
@@ -283,6 +286,7 @@ class CardmarketService:
     def _open_new_session(
         self,
         browser: Browser,
+        user_agent: str,
         language: CardmarketLanguage,
         game: CardmarketGame,
     ) -> requests.Session:
@@ -299,7 +303,8 @@ class CardmarketService:
                 "accept-language": "*",
                 "cache-control": "no-cache",
                 "dnt": "1",  # do not track
-                "User-Agent": self._create_user_agent_header(browser),
+                # The cookies are browser dependent, so we need to identify the browser.
+                "User-Agent": user_agent,
             }
         )
 
@@ -321,30 +326,6 @@ class CardmarketService:
         self._session = None
         self._language = None
         self._game = None
-
-    # The cookies are system and browser dependent. The user-agent is apparently compared against the cookies.
-    def _create_user_agent_header(self, browser: Browser):
-        system_info = {
-            "Darwin": "Macintosh; Intel Mac OS X 10_15_7",
-            "Windows": "Windows NT 10.0; Win64; x64",
-            "Linux": "X11; Linux x86_64",
-        }[platform.system()]
-
-        match browser:
-            case Browser.CHROME:
-                return f"Mozilla/5.0 ({system_info}) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36"
-            case Browser.CHROMIUM:
-                return f"Mozilla/5.0 ({system_info}) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36"
-            case Browser.FIREFOX:
-                return f"Mozilla/5.0 ({system_info}; rv:109.0) Gecko/20100101 Firefox/109.0"
-            case Browser.EDGE:
-                return f"Mozilla/5.0 ({system_info}) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36 Edg/112.0.1722.68"
-            case Browser.SAFARI:
-                return f"Mozilla/5.0 ({system_info}) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36"
-            case Browser.OPERA:
-                return f"Mozilla/5.0 ({system_info}) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36 OPR/98.0.4759.3"
-            case _:
-                raise NotImplementedError(f"Browser {browser.value} is not supported.")
 
     def _extract_cookies(self, browser: Browser) -> CookieJar:
         match browser:

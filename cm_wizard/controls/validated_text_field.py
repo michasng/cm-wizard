@@ -10,6 +10,7 @@ class ValidatedTextField(ft.UserControl):
     _ref: ft.Ref[ft.TextField]
     label: str
     value: str | None
+    hint: str | None
     password: bool
     on_submit: SubmitCallable | None
     _validate: ValidateCallable
@@ -20,6 +21,7 @@ class ValidatedTextField(ft.UserControl):
         label: str,
         validate: ValidateCallable,
         value: str | None = None,
+        hint: str | None = None,
         password: bool = False,
         on_submit: SubmitCallable | None = None,
     ):
@@ -27,6 +29,7 @@ class ValidatedTextField(ft.UserControl):
         self._ref = ft.Ref[ft.TextField]()
         self.label = label
         self.value = value
+        self.hint = hint
         self.password = password
         self._validate = validate
         self._validate_on_changed = False
@@ -54,6 +57,7 @@ class ValidatedTextField(ft.UserControl):
             value=self.value,
             ref=self._ref,
             label=self.label,
+            hint_text=self.hint,
             password=self.password,
             can_reveal_password=True,
             on_change=on_change,
