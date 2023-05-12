@@ -48,9 +48,7 @@ class WantsListTable(ft.UserControl):
                         ft.Text(
                             ", ".join(
                                 [
-                                    language.value.labels[
-                                        cardmarket_service.get_language()
-                                    ]
+                                    language.value.labels[cardmarket_service.language]
                                     for language in item.languages
                                 ]
                             )

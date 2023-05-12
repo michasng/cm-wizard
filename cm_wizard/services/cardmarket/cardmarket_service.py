@@ -1,11 +1,10 @@
 import logging
 import re
 from http.cookiejar import CookieJar
-from typing import Callable, TypeVar
 
 import browser_cookie3
 import requests
-from bs4 import BeautifulSoup, Tag
+from bs4 import BeautifulSoup
 
 from cm_wizard.services.browser import Browser
 from cm_wizard.services.cardmarket.cardmarket_game import CardmarketGame
@@ -19,8 +18,6 @@ from cm_wizard.services.cardmarket.pages.wants_lists_page import WantsListsPage
 
 CARDMARKET_COOKIE_DOMAIN = ".cardmarket.com"
 CARDMARKET_BASE_URL = f"https://www{CARDMARKET_COOKIE_DOMAIN}"
-
-T = TypeVar("T")
 
 
 class CardmarketException(Exception):
@@ -39,10 +36,12 @@ class CardmarketService:
     def _cardmarket_url(self) -> str:
         return f"{CARDMARKET_BASE_URL}/{self._language.value}/{self._game.value}"
 
-    def get_language(self) -> CardmarketLanguage:
+    @property
+    def language(self) -> CardmarketLanguage:
         return self._language
 
-    def get_game(self) -> CardmarketGame:
+    @property
+    def game(self) -> CardmarketGame:
         return self._game
 
     def login(
@@ -114,25 +113,16 @@ class CardmarketService:
         self._close_session()
 
     def find_wants_lists(self) -> WantsListsPage:
-        return self._get_authenticated_page(
-            "wants lists",
-            f"{self._cardmarket_url()}/Wants",
-            lambda html: WantsListsPage(html, self.get_language()),
-        )
+        page_text = self._request_authenticated_page("Wants")
+        return WantsListsPage(page_text, self.language)
 
     def find_wants_list(self, wants_list_id: str) -> WantsListPage:
-        return self._get_authenticated_page(
-            f"wants {wants_list_id}",
-            f"{self._cardmarket_url()}/Wants/{wants_list_id}",
-            lambda html: WantsListPage(html, self.get_language()),
-        )
+        page_text = self._request_authenticated_page(f"Wants/{wants_list_id}")
+        return WantsListPage(page_text, self.language)
 
     def find_card_offers(self, wants_list_item: WantsListPageItem):
-        return self._get_authenticated_page(
-            f"card offers {wants_list_item.id}",
-            f"{self._cardmarket_url()}/Cards/{wants_list_item.id}",
-            lambda html: CardPage(html, self.get_language()),
-        )
+        page_text = self._request_authenticated_page(f"Cards/{wants_list_item.id}")
+        return CardPage(page_text, self.language)
 
     def _log_to_file(self, path: str, content: str):
         self._logger.info(f'Start logging to file "{path}".')
@@ -140,57 +130,30 @@ class CardmarketService:
             out.write(content)
         self._logger.info(f'Done logging to file "{path}".')
 
-    def _get_authenticated_page(
-        self, page_name: str, url: str, parse_callback: Callable[[BeautifulSoup], T]
-    ) -> T:
-        self._logger.info(f"find {page_name}")
+    def _request_authenticated_page(self, endpoint: str) -> str:
+        self._logger.info(f"GET {endpoint}")
 
-        def log_page_error() -> CardmarketException:
-            error_file_name = f"{page_name.replace(' ', '_')}_page_response.html"
+        session = self._get_session()
+
+        page_response = session.get(f"{self._cardmarket_url()}/{endpoint}")
+
+        if page_response.status_code != 200:
+            self._logger.error(
+                f"Failed to request {endpoint} with status {page_response.status_code}."
+            )
+
+            if page_response.status_code == 401:
+                raise CardmarketException(
+                    "Your session may have expired. Please re-login."
+                )
+
+            error_file_name = f"{endpoint.replace('/', '_')}_page_response.html"
             self._log_to_file(error_file_name, page_response.text)
-            return CardmarketException(
+            raise CardmarketException(
                 f"Unexpected page error. Check {error_file_name}."
             )
 
-        session = self._get_session()
-        page_response = session.get(url)
-        if page_response.status_code != 200:
-            self._logger.error(
-                f"Failed to request {page_name} page with status {page_response.status_code}."
-            )
-            if page_response.status_code == 401:
-                raise CardmarketException(
-                    "Your session may have expired. Please re-login."
-                )
-            raise log_page_error()
-
-        try:
-            page_html = BeautifulSoup(page_response.text, "html.parser")
-            return parse_callback(page_html)
-        except Exception as e:
-            self._logger.error(f"Failed to parse {page_name} page for error: {e}")
-            raise log_page_error()
-
-    def _request_authenticated_page(
-        self, page_name: str, url: str
-    ) -> requests.Response:
-        session = self._get_session()
-        page_response = session.get(url)
-        if page_response.status_code != 200:
-            self._logger.error(
-                f"Failed to request {page_name} page with status {page_response.status_code}."
-            )
-            if page_response.status_code == 401:
-                raise CardmarketException(
-                    "Your session may have expired. Please re-login."
-                )
-            self._log_to_file(
-                f"{page_name.replace(' ', '_')}_page_response.html", page_response.text
-            )
-            raise CardmarketException(
-                f"Unexpected page error. Check {page_name}_page_response.html."
-            )
-        return page_response
+        return page_response.text
 
     def _get_session(self) -> requests.Session:
         assert self._session is not None

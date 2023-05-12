@@ -11,8 +11,8 @@ class HtmlElement:
 
 
 class HtmlPageElement(HtmlElement):
-    def __init__(self, html: BeautifulSoup, language: CardmarketLanguage):
-        super().__init__(html)
+    def __init__(self, page_text: str, language: CardmarketLanguage):
+        super().__init__(BeautifulSoup(page_text, "html.parser"))
         self.language = language
 
 
