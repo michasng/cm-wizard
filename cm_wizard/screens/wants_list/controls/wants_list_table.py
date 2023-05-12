@@ -6,19 +6,29 @@ from cm_wizard.services.cardmarket.cardmarket_service import cardmarket_service
 
 class WantsListTable(ft.UserControl):
     _wants_list_id: str
-    _title_ref: ft.Ref[ft.Text]
+    _search_button_ref: ft.Ref[ft.FilledButton]
+    _title_ref: ft.Ref[ft.Row]
     _table_ref: ft.Ref[ft.DataTable]
 
     def __init__(self, ref: ft.Ref["WantsListTable"], id: str):
         super().__init__(ref=ref)
         self._wants_list_id = id
-        self._title_ref = ft.Ref[ft.Text]()
+        self._search_button_ref = ft.Ref[ft.FilledButton]()
+        self._title_ref = ft.Ref[ft.Row]()
         self._table_ref = ft.Ref[ft.DataTable]()
 
     def on_visit(self):
-        wants_list = cardmarket_service.find_wants_list(self._wants_list_id)
-
-        self._title_ref.current.value = wants_list.title
+        self.wants_list = cardmarket_service.find_wants_list(self._wants_list_id)
+            
+        self._title_ref.current.controls = [
+            ft.Text(self.wants_list.title, size=30),
+            ft.FilledButton(
+                ref=self._search_button_ref,
+                text="Find best prices",
+                icon="search",
+                on_click=self.find_best_prices,
+            ) if len(self.wants_list.items) > 0 else ft.Text("(empty)"),
+        ]
 
         def map_bool(value: bool | None) -> ft.Control:
             if value is None:
@@ -51,14 +61,20 @@ class WantsListTable(ft.UserControl):
                     ]
                 ],
             )
-            for item in wants_list.items
+            for item in self.wants_list.items
         ]
         self.update()
+
+    def find_best_prices(self, _):
+        print("find best prices")
 
     def build(self) -> ft.Control:
         return ft.Column(
             controls=[
-                ft.Text(ref=self._title_ref, size=30),
+                ft.Row(
+                    ref=self._title_ref,
+                    controls= [],
+                ),
                 ft.DataTable(
                     ref=self._table_ref,
                     columns=[
