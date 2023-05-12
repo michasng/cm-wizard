@@ -270,7 +270,7 @@ class CardmarketService:
                 raise CardmarketException(
                     "Your session may have expired. Please re-login."
                 )
-            self._log_to_file(f"{page_name}_page_response.html", page_response.text)
+            self._log_to_file(f"{page_name.replace(' ', '_')}_page_response.html", page_response.text)
             raise CardmarketException(
                 f"Unexpected page error. Check {page_name}_page_response.html."
             )
