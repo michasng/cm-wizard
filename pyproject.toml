@@ -9,7 +9,7 @@ packages = [{include = "cm_wizard"}]
 
 [tool.poetry.dependencies]
 python = "^3.10"
-flet = "^0.6.2"
+flet = "^0.7.0"
 requests = "^2.29.0"
 browser-cookie3 = "^0.18.0"
 beautifulsoup4 = "^4.12.2"

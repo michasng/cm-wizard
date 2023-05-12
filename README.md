@@ -28,15 +28,13 @@ poetry install --without dev
 Run without hot reload:
 
 ```bash
-poetry run python cm_wizard.py
+poetry run python -m cm_wizard
 ```
 
-Run with hot reload (so code changes are automatically reflected by the application).
-Note that this will also restart the app while an error response is written to a file, so the file will not be written.
-This option is therefore really only useful for development.
+Run with hot reload (so code changes are automatically reflected by the application):
 
 ```bash
-poetry run flet run cm_wizard.py -r
+poetry run flet run -m -r cm_wizard
 ```
 
 ### Running the tests
