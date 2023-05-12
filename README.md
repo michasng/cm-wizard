@@ -15,6 +15,7 @@ Install dependencies (including development dependencies):
 
 ```bash
 poetry install
+poetry run pre-commit install
 ```
 
 If you don't need development depdencies, run:
