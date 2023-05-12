@@ -18,7 +18,7 @@ from cm_wizard.services.cardmarket.model.card_offers import (
     CardOfferSeller,
 )
 from cm_wizard.services.cardmarket.model.wants_list import WantsList, WantsListItem
-from cm_wizard.services.cardmarket.model.wants_lists import WantsLists, WantsListsItem
+from cm_wizard.services.cardmarket.pages.wants_lists_page import WantsListsPage
 
 CARDMARKET_COOKIE_DOMAIN = ".cardmarket.com"
 CARDMARKET_BASE_URL = f"https://www{CARDMARKET_COOKIE_DOMAIN}"
@@ -116,38 +116,12 @@ class CardmarketService:
         self._logger.info("logout")
         self._close_session()
 
-    def find_wants_lists(self) -> WantsLists:
+    def find_wants_lists(self) -> WantsListsPage:
         return self._get_authenticated_page(
             "wants lists",
             f"{self._cardmarket_url()}/Wants",
-            self._parse_wants_lists,
+            lambda html: WantsListsPage(html),
         )
-
-    def _parse_wants_lists(self, html: BeautifulSoup) -> WantsLists:
-        wants_lists: ResultSet[Tag] = html.find_all(class_="card")
-        self._logger.info(f"{len(wants_lists)} wants lists found.")
-
-        items: list[WantsListsItem] = []
-        for wants_list in wants_lists:
-            link_html = wants_list.find(class_="card-link-img-top")
-            id_match = re.search(r"(?P<id>\d+)$", link_html.attrs["href"])
-            assert id_match is not None
-            title_html = wants_list.find(class_="card-title")
-            subtitle_html = wants_list.find(class_="card-subtitle")
-            count_matches = re.findall(r"\d+", subtitle_html.text)
-            image_html = wants_list.find("img")
-
-            items.append(
-                WantsListsItem(
-                    id=id_match.group("id"),
-                    title=title_html.text,
-                    distinct_cards_count=count_matches[0],
-                    cards_count=count_matches[1],
-                    image_url=f"https:{image_html.attrs['data-echo']}",
-                )
-            )
-
-        return WantsLists(items=items)
 
     def find_wants_list(self, wants_list_id: str) -> WantsList:
         return self._get_authenticated_page(
@@ -319,9 +293,9 @@ class CardmarketService:
                     ),
                     seller=CardOfferSeller(
                         name=seller_col_name.find("a").text,
-                        rating=rating_match.group("rating")
-                        if rating_match.group("rating") is not "none"
-                        else None,
+                        rating=None
+                        if rating_match.group("rating") == "none"
+                        else rating_match.group("rating"),
                         sale_count=int(sell_count_matches[0]),
                         item_count=int(sell_count_matches[1]),
                         eta_days=int(eta_matches[0]) if len(eta_matches) == 2 else None,

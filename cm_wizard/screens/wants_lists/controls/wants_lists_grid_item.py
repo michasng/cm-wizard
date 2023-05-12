@@ -1,13 +1,12 @@
 import flet as ft
 
-from cm_wizard.services.cardmarket.cardmarket_service import cardmarket_service
-from cm_wizard.services.cardmarket.model.wants_lists import WantsListsItem
+from cm_wizard.services.cardmarket.pages.wants_lists_page import WantsListsPageItem
 
 
 class WantsListsGridItem(ft.UserControl):
     _image_ref: ft.Ref[ft.Image]
 
-    def __init__(self, item: WantsListsItem):
+    def __init__(self, item: WantsListsPageItem):
         super().__init__()
         self.item = item
         self._image_ref = ft.Ref[ft.Image]()
