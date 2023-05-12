@@ -19,7 +19,52 @@ _logger = logging.getLogger(__name__)
 _logger.setLevel(logging.DEBUG)
 
 
-class WantsListPageItem(HtmlChildElement["WantsListPage"]):
+class WantsListPage(HtmlPageElement):
+    @cached_property
+    def title(self) -> str:
+        return self.tag.find("h1").text
+
+    @cached_property
+    def _table(self) -> Tag:
+        return self.tag.find(class_="data-table")
+
+    @cached_property
+    def _table_column_indexes(self) -> dict[str, int]:
+        table_header_row = self._table.find("thead")
+
+        def find_bool_th(title: str) -> Tag | None:
+            th_span = table_header_row.find("span", attrs={"title": title})
+            if th_span is None:
+                return None
+            return th_span.parent
+
+        return {
+            key: table_header_row.index(th_tag) if th_tag is not None else None
+            for key, th_tag in {
+                "name": table_header_row.find(class_="name"),
+                "preview": table_header_row.find(class_="preview"),
+                "amount": table_header_row.find(class_="amount"),
+                "expansion": table_header_row.find(class_="expansion"),
+                "languages": table_header_row.find(class_="languages"),
+                "min_condition": table_header_row.find(class_="condition"),
+                "is_reverse_holo": find_bool_th("Reverse Holo?"),
+                "is_signed": find_bool_th("Signed?"),
+                "is_first_edition": find_bool_th("First Edition?"),
+                "is_altered": find_bool_th("Altered?"),
+                "buy_price": table_header_row.find(class_="buyPrice"),
+                "has_mail_alert": table_header_row.find(class_="mailAlert"),
+            }.items()
+        }
+
+    @cached_property
+    def items(self) -> list["WantsListPageItem"]:
+        table_body = self._table.find("tbody")
+        rows: ResultSet[Tag] = table_body.find_all("tr")
+        _logger.info(f"{len(rows)} wanted found.")
+        return [WantsListPageItem(self, row) for row in rows]
+
+
+class WantsListPageItem(HtmlChildElement[WantsListPage]):
     def _find_td(self, key: str) -> Tag:
         index = self.parent._table_column_indexes[key]
         return self.tag.contents[index]
@@ -111,48 +156,3 @@ class WantsListPageItem(HtmlChildElement["WantsListPage"]):
     @cached_property
     def has_mail_alert(self) -> bool:
         return self._find_td("has_mail_alert").text == "Y"
-
-
-class WantsListPage(HtmlPageElement):
-    @cached_property
-    def title(self) -> str:
-        return self.tag.find("h1").text
-
-    @cached_property
-    def _table(self) -> Tag:
-        return self.tag.find(class_="data-table")
-
-    @cached_property
-    def _table_column_indexes(self) -> dict[str, int]:
-        table_header_row = self._table.find("thead")
-
-        def find_bool_th(title: str) -> Tag | None:
-            th_span = table_header_row.find("span", attrs={"title": title})
-            if th_span is None:
-                return None
-            return th_span.parent
-
-        return {
-            key: table_header_row.index(th_tag) if th_tag is not None else None
-            for key, th_tag in {
-                "name": table_header_row.find(class_="name"),
-                "preview": table_header_row.find(class_="preview"),
-                "amount": table_header_row.find(class_="amount"),
-                "expansion": table_header_row.find(class_="expansion"),
-                "languages": table_header_row.find(class_="languages"),
-                "min_condition": table_header_row.find(class_="condition"),
-                "is_reverse_holo": find_bool_th("Reverse Holo?"),
-                "is_signed": find_bool_th("Signed?"),
-                "is_first_edition": find_bool_th("First Edition?"),
-                "is_altered": find_bool_th("Altered?"),
-                "buy_price": table_header_row.find(class_="buyPrice"),
-                "has_mail_alert": table_header_row.find(class_="mailAlert"),
-            }.items()
-        }
-
-    @cached_property
-    def items(self) -> list[WantsListPageItem]:
-        table_body = self._table.find("tbody")
-        rows: ResultSet[Tag] = table_body.find_all("tr")
-        _logger.info(f"{len(rows)} wanted found.")
-        return [WantsListPageItem(self, row) for row in rows]
