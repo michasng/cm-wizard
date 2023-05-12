@@ -45,7 +45,7 @@ class Form(ft.UserControl):
             if type(control) is ValidatedTextField or ft.Dropdown
         ]
 
-    def validate_all(self) -> list[ValidatedTextField]:
+    def validate_all(self) -> list[bool]:
         return [
             control.validate()
             for control in self.fields
