@@ -2,6 +2,7 @@ import logging
 import platform
 import re
 from http.cookiejar import CookieJar
+from typing import Callable, TypeVar
 
 import browser_cookie3
 import requests
@@ -17,6 +18,8 @@ from cm_wizard.services.cardmarket.model.wants_lists import WantsLists, WantsLis
 
 CARDMARKET_COOKIE_DOMAIN = ".cardmarket.com"
 CARDMARKET_BASE_URL = f"https://www{CARDMARKET_COOKIE_DOMAIN}"
+
+T = TypeVar("T")
 
 
 class CardmarketException(Exception):
@@ -112,15 +115,14 @@ class CardmarketService:
     def find_wants_lists(self) -> WantsLists:
         self._logger.info("find wants lists")
 
-        wants_lists_page_response = self._get_authenticated_page(
-            page_name="wants lists",
-            url=f"{self._cardmarket_url()}/Wants",
+        return self._get_authenticated_page(
+            "wants lists",
+            f"{self._cardmarket_url()}/Wants",
+            self._parse_wants_lists,
         )
 
-        wants_list_page_html = BeautifulSoup(
-            wants_lists_page_response.text, "html.parser"
-        )
-        cards_html: ResultSet[Tag] = wants_list_page_html.find_all(class_="card")
+    def _parse_wants_lists(self, html: BeautifulSoup) -> WantsLists:
+        cards_html: ResultSet[Tag] = html.find_all(class_="card")
         self._logger.info(f"{len(cards_html)} wants lists found.")
 
         items: list[WantsListsItem] = []
@@ -148,13 +150,14 @@ class CardmarketService:
     def find_wants_list(self, wants_list_id: str) -> WantsList:
         self._logger.info(f"find wants {wants_list_id}")
 
-        wants_page_response = self._get_authenticated_page(
-            page_name="wants",
-            url=f"{self._cardmarket_url()}/Wants/{wants_list_id}",
+        return self._get_authenticated_page(
+            "wants",
+            f"{self._cardmarket_url()}/Wants/{wants_list_id}",
+            self._parse_wants_list,
         )
 
-        wants_page_html = BeautifulSoup(wants_page_response.text, "html.parser")
-        table_html = wants_page_html.find(class_="data-table")
+    def _parse_wants_list(self, html: BeautifulSoup) -> WantsList:
+        table_html = html.find(class_="data-table")
         table_header_html = table_html.find("thead")
         table_body_html = table_html.find("tbody")
         rows_html: ResultSet[Tag] = table_body_html.find_all("tr")
@@ -207,13 +210,21 @@ class CardmarketService:
                     return False
                 return None
 
-            name_link_html = find_td("name").find("a")
-            id_match = re.search(r"Cards\/(?P<id>[\w-]+)", name_link_html.attrs["href"])
-            assert id_match is not None
+            name_link = find_td("name").find("a")
+            id_match = re.search(
+                r"Cards\/(?P<general_id>[\w-]+)|Singles\/[\w-]+\/(?P<product_id>[\w-]+)",
+                name_link["href"],
+            )
+            assert (
+                id_match is not None
+            ), f'Card ID not found in URL "{name_link["href"]}".'
+            card_id = id_match.group("general_id") or id_match.group("product_id")
 
-            tooltip_img_html = find_td("preview").find("span").attrs["title"]
-            image_url_match = re.search(r"src=\"(?P<image_url>.*?)\"", tooltip_img_html)
-            assert image_url_match is not None
+            tooltip_img_tag = find_td("preview").find("span").attrs["title"]
+            image_url_match = re.search(r"src=\"(?P<image_url>.*?)\"", tooltip_img_tag)
+            assert (
+                image_url_match is not None
+            ), f'Image URL not found in tooltip "{tooltip_img_tag}".'
 
             buy_price_unit_matches = re.findall(
                 r"\d+", find_td("buy_price").find("span").text
@@ -221,8 +232,8 @@ class CardmarketService:
 
             items.append(
                 WantsListItem(
-                    id=id_match.group("id"),
-                    name=name_link_html.text,
+                    id=card_id,
+                    name=name_link.text,
                     amount=int(find_td("amount").text),
                     image_url=f"https:{image_url_match.group('image_url')}",
                     expansions=[
@@ -250,7 +261,7 @@ class CardmarketService:
             )
 
         return WantsList(
-            title=wants_page_html.find("h1").text,
+            title=html.find("h1").text,
             items=items,
         )
 
@@ -260,7 +271,38 @@ class CardmarketService:
             out.write(content)
         self._logger.info(f'Done logging to file "{path}".')
 
-    def _get_authenticated_page(self, page_name: str, url: str) -> requests.Response:
+    def _get_authenticated_page(
+        self, page_name: str, url: str, parse_callback: Callable[[BeautifulSoup], T]
+    ) -> T:
+        def log_page_error() -> CardmarketException:
+            error_file_name = f"{page_name.replace(' ', '_')}_page_response.html"
+            self._log_to_file(error_file_name, page_response.text)
+            return CardmarketException(
+                f"Unexpected page error. Check {error_file_name}."
+            )
+
+        session = self._get_session()
+        page_response = session.get(url)
+        if page_response.status_code != 200:
+            self._logger.error(
+                f"Failed to request {page_name} page with status {page_response.status_code}."
+            )
+            if page_response.status_code == 401:
+                raise CardmarketException(
+                    "Your session may have expired. Please re-login."
+                )
+            raise log_page_error()
+
+        try:
+            page_html = BeautifulSoup(page_response.text, "html.parser")
+            return parse_callback(page_html)
+        except Exception as e:
+            self._logger.error(f"Failed to parse {page_name} page for error: {e}")
+            raise log_page_error()
+
+    def _request_authenticated_page(
+        self, page_name: str, url: str
+    ) -> requests.Response:
         session = self._get_session()
         page_response = session.get(url)
         if page_response.status_code != 200:
