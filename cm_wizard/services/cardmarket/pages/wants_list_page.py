@@ -78,7 +78,7 @@ class WantsListPageItem(HtmlChildElement[WantsListPage]):
         index = self.parent._table_column_indexes[key]
         if index is None:
             return None
-        text = self.tag.contents[index].text
+        text = self.tag.contents[index].get_text(strip=True)
         if text == "Y":
             return True
         if text == "N":
