@@ -40,7 +40,9 @@ poetry run flet run -m -r cm_wizard
 
 ### Running the tests
 
-TODO
+```bash
+poetry run pytest
+```
 
 ### Run pre-commit hooks
 
