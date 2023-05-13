@@ -1,95 +1,72 @@
 # Cardmarket wizard
 
-A wizard that helps you find the cheapest prices for cards on you wants lists.
-This project is inspired by and in part based on [cw-wizard](https://github.com/BenSouchet/cw-wizard).
+Improved cardmarket shopping wizard! 🧙‍♂️  
+Find the best combination of sellers for cards on your wants lists. 🪄
 
-## Getting Started
+- Browse your wants lists. ✅
+- Find the best prices. ⚠️
+- Supports all languages and card games on cardmarket. ⚠️
+- Open Source, MIT Licensed. Clean, easy to read code. ✅
 
-### Prerequisites
+⚠️ Work in progress. Not all features are implemented ⚠️
 
-You need [Poetry](https://python-poetry.org/docs/).
+This project is inspired by and in part based on [cw-wizard](https://github.com/BenSouchet/cw-wizard). Check it out!
 
-### Installation
+## Installation & Running
 
-Install dependencies (including development dependencies):
+You need [Poetry](https://python-poetry.org/docs/) installed.
+
+Install production dependencies:
+
+```bash
+poetry install --without dev
+```
+
+Run the application:
+
+```bash
+poetry run python -m cm_wizard
+```
+
+## Development
+
+Install dependencies (including development dependencies) and pre-commit hooks:
 
 ```bash
 poetry install
 poetry run pre-commit install
 ```
 
-If you don't need development depdencies, run:
-
-```bash
-poetry install --without dev
-```
-
-### Running
-
-Run without hot reload:
-
-```bash
-poetry run python -m cm_wizard
-```
-
-Run with hot reload (so code changes are automatically reflected by the application):
+Run with hot reload (meaning the application reloads after code changes):
 
 ```bash
 poetry run flet run -m -r cm_wizard
 ```
 
-### Running the tests
+### Tests
 
 ```bash
 poetry run pytest
 ```
 
-### Run pre-commit hooks
+### Code Analysis
 
-Manually run pre-commit hooks for static type checking and formatting.
+Manually run all pre-commit hooks:
 
 ```bash
 poetry run pre-commit run --all-files
 ```
 
-### Static type checking
+Or run them individually:
 
-Check for type errors:
-
-```bash
-poetry run mypy .
-```
-
-### Formatting
-
-Sort imports:
-
-```bash
-poetry run isort .
-```
-
-Format code:
-
-```bash
-poetry run black .
-```
-
-Note that `isort` and `black` apply some conflicting changes.
-For now, `isort` should be used first and then `black` should run afterwards.
-
-Most IDEs can be configured to have hotkeys for these actions.
-For VSCode on Windows, press Alt + Shift + O to sort imports and Alt + Shift + F to format code.
-
-## Versioning
-
-We use [Semantic Versioning](http://semver.org/) for versioning. For the versions
-available, see the [tags on this
-repository](https://github.com/PurpleBooth/a-good-readme-template/tags).
+- Static type checks: `poetry run mypy .`
+- Sort imports: `poetry run isort .`
+- Format code: `poetry run black .`
 
 ## Authors
 
-  - **Micha Sengotta**
-    [michasng](https://github.com/michasng)
+- **Micha Sengotta**
+  [michasng](https://github.com/michasng)
 
 ## License
 
@@ -97,6 +74,6 @@ The code present in this repository is under [MIT license](https://github.com/mi
 
 ## Acknowledgments
 
-  - **Ben Souchet**
-    Creator of the original cw-wizard
-    [BenSouchet](https://github.com/BenSouchet)
+- **Ben Souchet**
+  [BenSouchet](https://github.com/BenSouchet)  
+  Creator of the original cw-wizard. Thank You! 💫
