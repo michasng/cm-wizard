@@ -4,8 +4,8 @@ from functools import cached_property
 
 from bs4 import ResultSet, Tag
 
-from cm_wizard.services.cardmarket.model.card_condition import CardCondition
-from cm_wizard.services.cardmarket.model.card_language import CardLanguage
+from cm_wizard.services.cardmarket.enums.card_condition import CardCondition
+from cm_wizard.services.cardmarket.enums.card_language import CardLanguage
 from cm_wizard.services.cardmarket.pages.helpers import (
     extract_tooltip_image_url,
     parse_euro_cents,

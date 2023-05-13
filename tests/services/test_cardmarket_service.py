@@ -1,11 +1,11 @@
 import pytest
 
 from cm_wizard.services.browser import Browser
-from cm_wizard.services.cardmarket.cardmarket_game import CardmarketGame
-from cm_wizard.services.cardmarket.cardmarket_language import CardmarketLanguage
 from cm_wizard.services.cardmarket.cardmarket_service import cardmarket_service as cs
-from cm_wizard.services.cardmarket.model.card_condition import CardCondition
-from cm_wizard.services.cardmarket.model.card_language import CardLanguage
+from cm_wizard.services.cardmarket.enums.card_condition import CardCondition
+from cm_wizard.services.cardmarket.enums.card_language import CardLanguage
+from cm_wizard.services.cardmarket.enums.cardmarket_game import CardmarketGame
+from cm_wizard.services.cardmarket.enums.cardmarket_language import CardmarketLanguage
 
 
 @pytest.fixture

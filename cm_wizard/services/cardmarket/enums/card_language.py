@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from enum import Enum
 
-from cm_wizard.services.cardmarket.cardmarket_language import CardmarketLanguage
+from cm_wizard.services.cardmarket.enums.cardmarket_language import CardmarketLanguage
 
 
 @dataclass

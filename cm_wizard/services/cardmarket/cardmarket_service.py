@@ -7,8 +7,8 @@ import requests
 from bs4 import BeautifulSoup
 
 from cm_wizard.services.browser import Browser
-from cm_wizard.services.cardmarket.cardmarket_game import CardmarketGame
-from cm_wizard.services.cardmarket.cardmarket_language import CardmarketLanguage
+from cm_wizard.services.cardmarket.enums.cardmarket_game import CardmarketGame
+from cm_wizard.services.cardmarket.enums.cardmarket_language import CardmarketLanguage
 from cm_wizard.services.cardmarket.pages.card_page import CardPage
 from cm_wizard.services.cardmarket.pages.wants_list_page import (
     WantsListPage,

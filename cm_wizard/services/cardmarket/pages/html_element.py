@@ -2,7 +2,7 @@ from typing import Generic, TypeVar
 
 from bs4 import BeautifulSoup, Tag
 
-from cm_wizard.services.cardmarket.cardmarket_language import CardmarketLanguage
+from cm_wizard.services.cardmarket.enums.cardmarket_language import CardmarketLanguage
 
 
 class HtmlElement:
