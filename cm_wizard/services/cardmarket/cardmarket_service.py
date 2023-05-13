@@ -19,6 +19,9 @@ from cm_wizard.services.cardmarket.pages.wants_lists_page import WantsListsPage
 CARDMARKET_COOKIE_DOMAIN = ".cardmarket.com"
 CARDMARKET_BASE_URL = f"https://www{CARDMARKET_COOKIE_DOMAIN}"
 
+_logger = logging.getLogger(__name__)
+_logger.setLevel(logging.DEBUG)
+
 
 class CardmarketException(Exception):
     def __init__(self, message: str):
@@ -29,9 +32,6 @@ class CardmarketService:
     _session: requests.Session | None = None
     _language: CardmarketLanguage
     _game: CardmarketGame
-
-    _logger = logging.getLogger(__name__)
-    _logger.setLevel(logging.DEBUG)
 
     def _cardmarket_url(self) -> str:
         return f"{CARDMARKET_BASE_URL}/{self._language.value}/{self._game.value}"
@@ -53,13 +53,13 @@ class CardmarketService:
         language: CardmarketLanguage = CardmarketLanguage.ENGLISH,
         game: CardmarketGame = CardmarketGame.YU_GI_OH,
     ):
-        self._logger.info("login")
+        _logger.info("login")
 
         session = self._open_new_session(browser, user_agent, language, game)
 
         login_page_response = session.get(f"{CARDMARKET_BASE_URL}/Login")
         if login_page_response.status_code != 200:
-            self._logger.error(
+            _logger.error(
                 f"Failed to request login page with status {login_page_response.status_code}."
             )
             if login_page_response.status_code == 403:
@@ -75,7 +75,7 @@ class CardmarketService:
             r'name="__cmtkn" value="(?P<token>\w+)"', login_page_response.text
         )
         if token_match is None or token_match.lastindex is None:
-            self._logger.error("Token not found.")
+            _logger.error("Token not found.")
             self._log_to_file("login_page_response.html", login_page_response.text)
             raise CardmarketException("No token found. Check login_page_response.html.")
         token = token_match.group("token")
@@ -91,7 +91,7 @@ class CardmarketService:
             },
         )
         if login_response.status_code != 200:
-            self._logger.error(
+            _logger.error(
                 f"Login request failed with status {login_response.status_code}."
             )
             self._log_to_file("login_response.txt", login_response.text)
@@ -103,13 +103,13 @@ class CardmarketService:
         error_message_container = login_html.find("h4", class_="alert-heading")
         if error_message_container:
             error_message = error_message_container.get_text(separator=". ") + "."
-            self._logger.error(f"Login error response with message: {error_message}")
+            _logger.error(f"Login error response with message: {error_message}")
             raise CardmarketException(error_message)
 
-        self._logger.info("Login successful.")
+        _logger.info("Login successful.")
 
     def logout(self):
-        self._logger.info("logout")
+        _logger.info("logout")
         self._close_session()
 
     def find_wants_lists(self) -> WantsListsPage:
@@ -125,20 +125,20 @@ class CardmarketService:
         return CardPage(page_text, self.language)
 
     def _log_to_file(self, path: str, content: str):
-        self._logger.info(f'Start logging to file "{path}".')
+        _logger.info(f'Start logging to file "{path}".')
         with open(path, "w") as out:
             out.write(content)
-        self._logger.info(f'Done logging to file "{path}".')
+        _logger.info(f'Done logging to file "{path}".')
 
     def _request_authenticated_page(self, endpoint: str) -> str:
-        self._logger.info(f"GET {endpoint}")
+        _logger.info(f"GET {endpoint}")
 
         session = self._get_session()
 
         page_response = session.get(f"{self._cardmarket_url()}/{endpoint}")
 
         if page_response.status_code != 200:
-            self._logger.error(
+            _logger.error(
                 f"Failed to request {endpoint} with status {page_response.status_code}."
             )
 
@@ -185,20 +185,18 @@ class CardmarketService:
         )
 
         cookies = self._extract_cookies(browser)
-        self._logger.debug(
-            f"{len(cookies)} cookies extracted from browser {browser.value}."
-        )
+        _logger.debug(f"{len(cookies)} cookies extracted from browser {browser.value}.")
         self._session.cookies.clear()
         for cookie in cookies:
             self._session.cookies.set_cookie(cookie)
 
-        self._logger.debug("New session opened.")
+        _logger.debug("New session opened.")
         return self._session
 
     def _close_session(self):
         if self._session:
             self._session.close()
-            self._logger.debug("Session closed.")
+            _logger.debug("Session closed.")
         self._session = None
         self._language = None
         self._game = None
