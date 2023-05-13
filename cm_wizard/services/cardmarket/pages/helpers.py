@@ -1,4 +1,5 @@
 import re
+from typing import TypeVar
 
 from bs4 import Tag
 
@@ -14,6 +15,18 @@ def parse_euro_cents(text: str) -> int:
     result = try_parse_euro_cents(text)
     assert result is not None, f'Could not parse price from text "{text}".'
     return result
+
+
+B = TypeVar("B", bool, None)
+
+
+def parse_bool(text: str, default: B) -> bool | B:
+    match text.strip():
+        case "Y":
+            return True
+        case "N":
+            return False
+    return default
 
 
 def extract_tooltip_image_url(container: Tag) -> str:

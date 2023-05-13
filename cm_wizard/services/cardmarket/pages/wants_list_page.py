@@ -8,6 +8,7 @@ from cm_wizard.services.cardmarket.model.card_condition import CardCondition
 from cm_wizard.services.cardmarket.model.card_language import CardLanguage
 from cm_wizard.services.cardmarket.pages.helpers import (
     extract_tooltip_image_url,
+    parse_bool,
     try_parse_euro_cents,
 )
 from cm_wizard.services.cardmarket.pages.html_element import (
@@ -78,12 +79,8 @@ class WantsListPageItem(HtmlChildElement[WantsListPage]):
         index = self.parent._table_column_indexes[key]
         if index is None:
             return None
-        text = self.tag.contents[index].get_text(strip=True)
-        if text == "Y":
-            return True
-        if text == "N":
-            return False
-        return None
+        text = self.tag.contents[index].text
+        return parse_bool(text, default=None)
 
     @cached_property
     def _name_link_tag(self) -> Tag:
@@ -155,4 +152,4 @@ class WantsListPageItem(HtmlChildElement[WantsListPage]):
 
     @cached_property
     def has_mail_alert(self) -> bool:
-        return self._find_td("has_mail_alert").text == "Y"
+        return parse_bool(self._find_td("has_mail_alert").text, default=False)
