@@ -14,7 +14,7 @@ class WantsListsGrid(ft.UserControl):
         super().__init__(ref=ref)
 
     def on_visit(self):
-        wants_lists = cardmarket_service.find_wants_lists()
+        wants_lists = cardmarket_service.get_wants_lists()
         for item in wants_lists.items:
             self._grid_view_ref.current.controls.append(WantsListsGridItem(item))
         self.update()

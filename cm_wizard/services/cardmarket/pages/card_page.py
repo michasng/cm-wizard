@@ -9,6 +9,7 @@ from cm_wizard.services.cardmarket.enums.card_language import CardLanguage
 from cm_wizard.services.cardmarket.pages.helpers import (
     extract_tooltip_image_url,
     parse_euro_cents,
+    strip_multi_spaces,
 )
 from cm_wizard.services.cardmarket.pages.html_element import (
     HtmlChildElement,
@@ -22,7 +23,7 @@ _logger.setLevel(logging.DEBUG)
 class CardPage(HtmlPageElement):
     @cached_property
     def _card_infos(self) -> Tag:
-        return self.tag.find(id="info").find(class_="infoContainer")
+        return self._tag.find(id="info").find(class_="infoContainer")
 
     @cached_property
     def _card_infos_dl_dd(self) -> ResultSet[Tag]:
@@ -30,11 +31,12 @@ class CardPage(HtmlPageElement):
 
     @cached_property
     def name(self) -> str:
-        return self.tag.find("h1").text
+        return self._tag.find("h1").text
 
     @cached_property
     def rules_text(self) -> str:
-        return self._card_infos.find("div").text
+        text = self._card_infos.find("div").get_text(strip=True)
+        return strip_multi_spaces(text)
 
     @cached_property
     def item_count(self) -> int:
@@ -54,7 +56,7 @@ class CardPage(HtmlPageElement):
 
     @cached_property
     def offers(self) -> list["CardPageOffer"]:
-        table = self.tag.find(id="table")
+        table = self._tag.find(id="table")
         rows: ResultSet[Tag] = table.find(class_="table-body").find_all(
             class_="article-row"
         )
@@ -65,21 +67,21 @@ class CardPage(HtmlPageElement):
 class CardPageOffer(HtmlChildElement[CardPage]):
     @cached_property
     def image_url(self) -> str:
-        return extract_tooltip_image_url(self.tag.find(class_="col-icon"))
+        return extract_tooltip_image_url(self._tag.find(class_="col-icon"))
 
     @cached_property
     def seller(self) -> "CardPageOfferSeller":
-        seller_column = self.tag.find(class_="col-seller")
+        seller_column = self._tag.find(class_="col-seller")
         return CardPageOfferSeller(self, seller_column)
 
     @cached_property
     def product(self) -> "CardPageOfferProduct":
-        product_column = self.tag.find(class_="col-product")
+        product_column = self._tag.find(class_="col-product")
         return CardPageOfferProduct(self, product_column)
 
     @cached_property
     def _offer_column(self) -> Tag:
-        return self.tag.find(class_="col-offer")
+        return self._tag.find(class_="col-offer")
 
     @cached_property
     def price_euro_cents(self) -> int:
@@ -95,7 +97,7 @@ class CardPageOffer(HtmlChildElement[CardPage]):
 class CardPageOfferSeller(HtmlChildElement[CardPageOffer]):
     @cached_property
     def _seller_col_name(self) -> Tag:
-        return self.tag.find(class_="seller-name")
+        return self._tag.find(class_="seller-name")
 
     @cached_property
     def name(self) -> str:
@@ -103,7 +105,7 @@ class CardPageOfferSeller(HtmlChildElement[CardPageOffer]):
 
     @cached_property
     def _seller_ext_tooltips(self) -> ResultSet[Tag]:
-        seller_col_ext = self.tag.find(class_="seller-extended")
+        seller_col_ext = self._tag.find(class_="seller-extended")
         return seller_col_ext.find_all(attrs={"data-toggle": "tooltip"})
 
     @cached_property

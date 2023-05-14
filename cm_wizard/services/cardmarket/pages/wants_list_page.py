@@ -23,11 +23,11 @@ _logger.setLevel(logging.DEBUG)
 class WantsListPage(HtmlPageElement):
     @cached_property
     def title(self) -> str:
-        return self.tag.find("h1").text
+        return self._tag.find("h1").text
 
     @cached_property
     def _table(self) -> Tag:
-        return self.tag.find(class_="data-table")
+        return self._tag.find(class_="data-table")
 
     @cached_property
     def _table_column_indexes(self) -> dict[str, int]:
@@ -67,8 +67,8 @@ class WantsListPage(HtmlPageElement):
 
 class WantsListPageItem(HtmlChildElement[WantsListPage]):
     def _find_td(self, key: str) -> Tag:
-        index = self.parent._table_column_indexes[key]
-        return self.tag.contents[index]
+        index = self._parent._table_column_indexes[key]
+        return self._tag.contents[index]
 
     def _find_td_tooltips(self, key: str) -> ResultSet[Tag]:
         return self._find_td(key).find_all(
@@ -76,10 +76,10 @@ class WantsListPageItem(HtmlChildElement[WantsListPage]):
         )
 
     def _find_td_optional_bool(self, key: str) -> bool | None:
-        index = self.parent._table_column_indexes[key]
+        index = self._parent._table_column_indexes[key]
         if index is None:
             return None
-        text = self.tag.contents[index].text
+        text = self._tag.contents[index].text
         return parse_bool(text, default=None)
 
     @cached_property
@@ -119,7 +119,7 @@ class WantsListPageItem(HtmlChildElement[WantsListPage]):
         tooltips = self._find_td_tooltips("languages")
         return [
             CardLanguage.find_by_label(
-                self.parent.language, tooltip.attrs["data-original-title"]
+                self._parent._language, tooltip.attrs["data-original-title"]
             )
             for tooltip in tooltips
         ]

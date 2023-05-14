@@ -1,6 +1,7 @@
 import pytest
 
 from cm_wizard.services.browser import Browser
+from cm_wizard.services.cardmarket.card_query import CardQuery
 from cm_wizard.services.cardmarket.cardmarket_service import cardmarket_service as cs
 from cm_wizard.services.cardmarket.enums.card_condition import CardCondition
 from cm_wizard.services.cardmarket.enums.card_language import CardLanguage
@@ -24,13 +25,13 @@ def file_text_contents(path: str) -> str:
         return f.read()
 
 
-def test_find_wants_lists(requests_mock, cardmarket_service):
+def test_get_wants_lists(requests_mock, cardmarket_service):
     requests_mock.get(
         "https://www.cardmarket.com/en/YuGiOh/Wants",
         text=file_text_contents("responses/en_Yugioh_Wants.html"),
     )
 
-    result = cardmarket_service.find_wants_lists()
+    result = cardmarket_service.get_wants_lists()
 
     assert len(result.items) == 30
     item = result.items[0]
@@ -44,13 +45,13 @@ def test_find_wants_lists(requests_mock, cardmarket_service):
     )
 
 
-def test_find_wants_list(requests_mock, cardmarket_service):
+def test_get_wants_list(requests_mock, cardmarket_service):
     requests_mock.get(
         "https://www.cardmarket.com/en/YuGiOh/Wants/15628908",
         text=file_text_contents("responses/en_Yugioh_Wants_15628908.html"),
     )
 
-    result = cardmarket_service.find_wants_list("15628908")
+    result = cardmarket_service.get_wants_list("15628908")
 
     assert result.title == "Adrian Gecko"
     assert len(result.items) == 25
@@ -71,3 +72,52 @@ def test_find_wants_list(requests_mock, cardmarket_service):
     assert item.is_altered == True
     assert item.buy_price_euro_cents == 100
     assert item.has_mail_alert == False
+
+
+def test_get_card(requests_mock, cardmarket_service):
+    requests_mock.get(
+        "https://www.cardmarket.com/en/YuGiOh/Cards/A-Feather-of-the-Phoenix",
+        text=file_text_contents(
+            "responses/en_Yugioh_Cards_A-Feather-of-the-Phoenix.html"
+        ),
+    )
+
+    query = CardQuery(
+        id="A-Feather-of-the-Phoenix",
+        amount=1,
+        expansions=None,
+        languages=[CardLanguage.ENGLISH, CardLanguage.GERMAN],
+        min_condition=CardCondition.MINT,
+        is_reverse_holo=None,
+        is_signed=False,
+        is_first_edition=True,
+        is_altered=True,
+    )
+    result = cardmarket_service.get_card(query)
+
+    assert result.name == "A Feather of the Phoenix"
+    assert (
+        result.rules_text
+        == "Discard 1 card, then target 1 card in your GY; return that target to the top of your Deck."
+    )
+    assert result.item_count == 4284
+    assert result.version_count == 7
+    assert result.min_price_euro_cents == 2
+    assert result.price_trend_euro_cents == 14
+    assert len(result.offers) == 50
+    offer = result.offers[0]
+    assert (
+        offer.image_url
+        == "https://static.cardmarket.com/img/f7771ab8d3e18816866f63d3d07becfd/items/5/LEHD/364705.jpg"
+    )
+    assert offer.price_euro_cents == 2
+    assert offer.amount == 1
+    seller = offer.seller
+    assert seller.name == "Cardaccess"
+    assert seller.rating == "outstanding"
+    assert seller.sale_count == 17789
+    assert seller.item_count == 40666
+    assert seller.eta_days == 14
+    assert seller.eta_country_days == 6
+    assert seller.location == "France"
+    # product = offer.product # TODO, parse product info

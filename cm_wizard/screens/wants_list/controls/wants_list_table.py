@@ -18,7 +18,7 @@ class WantsListTable(ft.UserControl):
         self._table_ref = ft.Ref[ft.DataTable]()
 
     def on_visit(self):
-        self.wants_list = cardmarket_service.find_wants_list(self._wants_list_id)
+        self.wants_list = cardmarket_service.get_wants_list(self._wants_list_id)
 
         self._title_ref.current.controls = [
             ft.Text(self.wants_list.title, size=30),
@@ -67,7 +67,7 @@ class WantsListTable(ft.UserControl):
 
     def find_best_prices(self, _):
         if len(self.wants_list.items) > 0:
-            res = cardmarket_service.find_card_offers(self.wants_list.items[0])
+            res = cardmarket_service.get_card(self.wants_list.items[0])
             print(
                 f'Staring price for "{res.name}" is {res.offers[0].price_euro_cents} cents.'
             )

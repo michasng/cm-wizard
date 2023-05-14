@@ -29,6 +29,10 @@ def parse_bool(text: str, default: B) -> bool | B:
     return default
 
 
+def strip_multi_spaces(text: str):
+    return re.sub(r"\s\s+", " ", text)
+
+
 def extract_tooltip_image_url(container: Tag) -> str:
     tooltip_title = container.find(attrs={"data-toggle": "tooltip"}).attrs["title"]
     image_url_match = re.search(r"src=\"(?P<image_url>.*?)\"", tooltip_title)

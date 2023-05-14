@@ -7,6 +7,7 @@ import requests
 from bs4 import BeautifulSoup
 
 from cm_wizard.services.browser import Browser
+from cm_wizard.services.cardmarket.card_query import CardQuery
 from cm_wizard.services.cardmarket.enums.cardmarket_game import CardmarketGame
 from cm_wizard.services.cardmarket.enums.cardmarket_language import CardmarketLanguage
 from cm_wizard.services.cardmarket.pages.card_page import CardPage
@@ -112,16 +113,16 @@ class CardmarketService:
         _logger.info("logout")
         self._close_session()
 
-    def find_wants_lists(self) -> WantsListsPage:
+    def get_wants_lists(self) -> WantsListsPage:
         page_text = self._request_authenticated_page("Wants")
         return WantsListsPage(page_text, self.language)
 
-    def find_wants_list(self, wants_list_id: str) -> WantsListPage:
-        page_text = self._request_authenticated_page(f"Wants/{wants_list_id}")
+    def get_wants_list(self, id: str) -> WantsListPage:
+        page_text = self._request_authenticated_page(f"Wants/{id}")
         return WantsListPage(page_text, self.language)
 
-    def find_card_offers(self, wants_list_item: WantsListPageItem):
-        page_text = self._request_authenticated_page(f"Cards/{wants_list_item.id}")
+    def get_card(self, query: CardQuery):
+        page_text = self._request_authenticated_page(f"Cards/{query.id}")
         return CardPage(page_text, self.language)
 
     def _log_to_file(self, path: str, content: str):
