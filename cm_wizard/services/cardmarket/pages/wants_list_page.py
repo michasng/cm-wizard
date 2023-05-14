@@ -8,6 +8,7 @@ from cm_wizard.services.cardmarket.card_query import CardQuery
 from cm_wizard.services.cardmarket.enums.card_condition import CardCondition
 from cm_wizard.services.cardmarket.enums.card_language import CardLanguage
 from cm_wizard.services.cardmarket.pages.helpers import (
+    extract_card_id_from_url,
     extract_tooltip_image_url,
     find_tooltip,
     parse_bool,
@@ -90,14 +91,7 @@ class WantsListPageItem(HtmlChildElement[WantsListPage], CardQuery):
 
     @cached_property
     def id(self) -> str:
-        id_match = re.search(
-            r"Cards\/(?P<general_id>[\w-]+)|Singles\/[\w-]+\/(?P<product_id>[\w-]+)",
-            str(self._name_link_tag["href"]),
-        )
-        assert (
-            id_match is not None
-        ), f'Card ID not found in URL "{self._name_link_tag["href"]}".'
-        return id_match.group("general_id") or id_match.group("product_id")
+        return extract_card_id_from_url(str(self._name_link_tag["href"]))
 
     @cached_property
     def name(self) -> str:

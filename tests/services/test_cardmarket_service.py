@@ -113,13 +113,52 @@ def test_get_card(requests_mock, cardmarket_service: CardmarketService):
     assert offer.price_euro_cents == 2
     assert offer.amount == 1
     seller = offer.seller
-    assert seller.name == "wkleebe1"
+    assert seller.id == "wkleebe1"
     assert seller.rating == "very-good"
     assert seller.sale_count == 45
     assert seller.item_count == 80
     assert seller.eta_days == 4
     assert seller.eta_country_days == 3
-    assert seller.location == "Germany"
+    assert seller.country == "Germany"
+    product = offer.product
+    assert product.expansion == "LEHD"
+    assert product.rarity == "Common"
+    assert product.condition == CardCondition.MINT
+    assert product.language == CardLanguage.GERMAN
+    assert product.is_reverse_holo == False
+    assert product.is_signed == False
+    assert product.is_first_edition == False
+    assert product.is_altered == False
+    assert product.image_url == None
+
+
+def test_get_seller_wanted_offers(requests_mock, cardmarket_service: CardmarketService):
+    requests_mock.get(
+        "https://www.cardmarket.com/en/YuGiOh/Users/wkleebe1/Offers/Singles?idWantsList=15628908",
+        text=file_text_contents(
+            "responses/en_Yugioh_Users_wkleebe1_Offers_Singles_idWantsList_15628908.html"
+        ),
+    )
+
+    result = cardmarket_service.get_seller_wanted_offers("wkleebe1", "15628908")
+
+    assert result.id == "wkleebe1"
+    assert result.country == "Germany"
+    assert result.eta_days == 4
+    assert result.total_count == 1
+    assert result.current_page == 1
+    assert result.total_page_count == 1
+
+    assert len(result.offers) == 1
+    offer = result.offers[0]
+    assert (
+        offer.image_url
+        == "https://static.cardmarket.com/img/f7771ab8d3e18816866f63d3d07becfd/items/5/LEHD/364705.jpg"
+    )
+    assert offer.id == "A-Feather-of-the-Phoenix"
+    assert offer.name == "A Feather of the Phoenix"
+    assert offer.price_euro_cents == 2
+    assert offer.quantity == 1
     product = offer.product
     assert product.expansion == "LEHD"
     assert product.rarity == "Common"

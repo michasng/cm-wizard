@@ -11,10 +11,8 @@ from cm_wizard.services.cardmarket.card_query import CardQuery
 from cm_wizard.services.cardmarket.enums.cardmarket_game import CardmarketGame
 from cm_wizard.services.cardmarket.enums.cardmarket_language import CardmarketLanguage
 from cm_wizard.services.cardmarket.pages.card_page import CardPage
-from cm_wizard.services.cardmarket.pages.wants_list_page import (
-    WantsListPage,
-    WantsListPageItem,
-)
+from cm_wizard.services.cardmarket.pages.seller_offers_page import SellerOffersPage
+from cm_wizard.services.cardmarket.pages.wants_list_page import WantsListPage
 from cm_wizard.services.cardmarket.pages.wants_lists_page import WantsListsPage
 
 CARDMARKET_COOKIE_DOMAIN = ".cardmarket.com"
@@ -140,11 +138,19 @@ class CardmarketService:
         page_text = self._request_authenticated_page(f"Cards/{query.id}", params)
         return CardPage(page_text, self.language)
 
+    def get_seller_wanted_offers(
+        self, seller_id: str, wants_list_id: str
+    ) -> SellerOffersPage:
+        page_text = self._request_authenticated_page(
+            f"Users/{seller_id}/Offers/Singles",
+            params={"idWantslist": wants_list_id},
+        )
+        return SellerOffersPage(page_text, self.language)
+
     def _log_to_file(self, path: str, content: str):
-        _logger.info(f'Start logging to file "{path}".')
         with open(path, "w") as out:
             out.write(content)
-        _logger.info(f'Done logging to file "{path}".')
+        _logger.info(f'Log file written "{path}".')
 
     def _request_authenticated_page(
         self, endpoint: str, params: dict | None = None

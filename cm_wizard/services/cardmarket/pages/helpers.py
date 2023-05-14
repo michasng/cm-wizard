@@ -44,3 +44,12 @@ def extract_tooltip_image_url(tooltip: Tag) -> str:
 
 def find_tooltip(container: Tag) -> Tag:
     return container.find(attrs={"data-toggle": "tooltip"})
+
+
+def extract_card_id_from_url(url: str) -> str:
+    id_match = re.search(
+        r"Cards\/(?P<general_id>[\w-]+)|Singles\/[\w-]+\/(?P<product_id>[\w-]+)",
+        url,
+    )
+    assert id_match is not None, f'Card ID not found in URL "{url}".'
+    return id_match.group("general_id") or id_match.group("product_id")

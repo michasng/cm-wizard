@@ -8,7 +8,7 @@
 - [x] Find cheapest prices for single cards
 - [x] Consider filters when searching for cards
 - [ ] Determine most promising sellers for each card
-- [ ] Search seller for other cards from the wants list
+- [x] Search seller for other cards from the wants list
 - [ ] Calculate best combination of sellers  
        (might be a dynamic programming problem)
 - [ ] Display final results, linking back to Cardmarket
