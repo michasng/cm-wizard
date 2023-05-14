@@ -6,16 +6,18 @@
 - [x] Show overview of all wants lists
 - [x] Show wants list, listing cards
 - [x] Find cheapest prices for single cards
-- [ ] Consider filters when searching for cards
+- [x] Consider filters when searching for cards
 - [ ] Determine most promising sellers for each card
 - [ ] Search seller for other cards from the wants list
 - [ ] Calculate best combination of sellers  
        (might be a dynamic programming problem)
 - [ ] Display final results, linking back to Cardmarket
+- [ ] Consider shipping costs
+- [ ] Filter shipments by country
 
 ## Should have
 
-- [ ] Optionally allow saving credentials in a file
+- [ ] Allow optionally saving credentials in a file
 - [ ] Support other cardgames (currently just Yugioh, because I have no experience with other games)
 
 ## Nice to have
@@ -34,3 +36,5 @@
 
 - [ ] Links to specific products are different from general cards.  
        In want to avoid parsing both result pages, which are structurally different, e.g. `/Cards/Time-Wizard` and `/Products/Singles/Metal-Raiders/Time-Wizard-V1-Ultra-Rare`. I need to get the ID differently from the URL (without the "V1-Ultra-Rare" part).
+- [ ] Search cards from a specific expansion.  
+       The query parameter `idExpansion` of the `/Cards` endpoint is not mapped, so unwanted results could be found. This parameter requires the numerical IDs of expansions, but we only know the abbreviations at this point.

@@ -7,6 +7,7 @@ from bs4 import ResultSet, Tag
 
 from cm_wizard.services.cardmarket.enums.card_condition import CardCondition
 from cm_wizard.services.cardmarket.enums.card_language import CardLanguage
+from cm_wizard.services.cardmarket.enums.cardmarket_language import CardmarketLanguage
 from cm_wizard.services.cardmarket.pages.helpers import (
     extract_tooltip_image_url,
     find_tooltip,
@@ -115,7 +116,7 @@ class CardPageOfferSeller(HtmlChildElement[CardPageOffer]):
     def rating(self) -> str | None:
         tooltip_classes = " ".join(self._seller_ext_tooltips[0]["class"])
         rating_match = re.search(
-            r"fonticon-seller-rating-(?P<rating>\w+)",
+            r"fonticon-seller-rating-(?P<rating>[\w-]+)",
             tooltip_classes,
         )
         assert (
@@ -245,7 +246,9 @@ class CardPageOfferProduct(HtmlChildElement[CardPageOffer]):
         tooltip = self._find_product_tooltip(is_language_tooltip, "language")
         assert tooltip is not None, "No card language found in tooltips."
 
-        return tooltip.attrs["data-original-title"]
+        return CardLanguage.find_by_label(
+            CardmarketLanguage.ENGLISH, tooltip.attrs["data-original-title"]
+        )
 
     @cached_property
     def is_reverse_holo(self) -> bool:

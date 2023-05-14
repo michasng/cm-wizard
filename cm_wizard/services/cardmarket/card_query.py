@@ -7,7 +7,6 @@ from cm_wizard.services.cardmarket.enums.card_language import CardLanguage
 @dataclass(frozen=True)
 class CardQuery:
     id: str
-    amount: int
     expansions: list[str] | None
     languages: list[CardLanguage] | None
     min_condition: CardCondition

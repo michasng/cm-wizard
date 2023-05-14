@@ -2,6 +2,7 @@ import pytest
 
 from cm_wizard.services.browser import Browser
 from cm_wizard.services.cardmarket.card_query import CardQuery
+from cm_wizard.services.cardmarket.cardmarket_service import CardmarketService
 from cm_wizard.services.cardmarket.cardmarket_service import cardmarket_service as cs
 from cm_wizard.services.cardmarket.enums.card_condition import CardCondition
 from cm_wizard.services.cardmarket.enums.card_language import CardLanguage
@@ -10,7 +11,7 @@ from cm_wizard.services.cardmarket.enums.cardmarket_language import CardmarketLa
 
 
 @pytest.fixture
-def cardmarket_service():
+def cardmarket_service() -> CardmarketService:
     cs._open_new_session(
         browser=Browser.CHROME,
         user_agent="Mozilla/5.0...",
@@ -25,7 +26,7 @@ def file_text_contents(path: str) -> str:
         return f.read()
 
 
-def test_get_wants_lists(requests_mock, cardmarket_service):
+def test_get_wants_lists(requests_mock, cardmarket_service: CardmarketService):
     requests_mock.get(
         "https://www.cardmarket.com/en/YuGiOh/Wants",
         text=file_text_contents("responses/en_Yugioh_Wants.html"),
@@ -45,7 +46,7 @@ def test_get_wants_lists(requests_mock, cardmarket_service):
     )
 
 
-def test_get_wants_list(requests_mock, cardmarket_service):
+def test_get_wants_list(requests_mock, cardmarket_service: CardmarketService):
     requests_mock.get(
         "https://www.cardmarket.com/en/YuGiOh/Wants/15628908",
         text=file_text_contents("responses/en_Yugioh_Wants_15628908.html"),
@@ -74,9 +75,9 @@ def test_get_wants_list(requests_mock, cardmarket_service):
     assert item.has_mail_alert == False
 
 
-def test_get_card(requests_mock, cardmarket_service):
+def test_get_card(requests_mock, cardmarket_service: CardmarketService):
     requests_mock.get(
-        "https://www.cardmarket.com/en/YuGiOh/Cards/A-Feather-of-the-Phoenix",
+        "https://www.cardmarket.com/en/YuGiOh/Cards/A-Feather-of-the-Phoenix?language=1,3&minCondition=1&isFirstEd=Y&isAltered=N",
         text=file_text_contents(
             "responses/en_Yugioh_Cards_A-Feather-of-the-Phoenix.html"
         ),
@@ -84,14 +85,13 @@ def test_get_card(requests_mock, cardmarket_service):
 
     query = CardQuery(
         id="A-Feather-of-the-Phoenix",
-        amount=1,
         expansions=None,
         languages=[CardLanguage.ENGLISH, CardLanguage.GERMAN],
         min_condition=CardCondition.MINT,
         is_reverse_holo=None,
-        is_signed=False,
+        is_signed=None,
         is_first_edition=True,
-        is_altered=True,
+        is_altered=False,
     )
     result = cardmarket_service.get_card(query)
 
@@ -100,11 +100,11 @@ def test_get_card(requests_mock, cardmarket_service):
         result.rules_text
         == "Discard 1 card, then target 1 card in your GY; return that target to the top of your Deck."
     )
-    assert result.item_count == 4284
+    assert result.item_count == 4285
     assert result.version_count == 7
     assert result.min_price_euro_cents == 2
     assert result.price_trend_euro_cents == 14
-    assert len(result.offers) == 50
+    assert len(result.offers) == 10
     offer = result.offers[0]
     assert (
         offer.image_url
@@ -113,18 +113,18 @@ def test_get_card(requests_mock, cardmarket_service):
     assert offer.price_euro_cents == 2
     assert offer.amount == 1
     seller = offer.seller
-    assert seller.name == "Cardaccess"
-    assert seller.rating == "outstanding"
-    assert seller.sale_count == 17789
-    assert seller.item_count == 40666
-    assert seller.eta_days == 14
-    assert seller.eta_country_days == 6
-    assert seller.location == "France"
+    assert seller.name == "wkleebe1"
+    assert seller.rating == "very-good"
+    assert seller.sale_count == 45
+    assert seller.item_count == 80
+    assert seller.eta_days == 4
+    assert seller.eta_country_days == 3
+    assert seller.location == "Germany"
     product = offer.product
     assert product.expansion == "LEHD"
     assert product.rarity == "Common"
-    assert product.condition == CardCondition.NEAR_MINT
-    assert product.language == "French"
+    assert product.condition == CardCondition.MINT
+    assert product.language == CardLanguage.GERMAN
     assert product.is_reverse_holo == False
     assert product.is_signed == False
     assert product.is_first_edition == False

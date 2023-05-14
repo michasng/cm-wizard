@@ -122,7 +122,22 @@ class CardmarketService:
         return WantsListPage(page_text, self.language)
 
     def get_card(self, query: CardQuery):
-        page_text = self._request_authenticated_page(f"Cards/{query.id}")
+        params = {}
+        if query.languages is not None:
+            params["language"] = ",".join([str(l.value.id) for l in query.languages])
+        if query.min_condition is not None:
+            params["minCondition"] = str(query.min_condition.value.id)
+        bool_params = {
+            "isReverseHolo": query.is_reverse_holo,
+            "isSigned": query.is_signed,
+            "isFirstEd": query.is_first_edition,
+            "isAltered": query.is_altered,
+        }
+        for key, value in bool_params.items():
+            if value is None:
+                continue
+            params[key] = "Y" if value else "N"
+        page_text = self._request_authenticated_page(f"Cards/{query.id}", params)
         return CardPage(page_text, self.language)
 
     def _log_to_file(self, path: str, content: str):
@@ -131,12 +146,16 @@ class CardmarketService:
             out.write(content)
         _logger.info(f'Done logging to file "{path}".')
 
-    def _request_authenticated_page(self, endpoint: str) -> str:
-        _logger.info(f"GET {endpoint}")
+    def _request_authenticated_page(
+        self, endpoint: str, params: dict | None = None
+    ) -> str:
+        _logger.info(f"GET {endpoint}{'' if params is None else ' ' + str(params)}")
 
         session = self._get_session()
 
-        page_response = session.get(f"{self._cardmarket_url()}/{endpoint}")
+        page_response = session.get(
+            f"{self._cardmarket_url()}/{endpoint}", params=params
+        )
 
         if page_response.status_code != 200:
             _logger.error(

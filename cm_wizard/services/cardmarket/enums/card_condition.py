@@ -4,18 +4,19 @@ from enum import Enum
 
 @dataclass
 class _CardCondition:
+    id: int
     name: str
     abbreviation: str
 
 
 class CardCondition(Enum):
-    MINT = _CardCondition("Mint", "MT")
-    NEAR_MINT = _CardCondition("Near Mint", "NM")
-    EXCELLENT = _CardCondition("Excellent", "EX")
-    GOOD = _CardCondition("Good", "GD")
-    LIGHT_PLAYED = _CardCondition("Light Played", "LP")
-    PLAYED = _CardCondition("Played", "PL")
-    POOR = _CardCondition("Poor", "PO")
+    MINT = _CardCondition(1, "Mint", "MT")
+    NEAR_MINT = _CardCondition(2, "Near Mint", "NM")
+    EXCELLENT = _CardCondition(3, "Excellent", "EX")
+    GOOD = _CardCondition(4, "Good", "GD")
+    LIGHT_PLAYED = _CardCondition(5, "Light Played", "LP")
+    PLAYED = _CardCondition(6, "Played", "PL")
+    POOR = _CardCondition(7, "Poor", "PO")
 
     @property
     def value(self) -> _CardCondition:

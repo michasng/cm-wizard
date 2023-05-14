@@ -6,7 +6,7 @@ from cm_wizard.services.cardmarket.enums.cardmarket_language import CardmarketLa
 
 @dataclass
 class _CardLanguage:
-    value: int
+    id: int
     labels: dict[CardmarketLanguage, str]
 
 
