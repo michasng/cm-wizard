@@ -120,4 +120,13 @@ def test_get_card(requests_mock, cardmarket_service):
     assert seller.eta_days == 14
     assert seller.eta_country_days == 6
     assert seller.location == "France"
-    # product = offer.product # TODO, parse product info
+    product = offer.product
+    assert product.expansion == "LEHD"
+    assert product.rarity == "Common"
+    assert product.condition == CardCondition.NEAR_MINT
+    assert product.language == "French"
+    assert product.is_reverse_holo == False
+    assert product.is_signed == False
+    assert product.is_first_edition == False
+    assert product.is_altered == False
+    assert product.image_url == None

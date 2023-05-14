@@ -9,6 +9,7 @@ from cm_wizard.services.cardmarket.enums.card_condition import CardCondition
 from cm_wizard.services.cardmarket.enums.card_language import CardLanguage
 from cm_wizard.services.cardmarket.pages.helpers import (
     extract_tooltip_image_url,
+    find_tooltip,
     parse_bool,
     try_parse_euro_cents,
 )
@@ -108,7 +109,8 @@ class WantsListPageItem(HtmlChildElement[WantsListPage], CardQuery):
 
     @cached_property
     def image_url(self) -> str:
-        return extract_tooltip_image_url(self._find_td("preview"))
+        tooltip = find_tooltip(self._find_td("preview"))
+        return extract_tooltip_image_url(tooltip)
 
     @cached_property
     def expansions(self) -> list[str] | None:
