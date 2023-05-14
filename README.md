@@ -5,10 +5,10 @@ Find the best combination of sellers for cards on your wants lists. 🪄
 
 - Browse your wants lists. ✅
 - Find the best prices. ⚠️
-- Supports all languages and card games on cardmarket. ⚠️
+- Supports all card games on cardmarket. ⚠️ Currently only Yu-Gi-Oh!.
 - Open Source, MIT Licensed. Clean, easy to read code. ✅
 
-⚠️ Work in progress. Not all features are implemented ⚠️
+⚠️ Work in progress. Not all features are implemented yet. ⚠️
 
 This project is inspired by and in part based on [cw-wizard](https://github.com/BenSouchet/cw-wizard). Check it out!
 
