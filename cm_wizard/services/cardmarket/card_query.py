@@ -4,7 +4,7 @@ from cm_wizard.services.cardmarket.enums.card_condition import CardCondition
 from cm_wizard.services.cardmarket.enums.card_language import CardLanguage
 
 
-@dataclass
+@dataclass(frozen=True)
 class CardQuery:
     id: str
     amount: int

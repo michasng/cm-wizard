@@ -4,6 +4,7 @@ from functools import cached_property
 
 from bs4 import ResultSet, Tag
 
+from cm_wizard.services.cardmarket.card_query import CardQuery
 from cm_wizard.services.cardmarket.enums.card_condition import CardCondition
 from cm_wizard.services.cardmarket.enums.card_language import CardLanguage
 from cm_wizard.services.cardmarket.pages.helpers import (
@@ -65,7 +66,7 @@ class WantsListPage(HtmlPageElement):
         return [WantsListPageItem(self, row) for row in rows]
 
 
-class WantsListPageItem(HtmlChildElement[WantsListPage]):
+class WantsListPageItem(HtmlChildElement[WantsListPage], CardQuery):
     def _find_td(self, key: str) -> Tag:
         index = self._parent._table_column_indexes[key]
         return self._tag.contents[index]
