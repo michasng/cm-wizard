@@ -53,7 +53,7 @@ class WantsListTable(ft.UserControl):
                                 ]
                             )
                         ),
-                        ft.Text(item.min_condition.value.name),
+                        ft.Text(item.min_condition.name),
                         map_bool(item.is_reverse_holo),
                         map_bool(item.is_signed),
                         map_bool(item.is_first_edition),

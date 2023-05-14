@@ -17,6 +17,10 @@ class CardCondition(Enum):
     PLAYED = _CardCondition("Played", "PL")
     POOR = _CardCondition("Poor", "PO")
 
+    @property
+    def value(self) -> _CardCondition:
+        return super().value
+
     @classmethod
     def find_by_abbreviation(cls, abbreviation: str) -> "CardCondition":
         for card_language in CardCondition:

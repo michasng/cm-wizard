@@ -112,6 +112,10 @@ class CardLanguage(Enum):
         },
     )
 
+    @property
+    def value(self) -> _CardLanguage:
+        return super().value
+
     @classmethod
     def find_by_label(
         cls, cardmarket_language: CardmarketLanguage, label: str
