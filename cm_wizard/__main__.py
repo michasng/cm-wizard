@@ -6,6 +6,7 @@ from cm_wizard.screens.abstract_screen import AbstractScreen
 from cm_wizard.screens.login.login_screen import LoginScreen
 from cm_wizard.screens.wants_list.wants_list_screen import WantsListScreen
 from cm_wizard.screens.wants_lists.wants_lists_screen import WantsListsScreen
+from cm_wizard.screens.wizard.wizard_screen import WizardScreen
 
 
 def main(page: ft.Page):
@@ -27,6 +28,8 @@ def main(page: ft.Page):
             page.views.append(WantsListsScreen())
         elif troute.match(WantsListScreen.route):
             page.views.append(WantsListScreen(troute.id))
+        elif troute.match(WizardScreen.route):
+            page.views.append(WizardScreen(troute.id))
         else:
             raise NotImplementedError(f'Unknown route "{page.route}".')
 
