@@ -9,14 +9,6 @@ _logger.setLevel(logging.DEBUG)
 # other "infinities" like float("inf") or math.inf are of type float
 infinity = 2147483647
 
-purchase_type = tuple[int, str]
-
-
-@dataclass
-class RequestSeller:
-    id: str
-    offers: dict[str, list[int]]
-
 
 @dataclass
 class Result:
@@ -46,7 +38,9 @@ def unique(lst: list[T]) -> Iterator[T]:
 class ShoppingWizardService:
     # TODO: handle shipping costs
     def find_best_offers(
-        self, wanted_cards: list[str], sellers: list[RequestSeller]
+        self,
+        wanted_cards: list[str],
+        sellers: dict[str, dict[str, list[int]]],
     ) -> Result:
         """
         Returns (one of) the best combinations of cards to buy from sellers
@@ -56,9 +50,10 @@ class ShoppingWizardService:
         """
 
         result_sellers: dict[str, list[tuple[str, int]]] = {
-            seller.id: [] for seller in sellers
+            id: [] for id, _ in sellers.items()
         }
 
+        purchase_type = tuple[str, str]
         purchase_history_type = list[purchase_type]
 
         price_table: list[list[int]] = create_matrix(
@@ -79,16 +74,16 @@ class ShoppingWizardService:
                 else purchase_history_table[card_index - 1][best_seller_index]
             )
             best_card_price = infinity
-            for seller_index, seller in enumerate(sellers):
-                if card_id not in seller.offers:
+            for seller_index, (seller_id, seller_offers) in enumerate(sellers.items()):
+                if card_id not in seller_offers:
                     continue  # seller does not offer the card
 
-                purchase = (seller_index, card_id)
+                purchase = (seller_id, card_id)
                 purchase_count = purchase_history.count(purchase)
-                if len(seller.offers[card_id]) <= purchase_count:
+                if len(seller_offers[card_id]) <= purchase_count:
                     continue  # seller does not offer the card often enough
 
-                seller_offer = seller.offers[card_id][purchase_count]
+                seller_offer = seller_offers[card_id][purchase_count]
                 price = previous_best_card_price + seller_offer
                 price_table[card_index][seller_index] = price
                 purchase_history_table[card_index][seller_index] = purchase_history + [
@@ -105,12 +100,13 @@ class ShoppingWizardService:
         best_purchase_history: list[purchase_type] = purchase_history_table[-1][
             best_seller_index
         ]
-        for seller_index, card_id in unique(best_purchase_history):
-            purchase = (seller_index, card_id)
+        for seller_id, card_id in unique(best_purchase_history):
+            purchase = (seller_id, card_id)
             count = best_purchase_history.count(purchase)
-            seller = sellers[seller_index]
             for i in range(count):
-                result_sellers[seller.id].append((card_id, seller.offers[card_id][i]))
+                result_sellers[seller_id].append(
+                    (card_id, sellers[seller_id][card_id][i])
+                )
 
         return Result(
             total_price=best_price,
