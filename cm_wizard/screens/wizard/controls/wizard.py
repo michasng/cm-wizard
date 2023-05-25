@@ -2,17 +2,17 @@ import time
 
 import flet as ft
 
-from cm_wizard.screens.wizard.controls.wizard_loading import WizardLoading
+from cm_wizard.screens.wizard.controls.wizard_loading_view import WizardLoadingView
 
 
 class Wizard(ft.UserControl):
     _wants_list_id: str
-    _loading_ref: ft.Ref[WizardLoading]
+    _loading_ref: ft.Ref[WizardLoadingView]
 
     def __init__(self, ref: ft.Ref["Wizard"], id: str):
         super().__init__(ref=ref)
         self._wants_list_id = id
-        self._loading_ref = ft.Ref[WizardLoading]()
+        self._loading_ref = ft.Ref[WizardLoadingView]()
 
     def on_visit(self):
         # TODO: replace this with running the actual wizard
@@ -22,4 +22,4 @@ class Wizard(ft.UserControl):
             self.update()
 
     def build(self) -> ft.Control:
-        return WizardLoading(ref=self._loading_ref)
+        return WizardLoadingView(ref=self._loading_ref)

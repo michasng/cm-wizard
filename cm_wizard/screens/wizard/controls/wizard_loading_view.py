@@ -1,10 +1,10 @@
 import flet as ft
 
 
-class WizardLoading(ft.UserControl):
+class WizardLoadingView(ft.UserControl):
     _progress_ring_ref: ft.Ref[ft.ProgressRing]
 
-    def __init__(self, ref: ft.Ref["WizardLoading"]):
+    def __init__(self, ref: ft.Ref["WizardLoadingView"]):
         super().__init__(ref=ref)
         self._progress_ring_ref = ft.Ref[ft.ProgressRing]()
 
