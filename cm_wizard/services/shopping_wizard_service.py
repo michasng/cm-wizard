@@ -2,6 +2,8 @@ import logging
 from dataclasses import dataclass
 from typing import Iterator, TypeVar
 
+from cm_wizard.services.currency import format_price
+
 _logger = logging.getLogger(__name__)
 _logger.setLevel(logging.DEBUG)
 
@@ -95,7 +97,7 @@ class ShoppingWizardService:
                     best_seller_index = seller_index
 
         best_price = price_table[-1][best_seller_index]
-        _logger.info(f"best total price: {best_price}")
+        _logger.info(f"best total price: {format_price(best_price)}")
 
         best_purchase_history: list[purchase_type] = purchase_history_table[-1][
             best_seller_index

@@ -1,5 +1,6 @@
 import flet as ft
 
+from cm_wizard.services.currency import format_price
 from cm_wizard.services.wizard_orchestrator_service import WizardOrchestratorResult
 
 
@@ -13,7 +14,7 @@ class WizardResultView(ft.UserControl):
             controls=[
                 ft.ListTile(
                     title=ft.Text(
-                        f"Total: {self._result.total_price_euro_cents} euro cents"
+                        f"Total: {format_price(self._result.total_price_euro_cents)} euro cents"
                     ),
                 ),
                 *[
@@ -27,7 +28,9 @@ class WizardResultView(ft.UserControl):
                                 *[
                                     ft.ListTile(
                                         title=ft.Text(offer.card_name),
-                                        subtitle=ft.Text(offer.price_euro_cents),
+                                        subtitle=ft.Text(
+                                            format_price(offer.price_euro_cents)
+                                        ),
                                     )
                                     for offer in seller.offers
                                 ],

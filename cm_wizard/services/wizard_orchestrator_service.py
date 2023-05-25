@@ -9,6 +9,7 @@ from cm_wizard.services.cardmarket.cardmarket_service import (
     cardmarket_service,
 )
 from cm_wizard.services.cardmarket.pages.wants_list_page import WantsListPageItem
+from cm_wizard.services.currency import format_price
 from cm_wizard.services.shopping_wizard_service import (
     ShoppingWizardService,
     WizardResult,
@@ -82,7 +83,7 @@ class WizardOrchestratorService:
                 continue
 
             _logger.debug(
-                f'Lowest price for "{card.name}" is {card.offers[0].price_euro_cents} cents by {card.offers[0].seller.id}.'
+                f'Lowest price for "{card.name}" is {format_price(card.offers[0].price_euro_cents)} cents by {card.offers[0].seller.id}.'
             )
             wanted_cards.append(item.id)
             # TODO: Include more sellers depending on price and stats

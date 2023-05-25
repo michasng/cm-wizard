@@ -8,13 +8,13 @@ from cm_wizard.services.cardmarket.pages.card_product_info import CardProductInf
 from cm_wizard.services.cardmarket.pages.helpers import (
     extract_tooltip_image_url,
     find_tooltip,
-    parse_euro_cents,
     strip_multi_spaces,
 )
 from cm_wizard.services.cardmarket.pages.html_element import (
     HtmlChildElement,
     HtmlPageElement,
 )
+from cm_wizard.services.currency import parse_euro_cents
 
 _logger = logging.getLogger(__name__)
 _logger.setLevel(logging.DEBUG)
