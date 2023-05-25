@@ -45,3 +45,5 @@
        The query parameter `idExpansion` of the `/Cards` endpoint is not mapped, so unwanted results could be found. This parameter requires the numerical IDs of expansions, but we only know the abbreviations at this point.
 - [x] HTTP error 429 (too many requests) needs to be handled.  
        This occurs when we send many requests to find the best prices. Likely need to pause between requests every so often when this error occurs. Also need to retry those failed requests.
+- [] Navigating back while loading does not interrupt the wizard.  
+   This will break the UI and the user gets stuck on the previous page.
