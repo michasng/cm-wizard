@@ -39,7 +39,7 @@
 
 ## Known issues
 
-- [ ] Links to specific products are different from general cards.  
+- [x] Links to specific products are different from general cards.  
        In want to avoid parsing both result pages, which are structurally different, e.g. `/Cards/Time-Wizard` and `/Products/Singles/Metal-Raiders/Time-Wizard-V1-Ultra-Rare`. I need to get the ID differently from the URL (without the "V1-Ultra-Rare" part).
 - [ ] Search cards from a specific expansion.  
        The query parameter `idExpansion` of the `/Cards` endpoint is not mapped, so unwanted results could be found. This parameter requires the numerical IDs of expansions, but we only know the abbreviations at this point.

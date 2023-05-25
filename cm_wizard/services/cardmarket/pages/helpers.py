@@ -34,7 +34,7 @@ def find_tooltip(container: Tag) -> Tag:
 
 def extract_card_id_from_url(url: str) -> str:
     id_match = re.search(
-        r"Cards\/(?P<general_id>[\w-]+)|Singles\/[\w-]+\/(?P<product_id>[\w-]+)",
+        r"Cards\/(?P<general_id>[\w-]+)|Singles\/[\w-]+\/(?P<product_id>[\w-]+?)(?:-V\d*[\w\d-]*)?(?:$|\?)",
         url,
     )
     assert id_match is not None, f'Card ID not found in URL "{url}".'
