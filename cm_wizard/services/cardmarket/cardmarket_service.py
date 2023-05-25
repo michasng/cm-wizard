@@ -5,6 +5,7 @@ from http.cookiejar import CookieJar
 import browser_cookie3
 import requests
 from bs4 import BeautifulSoup
+from requests.adapters import HTTPAdapter, Retry
 
 from cm_wizard.services.browser import Browser
 from cm_wizard.services.cardmarket.card_query import CardQuery
@@ -23,8 +24,13 @@ _logger.setLevel(logging.DEBUG)
 
 
 class CardmarketException(Exception):
-    def __init__(self, message: str):
+    def __init__(
+        self,
+        message: str,
+        status_code: int | None = None,
+    ):
         super().__init__(message)
+        self.status_code = status_code
 
 
 class CardmarketService:
@@ -63,11 +69,13 @@ class CardmarketService:
             )
             if login_page_response.status_code == 403:
                 raise CardmarketException(
-                    f"Login failed, please open cardmarket.com in {browser.value}."
+                    f"Login failed, please open cardmarket.com in {browser.value}.",
+                    status_code=403,
                 )
             self._log_to_file("login_page_response.html", login_page_response.text)
             raise CardmarketException(
-                "Unexpected page error. Check login_page_response.html."
+                "Unexpected page error. Check login_page_response.html.",
+                login_page_response.status_code,
             )
 
         token_match = re.search(
@@ -95,7 +103,8 @@ class CardmarketService:
             )
             self._log_to_file("login_response.txt", login_response.text)
             raise CardmarketException(
-                "Unexpected login error. Check login_response.txt."
+                "Unexpected login error. Check login_response.txt.",
+                login_response.status_code,
             )
 
         login_html = BeautifulSoup(login_response.text, "html.parser")
@@ -170,13 +179,20 @@ class CardmarketService:
 
             if page_response.status_code == 401:
                 raise CardmarketException(
-                    "Your session may have expired. Please re-login."
+                    "Your session may have expired. Please re-login.",
+                    status_code=401,
+                )
+            if page_response.status_code == 429:
+                raise CardmarketException(
+                    "Too many requests. Try again later.",
+                    status_code=429,
                 )
 
             error_file_name = f"{endpoint.replace('/', '_')}_page_response.html"
             self._log_to_file(error_file_name, page_response.text)
             raise CardmarketException(
-                f"Unexpected page error. Check {error_file_name}."
+                f"Unexpected page error. Check {error_file_name}.",
+                status_code=page_response.status_code,
             )
 
         return page_response.text
@@ -215,6 +231,13 @@ class CardmarketService:
         self._session.cookies.clear()
         for cookie in cookies:
             self._session.cookies.set_cookie(cookie)
+
+        retries = Retry(
+            total=5,
+            backoff_factor=1,
+            status_forcelist=[429, 502, 503, 504],
+        )
+        self._session.mount("https://", HTTPAdapter(max_retries=retries))
 
         _logger.debug("New session opened.")
         return self._session

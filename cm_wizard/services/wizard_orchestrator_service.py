@@ -12,7 +12,6 @@ from cm_wizard.services.cardmarket.pages.wants_list_page import WantsListPageIte
 from cm_wizard.services.currency import format_price
 from cm_wizard.services.shopping_wizard_service import (
     ShoppingWizardService,
-    WizardResult,
     shopping_wizard_service,
 )
 

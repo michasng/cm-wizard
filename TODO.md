@@ -43,5 +43,5 @@
        In want to avoid parsing both result pages, which are structurally different, e.g. `/Cards/Time-Wizard` and `/Products/Singles/Metal-Raiders/Time-Wizard-V1-Ultra-Rare`. I need to get the ID differently from the URL (without the "V1-Ultra-Rare" part).
 - [ ] Search cards from a specific expansion.  
        The query parameter `idExpansion` of the `/Cards` endpoint is not mapped, so unwanted results could be found. This parameter requires the numerical IDs of expansions, but we only know the abbreviations at this point.
-- [ ] HTTP error 429 (too many requests) needs to be handled.  
+- [x] HTTP error 429 (too many requests) needs to be handled.  
        This occurs when we send many requests to find the best prices. Likely need to pause between requests every so often when this error occurs. Also need to retry those failed requests.
