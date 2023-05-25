@@ -1,4 +1,7 @@
-from cm_wizard.services.shopping_wizard_service import Result, shopping_wizard_service
+from cm_wizard.services.shopping_wizard_service import (
+    WizardResult,
+    shopping_wizard_service,
+)
 
 
 def test_find_best_offers_basic():
@@ -22,7 +25,7 @@ def test_find_best_offers_basic():
 
     result = shopping_wizard_service.find_best_offers(wanted_cards, sellers)
 
-    assert result == Result(
+    assert result == WizardResult(
         total_price=3,
         sellers={
             "s1": [("c1", 1)],
@@ -53,7 +56,7 @@ def test_find_best_offers_duplicate_wants():
 
     result = shopping_wizard_service.find_best_offers(wanted_cards, sellers)
 
-    assert result == Result(
+    assert result == WizardResult(
         total_price=11,
         sellers={
             "s1": [("c1", 1), ("c2", 2), ("c3", 3)],

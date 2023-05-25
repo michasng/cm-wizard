@@ -11,7 +11,7 @@ infinity = 2147483647
 
 
 @dataclass
-class Result:
+class WizardResult:
     total_price: int
     sellers: dict[str, list[tuple[str, int]]]
 
@@ -41,7 +41,7 @@ class ShoppingWizardService:
         self,
         wanted_cards: list[str],
         sellers: dict[str, dict[str, list[int]]],
-    ) -> Result:
+    ) -> WizardResult:
         """
         Returns (one of) the best combinations of cards to buy from sellers
         in order to buy all wanted_cards.
@@ -108,7 +108,7 @@ class ShoppingWizardService:
                     (card_id, sellers[seller_id][card_id][i])
                 )
 
-        return Result(
+        return WizardResult(
             total_price=best_price,
             sellers=result_sellers,
         )
