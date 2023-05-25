@@ -39,11 +39,12 @@
 
 ## Known issues
 
-- [x] Links to specific products are different from general cards.  
-       In want to avoid parsing both result pages, which are structurally different, e.g. `/Cards/Time-Wizard` and `/Products/Singles/Metal-Raiders/Time-Wizard-V1-Ultra-Rare`. I need to get the ID differently from the URL (without the "V1-Ultra-Rare" part).
+- [ ] The results page is not scrollable yet.
+- [ ] Links to specific products are different from general cards.  
+       One difference is the presence or absence of a "version" in some product vs. card IDs, e.g. `/Products/Singles/Metal-Raiders/Time-Wizard-V1-Ultra-Rare` vs. `/Cards/Time-Wizard`. This difference is already handled. However there are also some differences that are less predictable, like `/Products/Singles/.../Dragon-s-Fighting-Spirit-V-2` vs. `/Cards/Dragons-Fighting-Spirit`. This likely stems from the fact that IDs are manually assigned and are not necessarily consistent. How can I handle those?
 - [ ] Search cards from a specific expansion.  
        The query parameter `idExpansion` of the `/Cards` endpoint is not mapped, so unwanted results could be found. This parameter requires the numerical IDs of expansions, but we only know the abbreviations at this point.
 - [x] HTTP error 429 (too many requests) needs to be handled.  
        This occurs when we send many requests to find the best prices. Likely need to pause between requests every so often when this error occurs. Also need to retry those failed requests.
-- [] Navigating back while loading does not interrupt the wizard.  
-   This will break the UI and the user gets stuck on the previous page.
+- [ ] Navigating back while loading does not interrupt the wizard.  
+       This will break the UI and the user gets stuck on the previous page.
