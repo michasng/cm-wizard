@@ -66,21 +66,8 @@ class WantsListTable(ft.UserControl):
         self.update()
 
     def find_best_prices(self, _):
-        if len(self.wants_list.items) > 0:
-            res = cardmarket_service.get_card(self.wants_list.items[0])
-            if len(res.offers) == 0:
-                print("no offers found")
-                return
-            print(
-                f'Staring price for "{res.name}" is {res.offers[0].price_euro_cents} cents.'
-            )
-            seller_offers = cardmarket_service.get_seller_wanted_offers(
-                seller_id=res.offers[0].seller.id,
-                wants_list_id=self._wants_list_id,
-            )
-            print(
-                f"Found {len(seller_offers.offers)} wanted offers from seller {res.offers[0].seller.id}."
-            )
+        self.page.route = f"/wizard/{self._wants_list_id}"
+        self.page.update()
 
     def build(self) -> ft.Control:
         return ft.Column(

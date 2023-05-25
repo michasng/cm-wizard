@@ -4,10 +4,8 @@ from cm_wizard.services.wizard_orchestrator_service import WizardOrchestratorRes
 
 
 class WizardResultView(ft.UserControl):
-    def __init__(
-        self, result: WizardOrchestratorResult, ref: ft.Ref["WizardResultView"] = None
-    ):
-        super().__init__(ref=ref)
+    def __init__(self, result: WizardOrchestratorResult):
+        super().__init__()
         self._result = result
 
     def build(self) -> ft.Control:
