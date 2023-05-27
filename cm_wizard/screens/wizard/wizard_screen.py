@@ -26,7 +26,6 @@ class WizardScreen(AbstractScreen):
             ),
             vertical_alignment=ft.MainAxisAlignment.CENTER,
             horizontal_alignment=ft.CrossAxisAlignment.CENTER,
-            scroll=True,
             controls=[
                 Wizard(
                     ref=wizard_ref,

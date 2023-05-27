@@ -6,7 +6,7 @@ from cm_wizard.services.wizard_orchestrator_service import WizardOrchestratorRes
 
 class WizardResultView(ft.UserControl):
     def __init__(self, result: WizardOrchestratorResult):
-        super().__init__()
+        super().__init__(expand=True)
         self._result = result
 
     def build(self) -> ft.Control:
@@ -39,5 +39,5 @@ class WizardResultView(ft.UserControl):
                     )
                     for seller in self._result.sellers
                 ],
-            ]
+            ],
         )
