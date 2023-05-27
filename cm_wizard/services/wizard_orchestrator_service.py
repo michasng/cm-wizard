@@ -4,6 +4,8 @@ from dataclasses import dataclass
 from functools import cache
 from typing import Callable
 
+from rapidfuzz import fuzz, process
+
 from cm_wizard.services.cardmarket.cardmarket_service import (
     CardmarketService,
     cardmarket_service,
@@ -102,10 +104,19 @@ class WizardOrchestratorService:
                 f"Found {len(seller_offers_page.offers)} wanted offers from seller {seller_id}."
             )
             for offer in seller_offers_page.offers:
-                if offer.id not in seller_offers:
-                    seller_offers[offer.id] = []
+                card_id_match = process.extractOne(
+                    offer.id, wanted_cards, scorer=fuzz.WRatio
+                )
+                if card_id_match[1] < 100:
+                    _logger.debug(
+                        f"Closest card match for {offer.id} is {card_id_match}."
+                    )
+                card_id = card_id_match[0]
+
+                if card_id not in seller_offers:
+                    seller_offers[card_id] = []
                 for _ in range(offer.quantity):
-                    bisect.insort(seller_offers[offer.id], offer.price_euro_cents)
+                    bisect.insort(seller_offers[card_id], offer.price_euro_cents)
             progress_by(get_seller_wanted_offers_progress)
 
         # current_progress is now at 0.8

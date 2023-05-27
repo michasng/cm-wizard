@@ -40,8 +40,9 @@
 ## Known issues
 
 - [ ] The results page is not scrollable yet.
-- [ ] Links to specific products are different from general cards.  
-       One difference is the presence or absence of a "version" in some product vs. card IDs, e.g. `/Products/Singles/Metal-Raiders/Time-Wizard-V1-Ultra-Rare` vs. `/Cards/Time-Wizard`. This difference is already handled. However there are also some differences that are less predictable, like `/Products/Singles/.../Dragon-s-Fighting-Spirit-V-2` vs. `/Cards/Dragons-Fighting-Spirit`. This likely stems from the fact that IDs are manually assigned and are not necessarily consistent. How can I handle those?
+- [x] Links to specific products are different from general cards.  
+       One difference is the presence or absence of a "version" in some product vs. card IDs, e.g. `/Products/Singles/Metal-Raiders/Time-Wizard-V1-Ultra-Rare` vs. `/Cards/Time-Wizard`, which is handled by RegEx matching and cutting the version from the ID.  
+       Then there are also some differences that are less predictable, like `/Products/Singles/.../Dragon-s-Fighting-Spirit-V-2` vs. `/Cards/Dragons-Fighting-Spirit`. This likely stems from the fact that IDs are manually assigned and are not necessarily consistent. Those are handled by fuzzy string matching IDs.
 - [ ] Search cards from a specific expansion.  
        The query parameter `idExpansion` of the `/Cards` endpoint is not mapped, so unwanted results could be found. This parameter requires the numerical IDs of expansions, but we only know the abbreviations at this point.
 - [x] HTTP error 429 (too many requests) needs to be handled.  
