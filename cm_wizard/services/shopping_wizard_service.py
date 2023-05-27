@@ -112,7 +112,9 @@ class ShoppingWizardService:
 
         return WizardResult(
             total_price=best_price,
-            sellers=result_sellers,
+            sellers={
+                id: offers for id, offers in result_sellers.items() if len(offers) > 0
+            },
         )
 
 

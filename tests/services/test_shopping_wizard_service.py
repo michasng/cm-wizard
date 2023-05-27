@@ -30,7 +30,6 @@ def test_find_best_offers_basic():
         sellers={
             "s1": [("c1", 1)],
             "s2": [("c2", 1), ("c3", 1)],
-            "s3": [],
         },
     )
 
