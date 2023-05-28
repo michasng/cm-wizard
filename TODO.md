@@ -12,7 +12,7 @@
 - [x] Calculate best combination of sellers with reasonable time complexity.
 - [ ] Display final results, linking back to Cardmarket.
 - [x] Show incomplete results, if calculation is impossible.
-- [ ] Consider shipping costs.
+- [x] Consider shipping costs.
 - [ ] Filter shipments by country.
 
 ## Should have
@@ -51,3 +51,5 @@
 - [ ] Retry ASAP for status 429. The application is potentially waiting too long ATM.
 - [ ] Navigating back while loading does not interrupt the wizard.  
        This will break the UI and the user gets stuck on the previous page.
+- [ ] Variable shipping costs.  
+       Shipping costs are currently constant. Instead they should depend on seller and buyer countries.
