@@ -5,8 +5,13 @@ from cm_wizard.services.wizard_orchestrator_service import WizardOrchestratorRes
 
 
 class WizardResultView(ft.UserControl):
-    def __init__(self, result: WizardOrchestratorResult):
+    def __init__(
+        self,
+        wants_list_id: str,
+        result: WizardOrchestratorResult,
+    ):
         super().__init__(expand=True)
+        self._wants_list_id = wants_list_id
         self._result = result
 
     def build(self) -> ft.Control:
@@ -28,6 +33,18 @@ class WizardResultView(ft.UserControl):
                             controls=[
                                 ft.ListTile(
                                     title=ft.Text(seller.id),
+                                    subtitle=ft.Text(
+                                        format_price(
+                                            sum(
+                                                [
+                                                    offer.price_euro_cents
+                                                    for offer in seller.offers
+                                                ]
+                                            )
+                                        )
+                                    ),
+                                    trailing=ft.Icon(name=ft.icons.OPEN_IN_BROWSER),
+                                    url=f"https://www.cardmarket.com/en/YuGiOh/Users/{seller.id}/Offers/Singles?idWantslist={self._wants_list_id}",
                                 ),
                                 ft.Divider(),
                                 *[

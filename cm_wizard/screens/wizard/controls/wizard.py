@@ -22,7 +22,7 @@ class Wizard(ft.UserControl):
 
     def on_visit(self):
         result = wizard_orchestrator_service.run(self._wants_list_id, self.on_progress)
-        self.controls = [WizardResultView(result)]
+        self.controls = [WizardResultView(self._wants_list_id, result)]
         self.update()
 
     def build(self) -> ft.Control:
