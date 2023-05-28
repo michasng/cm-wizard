@@ -11,7 +11,7 @@ _logger.setLevel(logging.DEBUG)
 
 T = TypeVar("T")
 # use max int / 2, because otherwise max int + shipping may overflow
-max_price = np.iinfo(np.int32).max / 2
+max_price = np.iinfo(np.int32).max // 2
 
 
 @dataclass
