@@ -11,6 +11,7 @@ from cm_wizard.services.browser import Browser
 from cm_wizard.services.cardmarket.card_query import CardQuery
 from cm_wizard.services.cardmarket.enums.cardmarket_game import CardmarketGame
 from cm_wizard.services.cardmarket.enums.cardmarket_language import CardmarketLanguage
+from cm_wizard.services.cardmarket.log_retry import LogRetry
 from cm_wizard.services.cardmarket.pages.card_page import CardPage
 from cm_wizard.services.cardmarket.pages.seller_offers_page import SellerOffersPage
 from cm_wizard.services.cardmarket.pages.wants_list_page import WantsListPage
@@ -232,7 +233,7 @@ class CardmarketService:
         for cookie in cookies:
             self._session.cookies.set_cookie(cookie)
 
-        retries = Retry(
+        retries = LogRetry(
             total=5,
             backoff_factor=1,
             status_forcelist=[429, 502, 503, 504],
