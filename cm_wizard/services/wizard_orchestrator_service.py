@@ -20,6 +20,8 @@ from cm_wizard.services.shopping_wizard_service import (
 _logger = logging.getLogger(__name__)
 _logger.setLevel(logging.DEBUG)
 
+constant_shipping_cost = 200  # rough estimate
+
 
 @dataclass
 class WizardOrchestratorResultOffer:
@@ -123,7 +125,9 @@ class WizardOrchestratorService:
 
         # current_progress is now at 0.8
 
-        result = shopping_wizard_service.find_best_offers(wanted_cards, sellers)
+        result = shopping_wizard_service.find_best_offers(
+            wanted_cards, sellers, constant_shipping_cost
+        )
         progress_by(0.2)
 
         @cache
