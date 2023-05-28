@@ -63,3 +63,22 @@ def test_find_best_offers_with_duplicate_wants():
             "s3": [("c3", 1), ("c3", 2)],
         },
     )
+
+
+def test_find_best_offers_with_missing_offers():
+    wanted_cards = ["c1", "c2", "c3", "c4"]
+    sellers = {
+        "s1": {
+            "c2": [1],
+        },
+    }
+
+    result = shopping_wizard_service.find_best_offers(wanted_cards, sellers)
+
+    assert result == WizardResult(
+        total_price=1,
+        sellers={
+            "s1": [("c2", 1)],
+        },
+        missing_cards=["c1", "c3", "c4"],
+    )
