@@ -59,23 +59,26 @@ class ShoppingWizardService:
         purchase_history_type = list[purchase_type]
 
         price_table: list[list[int]] = create_matrix(
-            len(sellers), len(wanted_cards), infinity
+            col_count=len(sellers),
+            # + 1 row to check the previous card without a conditional
+            row_count=len(wanted_cards) + 1,
+            initial_value=0,
         )
         purchase_history_table: list[list[purchase_history_type]] = create_matrix(
-            len(sellers), len(wanted_cards), []
+            col_count=len(sellers),
+            row_count=len(wanted_cards) + 1,
+            initial_value=[],
         )
 
         best_seller_index = -1
-        for card_index, card_id in enumerate(wanted_cards):
-            previous_best_card_price = (
-                0 if card_index == 0 else price_table[card_index - 1][best_seller_index]
-            )
-            purchase_history: purchase_history_type = (
-                []
-                if card_index == 0
-                else purchase_history_table[card_index - 1][best_seller_index]
-            )
+        for prev_card_index, card_id in enumerate(wanted_cards):
+            card_index = prev_card_index + 1
+            previous_best_card_price = price_table[prev_card_index][best_seller_index]
+            purchase_history = purchase_history_table[prev_card_index][
+                best_seller_index
+            ]
             best_card_price = infinity
+            best_seller_index = -1
             for seller_index, (seller_id, seller_offers) in enumerate(sellers.items()):
                 if card_id not in seller_offers:
                     continue  # seller does not offer the card
