@@ -16,6 +16,11 @@ class WizardResultView(ft.UserControl):
                     title=ft.Text(
                         f"Total: {format_price(self._result.total_price_euro_cents)} euro cents"
                     ),
+                    subtitle=None
+                    if self._result.missing_cards is None
+                    else ft.Text(
+                        f"Failed to find {', '.join(self._result.missing_cards)}"
+                    ),
                 ),
                 *[
                     ft.Card(

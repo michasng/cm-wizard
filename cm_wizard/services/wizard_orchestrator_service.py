@@ -39,6 +39,7 @@ class WizardOrchestratorResultSeller:
 @dataclass
 class WizardOrchestratorResult:
     total_price_euro_cents: int
+    missing_cards: list[str]
     sellers: list[WizardOrchestratorResultSeller]
 
 
@@ -69,6 +70,7 @@ class WizardOrchestratorService:
             on_progress(1)
             return WizardOrchestratorResult(
                 total_price_euro_cents=0,
+                missing_cards=[],
                 sellers=[],
             )
 
@@ -133,6 +135,7 @@ class WizardOrchestratorService:
 
         return WizardOrchestratorResult(
             total_price_euro_cents=result.total_price,
+            missing_cards=result.missing_cards,
             sellers=[
                 WizardOrchestratorResultSeller(
                     id=seller_id,

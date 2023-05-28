@@ -11,7 +11,7 @@
 - [x] Search seller for other cards from the wants list.
 - [x] Calculate best combination of sellers with reasonable time complexity.
 - [ ] Display final results, linking back to Cardmarket.
-- [ ] Show incomplete results, if calculation is impossible.
+- [x] Show incomplete results, if calculation is impossible.
 - [ ] Consider shipping costs.
 - [ ] Filter shipments by country.
 
