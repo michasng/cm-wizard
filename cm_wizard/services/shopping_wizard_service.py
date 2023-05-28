@@ -10,7 +10,8 @@ _logger = logging.getLogger(__name__)
 _logger.setLevel(logging.DEBUG)
 
 T = TypeVar("T")
-max_int = np.iinfo(np.int32).max
+# use max int / 2, because otherwise max int + shipping may overflow
+max_price = np.iinfo(np.int32).max / 2
 
 
 @dataclass
@@ -36,12 +37,17 @@ def unique(lst: list[T]) -> Iterator[T]:
             yield e
 
 
+purchase_type = tuple[str, str]
+purchase_history_type = list[purchase_type]
+
+
 class ShoppingWizardService:
     # TODO: handle shipping costs
     def find_best_offers(
         self,
         wanted_cards: list[str],
         sellers: dict[str, dict[str, list[int]]],
+        shipping_cost: int = 0,
     ) -> WizardResult:
         """
         Returns (one of) the best combinations of cards to buy from sellers
@@ -55,13 +61,10 @@ class ShoppingWizardService:
         }
         missing_cards: list[str] = []
 
-        purchase_type = tuple[str, str]
-        purchase_history_type = list[purchase_type]
-
         # + 1 row to check the previous card without a conditional
         price_table: np.ndarray[Any, np.dtype[np.int_]] = np.full(
             (len(wanted_cards) + 1, len(sellers)),
-            max_int,
+            max_price,
         )
         price_table[0][0] = 0  # initial price
         # numpy type hints suck right now. This is a matrix of purchase_history_type.
@@ -71,31 +74,56 @@ class ShoppingWizardService:
         )
         purchase_history_table.fill([])
 
-        def get_best_seller_index(card_index: int) -> np.signedinteger:
-            card_prices: list[int] = price_table[card_index]
-            return np.argmin(card_prices)
+        def additional_seller_shipping_cost(
+            seller_id: str,
+            purchase_history: purchase_history_type,
+        ) -> int:
+            purchases_with_seller = filter(
+                lambda purchase: purchase[0] == seller_id, purchase_history
+            )
+            is_seller_in_history = any(purchases_with_seller)
+            return 0 if is_seller_in_history else shipping_cost
 
-        def get_base_indices(prev_card_index: int) -> tuple[int, np.signedinteger]:
+        def get_best_seller_index(
+            card_index: int, seller_id: str | None
+        ) -> np.signedinteger:
+            card_prices = price_table[card_index]
+            if seller_id is None:
+                return np.argmin(card_prices)
+
+            histories = purchase_history_table[card_index]
+            shipping_costs = np.array(
+                [
+                    additional_seller_shipping_cost(seller_id, history)
+                    for history in histories
+                ]
+            )
+            return np.argmin(card_prices + shipping_costs)
+
+        def get_base_indices(
+            prev_card_index: int, seller_id: str | None
+        ) -> tuple[int, np.signedinteger]:
             base_card_index = prev_card_index
             while True:
-                base_seller_index = get_best_seller_index(base_card_index)
-                if price_table[base_card_index][base_seller_index] != max_int:
+                base_seller_index = get_best_seller_index(base_card_index, seller_id)
+                if price_table[base_card_index][base_seller_index] != max_price:
                     return base_card_index, base_seller_index
                 base_card_index -= 1
 
         for prev_card_index, card_id in enumerate(wanted_cards):
             card_index = prev_card_index + 1
-
-            (base_card_index, base_seller_index) = get_base_indices(prev_card_index)
-            base_card_price = price_table[base_card_index][base_seller_index]
-            base_purchase_history = purchase_history_table[base_card_index][
-                base_seller_index
-            ]
-
             card_found = False
             for seller_index, (seller_id, seller_offers) in enumerate(sellers.items()):
                 if card_id not in seller_offers:
                     continue  # seller does not offer the card
+
+                (base_card_index, base_seller_index) = get_base_indices(
+                    prev_card_index, seller_id
+                )
+                base_card_price = price_table[base_card_index][base_seller_index]
+                base_purchase_history: purchase_history_type = purchase_history_table[
+                    base_card_index
+                ][base_seller_index]
 
                 purchase = (seller_id, card_id)
                 purchase_count = base_purchase_history.count(purchase)
@@ -103,7 +131,11 @@ class ShoppingWizardService:
                     continue  # seller does not offer the card often enough
 
                 seller_offer = seller_offers[card_id][purchase_count]
-                price = base_card_price + seller_offer
+
+                additional_shipping_cost = additional_seller_shipping_cost(
+                    seller_id, base_purchase_history
+                )
+                price = base_card_price + seller_offer + additional_shipping_cost
                 price_table[card_index][seller_index] = price
                 purchase_history_table[card_index][
                     seller_index
@@ -112,7 +144,7 @@ class ShoppingWizardService:
             if not card_found:
                 missing_cards.append(card_id)
 
-        (result_card_index, result_seller_index) = get_base_indices(-1)
+        (result_card_index, result_seller_index) = get_base_indices(-1, None)
         total_price = price_table[result_card_index][result_seller_index]
         purchase_history: purchase_history_type = purchase_history_table[
             result_card_index
