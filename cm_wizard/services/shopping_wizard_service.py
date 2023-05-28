@@ -1,15 +1,13 @@
 import logging
 from dataclasses import dataclass
-from typing import Iterator, TypeVar
+from typing import Any, Iterator, TypeVar
+
+import numpy as np
 
 from cm_wizard.services.currency import format_price
 
 _logger = logging.getLogger(__name__)
 _logger.setLevel(logging.DEBUG)
-
-# max int32, however python3 has no such limit
-# other "infinities" like float("inf") or math.inf are of type float
-infinity = 2147483647
 
 
 @dataclass
@@ -58,27 +56,30 @@ class ShoppingWizardService:
         purchase_type = tuple[str, str]
         purchase_history_type = list[purchase_type]
 
-        price_table: list[list[int]] = create_matrix(
-            col_count=len(sellers),
-            # + 1 row to check the previous card without a conditional
-            row_count=len(wanted_cards) + 1,
-            initial_value=0,
+        # + 1 row to check the previous card without a conditional
+        price_table: np.ndarray[Any, np.dtype[np.int_]] = np.full(
+            (len(wanted_cards) + 1, len(sellers)),
+            np.iinfo(np.int32).max,
         )
-        purchase_history_table: list[list[purchase_history_type]] = create_matrix(
-            col_count=len(sellers),
-            row_count=len(wanted_cards) + 1,
-            initial_value=[],
+        price_table[0][0] = 0  # initial price
+        # numpy type hints suck right now. This is a matrix of purchase_history_type.
+        purchase_history_table: np.ndarray = np.empty(
+            (len(wanted_cards) + 1, len(sellers)),
+            dtype=object,
         )
+        purchase_history_table.fill([])
 
-        best_seller_index = -1
+        def get_best_seller_index(card_index: int) -> np.signedinteger:
+            card_prices: list[int] = price_table[card_index]
+            return np.argmin(card_prices)
+
         for prev_card_index, card_id in enumerate(wanted_cards):
             card_index = prev_card_index + 1
+            best_seller_index = get_best_seller_index(prev_card_index)
             previous_best_card_price = price_table[prev_card_index][best_seller_index]
             purchase_history = purchase_history_table[prev_card_index][
                 best_seller_index
             ]
-            best_card_price = infinity
-            best_seller_index = -1
             for seller_index, (seller_id, seller_offers) in enumerate(sellers.items()):
                 if card_id not in seller_offers:
                     continue  # seller does not offer the card
@@ -95,14 +96,11 @@ class ShoppingWizardService:
                     purchase
                 ]
 
-                if price < best_card_price:
-                    best_card_price = price
-                    best_seller_index = seller_index
-
+        best_seller_index = get_best_seller_index(-1)
         best_price = price_table[-1][best_seller_index]
         _logger.info(f"best total price: {format_price(best_price)}")
 
-        best_purchase_history: list[purchase_type] = purchase_history_table[-1][
+        best_purchase_history: purchase_history_type = purchase_history_table[-1][
             best_seller_index
         ]
         for seller_id, card_id in unique(best_purchase_history):

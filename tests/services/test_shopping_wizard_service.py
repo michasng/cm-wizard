@@ -4,7 +4,7 @@ from cm_wizard.services.shopping_wizard_service import (
 )
 
 
-def test_find_best_offers_basic():
+def test_find_best_offers_simple_case():
     wanted_cards = ["c1", "c2", "c3"]
     sellers = {
         "s1": {
@@ -34,7 +34,7 @@ def test_find_best_offers_basic():
     )
 
 
-def test_find_best_offers_duplicate_wants():
+def test_find_best_offers_with_duplicate_wants():
     wanted_cards = ["c1", "c2", "c2", "c3", "c3", "c3", "c3"]
     sellers = {
         "s1": {
