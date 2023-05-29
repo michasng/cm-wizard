@@ -178,10 +178,10 @@ class CardmarketService:
                 f"Failed to request {endpoint} with status {page_response.status_code}."
             )
 
-            if page_response.status_code == 401:
+            if page_response.status_code in [401, 403]:
                 raise CardmarketException(
                     "Your session may have expired. Please re-login.",
-                    status_code=401,
+                    status_code=page_response.status_code,
                 )
             if page_response.status_code == 429:
                 raise CardmarketException(
@@ -208,6 +208,7 @@ class CardmarketService:
         user_agent: str,
         language: CardmarketLanguage,
         game: CardmarketGame,
+        with_retries: bool = True,
     ) -> requests.Session:
         if self._session != None:
             self._close_session()
@@ -233,12 +234,14 @@ class CardmarketService:
         for cookie in cookies:
             self._session.cookies.set_cookie(cookie)
 
-        retries = LogRetry(
-            total=5,
-            backoff_factor=1,
-            status_forcelist=[429, 502, 503, 504],
-        )
-        self._session.mount("https://", HTTPAdapter(max_retries=retries))
+        if with_retries:
+            retries = LogRetry(
+                status_forcelist=[429, 502, 503, 504],
+                # the retry-after headers says 60 seconds, which is often longer than necessary
+                respect_retry_after_header=False,
+                constant_sleep=32,
+            )
+            self._session.mount("https://", HTTPAdapter(max_retries=retries))
 
         _logger.debug("New session opened.")
         return self._session
