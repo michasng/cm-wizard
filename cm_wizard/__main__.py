@@ -52,5 +52,8 @@ def main(page: ft.Page):
 
 # This logging level is passed to the flet server.
 # Overriding it via environment variables did not work.
-logging.basicConfig(level=logging.WARNING)
+logging.basicConfig(
+    level=logging.WARNING,
+    format="%(asctime)s %(levelname)-8s %(message)s",
+)
 ft.app(target=main)
