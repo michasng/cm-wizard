@@ -1,5 +1,4 @@
 import textwrap
-from typing import Optional
 
 import flet as ft
 
@@ -33,17 +32,17 @@ class LoginForm(ft.UserControl):
         self.page.update()
 
     def build(self) -> ft.Control:
-        def validate_user_agent(value: str) -> Optional[str]:
+        def validate_user_agent(value: str) -> str | None:
             if value == "":
                 return "Please enter a user agent."
             return None
 
-        def validate_username(value: str) -> Optional[str]:
+        def validate_username(value: str) -> str | None:
             if value == "":
                 return "Please enter a username."
             return None
 
-        def validate_password(value: str) -> Optional[str]:
+        def validate_password(value: str) -> str | None:
             if value == "":
                 return "Please enter a password."
             return None

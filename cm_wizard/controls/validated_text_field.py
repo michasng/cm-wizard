@@ -1,8 +1,8 @@
-from typing import Callable, Optional
+from typing import Callable
 
 import flet as ft
 
-ValidateCallable = Callable[[str], Optional[str]]
+ValidateCallable = Callable[[str], str | None]
 SubmitCallable = Callable[[str], None]
 
 
