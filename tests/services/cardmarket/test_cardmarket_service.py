@@ -42,7 +42,7 @@ def test_get_wants_lists(requests_mock, cardmarket_service: CardmarketService):
     assert item.cards_count == 26
     assert (
         item.image_url
-        == "https://static.cardmarket.com/img/eca9f85e09930a4a11a2508a841d777e/items/5/GLAS/102481.jpg"
+        == "https://product-images.s3.cardmarket.com/5/SDMM/110687/110687.jpg"
     )
 
 
