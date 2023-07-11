@@ -91,7 +91,7 @@ def test_too_many_requests():
             response = session.get(f"https://www.cardmarket.com/{endpoint}")
             assert (
                 response.status_code != 403
-            ), f"Login failed, please open cardmarket.com in {browser.value}."
+            ), f"Session authentication failed, please open cardmarket.com in {browser.value}."
             _logger.info(f"{i + 1}: {response.status_code}")
             if response.status_code == 429:
                 return parse_date_header(response.headers["date"])
