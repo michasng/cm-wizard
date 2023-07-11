@@ -51,4 +51,5 @@ class WantsListsPageItem(HtmlChildElement[WantsListsPage]):
     @cached_property
     def image_url(self) -> str:
         img = self._tag.find("img")
-        return f"https:{img.attrs['data-echo']}"
+        url = img.attrs["data-echo"]
+        return url if url.startswith("http") else f"https:{url}"

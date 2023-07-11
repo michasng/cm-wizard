@@ -56,14 +56,14 @@
     />
     <link
       rel="stylesheet"
-      href="//static.cardmarket.com/img/08765c5506200ff97076c59358575343/static-code/public/styles/master.min.css"
+      href="//static.cardmarket.com/img/6d54b71ade47ff037cd4d1aa2ccfa7db/static-code/public/styles/master.min.css"
     />
     <link
       rel="stylesheet"
-      href="//static.cardmarket.com/img/b99bb7a8ec2bc1855d6e72863a785eb5/static-code/public/styles/wants_wants.min.css"
+      href="//static.cardmarket.com/img/43f6a126fb31ee4e7bf41562f997096b/static-code/public/styles/wants_wants.min.css"
     />
-    <script src="//static.cardmarket.com/img/91edc7b5d8d33ef38fcfe2fe90886255/static-code/public/js/master.min.js"></script>
-    <script src="//static.cardmarket.com/img/526979a88715fc9024b1efa4b4e5e4f7/static-code/public/js/wants_wants.min.js"></script>
+    <script src="//static.cardmarket.com/img/6ccefe04686af35fe3f3c43bc862708d/static-code/public/js/master.min.js"></script>
+    <script src="//static.cardmarket.com/img/7bf367ff8af334dc4d45e54b7bb41f75/static-code/public/js/wants_wants.min.js"></script>
   </head>
   <body>
     <noscript
@@ -83,16 +83,8 @@
     <script>
       const Dict = { yes: "Yes", no: "No" };
     </script>
-    <div
-      role="dialog"
-      tabindex="-1"
-      aria-hidden="true"
-      id="modal"
-      class="modal"
-    >
-      <div role="document" class="modal-dialog">
-        <div class="modal-content"></div>
-      </div>
+    <div tabindex="-1" aria-hidden="true" id="modal" class="modal">
+      <div class="modal-dialog"><div class="modal-content"></div></div>
     </div>
     <header id="header" class="fixed-top">
       <div id="main-progress-bar" style="height: 3px" class="progress">
@@ -108,7 +100,7 @@
         <div id="brand-gamesDD">
           <a href="/en/YuGiOh" class="navbar-brand"
             ><span
-              class="fonticon-cmsymbol fonticon-color-primary logo-symbol mr-2"
+              class="fonticon-cmsymbol fonticon-color-primary logo-symbol me-2"
             ></span
             ><span
               class="fonticon-cmname fonticon-color-primary logo-name d-none d-sm-inline d-md-none d-lg-inline"
@@ -146,7 +138,7 @@
                   ><span class="d-md-none">Magic: The Gathering</span></a
                 ><a
                   href="/en/Pokemon"
-                  title="Pokémon"
+                  title="Pok�mon"
                   class="dropdown-item hvr-sweep-to-right"
                   ><span
                     style="
@@ -158,7 +150,7 @@
                     "
                     class="d-none d-md-inline-block"
                   ></span
-                  ><span class="d-md-none">Pokémon</span></a
+                  ><span class="d-md-none">Pok�mon</span></a
                 ><a
                   href="/en/FleshAndBlood"
                   title="Flesh And Blood"
@@ -236,7 +228,7 @@
                   ><span class="d-md-none">Cardfight!! Vanguard</span></a
                 ><a
                   href="/en/WeissSchwarz"
-                  title="Weiß Schwarz"
+                  title="Wei� Schwarz"
                   class="dropdown-item hvr-sweep-to-right"
                   ><span
                     style="
@@ -248,7 +240,7 @@
                     "
                     class="d-none d-md-inline-block"
                   ></span
-                  ><span class="d-md-none">Weiß Schwarz</span></a
+                  ><span class="d-md-none">Wei� Schwarz</span></a
                 ><a
                   href="/en/FinalFantasy"
                   title="Final Fantasy TCG"
@@ -374,43 +366,50 @@
                   aria-expanded="true"
                   class="nav-link dropdown-toggle d-flex align-items-center"
                   ><div class="vacationStatus">
-                    <span class="fonticon-users mr-2 fonticons-32"></span>
+                    <span class="fonticon-users me-2 fonticons-32"></span>
                   </div>
                   <div title="My Account" class="line-height115">
                     <span class="d-none d-lg-block">EzPizaa</span
                     ><span
                       id="totalCreditMainNav"
                       class="d-none d-sm-block small text-muted text-nowrap"
-                      >(&nbsp;0,00 €&nbsp;)</span
+                      >(&nbsp;0,00 �&nbsp;)</span
                     >
                   </div></a
                 >
-                <div aria-labelledby="account-dropdown" class="dropdown-menu">
-                  <h6 class="dropdown-header d-lg-none">
-                    <span>EzPizaa</span
-                    ><span class="d-sm-none ml-2 text-muted">(0,00 € )</span>
-                  </h6>
-                  <a
-                    href="/en/YuGiOh/Account"
-                    title="Account"
-                    class="dropdown-item dropdown-item-lg hvr-sweep-to-right d-flex align-items-center"
-                    ><span class="fonticon-users mr-2 fonticons-20"></span
-                    ><span>Account</span></a
-                  ><a
-                    href="/en/YuGiOh/Account/Messages"
-                    title="My messages"
-                    class="dropdown-item dropdown-item-lg hvr-sweep-to-right d-flex align-items-center"
-                    ><span class="fonticon-envelope mr-2 fonticons-20"></span
-                    ><span>My messages</span></a
-                  >
-                </div>
+                <ul aria-labelledby="account-dropdown" class="dropdown-menu">
+                  <li>
+                    <h6 class="dropdown-header d-lg-none">
+                      <span>EzPizaa</span
+                      ><span class="d-sm-none ms-2 text-muted">(0,00 � )</span>
+                    </h6>
+                  </li>
+                  <li>
+                    <a
+                      href="/en/YuGiOh/Account"
+                      title="Account"
+                      class="dropdown-item dropdown-item-lg hvr-sweep-to-right d-flex align-items-center"
+                      ><span class="fonticon-users me-2 fonticons-20"></span
+                      ><span>Account</span></a
+                    >
+                  </li>
+                  <li>
+                    <a
+                      href="/en/YuGiOh/Account/Messages"
+                      title="My messages"
+                      class="dropdown-item dropdown-item-lg hvr-sweep-to-right d-flex align-items-center"
+                      ><span class="fonticon-envelope me-2 fonticons-20"></span
+                      ><span>My messages</span></a
+                    >
+                  </li>
+                </ul>
               </li>
               <li class="nav-item hvr-sweep-to-top d-none d-lg-inline">
                 <a
                   href="/en/YuGiOh/Account/BecomeSeller"
                   title="Become Seller"
                   class="nav-link d-flex align-items-center"
-                  ><span class="fonticon-become-seller mr-2 fonticons-32"></span
+                  ><span class="fonticon-become-seller me-2 fonticons-32"></span
                   ><span>Become Seller</span></a
                 >
               </li>
@@ -423,36 +422,38 @@
                   aria-haspopup="true"
                   aria-expanded="true"
                   class="nav-link dropdown-toggle d-flex align-items-center"
-                  ><span class="fonticon-buying mr-2 fonticons-32"></span
+                  ><span class="fonticon-buying me-2 fonticons-32"></span
                   ><span>Buying</span></a
                 >
-                <div aria-labelledby="buying-dropdown" class="dropdown-menu">
-                  <a
-                    href="/en/YuGiOh/Orders/Purchases/Paid"
-                    title="My Purchases"
-                    class="dropdown-item dropdown-item-lg hvr-sweep-to-right d-flex align-items-center"
-                    ><span class="fonticon-purchases mr-2 fonticons-20"></span
-                    ><span>My Purchases</span></a
-                  ><a
-                    href="/en/YuGiOh/Wants"
-                    title="My wants"
-                    class="dropdown-item dropdown-item-lg hvr-sweep-to-right d-flex align-items-center"
-                    ><span class="fonticon-wants mr-2 fonticons-20"></span
-                    ><span>My wants</span></a
-                  ><a
-                    href="/en/YuGiOh/Wants/ShoppingWizard"
-                    title="Shopping Wizard"
-                    class="dropdown-item dropdown-item-lg hvr-sweep-to-right d-flex align-items-center"
-                    ><span class="fonticon-wand mr-2 fonticons-20"></span
-                    ><span>Shopping Wizard</span></a
-                  ><a
-                    href="/en/YuGiOh/Products/Coupons"
-                    title="Buy Coupons"
-                    class="dropdown-item dropdown-item-lg hvr-sweep-to-right d-flex align-items-center"
-                    ><span class="fonticon-coupon mr-2 fonticons-20"></span
-                    ><span>Buy Coupons</span></a
-                  >
-                </div>
+                <ul aria-labelledby="buying-dropdown" class="dropdown-menu">
+                  <li>
+                    <a
+                      href="/en/YuGiOh/Orders/Purchases/Paid"
+                      title="My Purchases"
+                      class="dropdown-item dropdown-item-lg hvr-sweep-to-right d-flex align-items-center"
+                      ><span class="fonticon-purchases me-2 fonticons-20"></span
+                      ><span>My Purchases</span></a
+                    >
+                  </li>
+                  <li>
+                    <a
+                      href="/en/YuGiOh/Wants"
+                      title="My wants"
+                      class="dropdown-item dropdown-item-lg hvr-sweep-to-right d-flex align-items-center"
+                      ><span class="fonticon-wants me-2 fonticons-20"></span
+                      ><span>My wants</span></a
+                    >
+                  </li>
+                  <li>
+                    <a
+                      href="/en/YuGiOh/Wants/ShoppingWizard"
+                      title="Shopping Wizard"
+                      class="dropdown-item dropdown-item-lg hvr-sweep-to-right d-flex align-items-center"
+                      ><span class="fonticon-wand me-2 fonticons-20"></span
+                      ><span>Shopping Wizard</span></a
+                    >
+                  </li>
+                </ul>
               </li>
               <li id="sc_menuhub" class="nav-item hvr-sweep-to-top">
                 <a
@@ -463,12 +464,12 @@
                   data-html="true"
                   data-placement="bottom"
                   class="nav-link d-flex align-items-center"
-                  ><span class="fonticon-cart mr-2 fonticons-32"></span>
+                  ><span class="fonticon-cart me-2 fonticons-32"></span>
                   <div class="line-height115">
                     <span class="d-none d-xxl-block">Cart</span
                     ><span
                       class="text-nowrap d-none d-sm-block small text-muted"
-                      >(&nbsp;0,00 €&nbsp;)</span
+                      >(&nbsp;0,00 �&nbsp;)</span
                     >
                   </div></a
                 >
@@ -476,14 +477,14 @@
             </ul>
           </li>
         </ul>
-        <div id="HamburgerMenu" class="text-right">
+        <div id="HamburgerMenu" class="text-end">
           <button
             type="submit"
             data-offcanvas-target="#offcanvas-nav"
             aria-controls="offcanvas-nav"
             aria-expanded="false"
             aria-label="Toggle navigation"
-            class="navbar-toggler custom-toggler ml-3 text-nowrap"
+            class="navbar-toggler custom-toggler ms-3 text-nowrap"
           >
             <span id="navbar-toggler-icon-custom"
               ><span></span><span></span><span></span
@@ -502,7 +503,7 @@
                 href="/en/YuGiOh/Account/BecomeSeller"
                 title="Become Seller"
                 class="nav-link d-flex align-items-center"
-                ><span class="fonticon-become-seller mr-2 fonticons-32"></span
+                ><span class="fonticon-become-seller me-2 fonticons-32"></span
                 ><span>Become Seller</span></a
               >
             </li>
@@ -515,36 +516,38 @@
                 aria-haspopup="true"
                 aria-expanded="true"
                 class="nav-link dropdown-toggle d-flex align-items-center"
-                ><span class="fonticon-buying mr-2 fonticons-32"></span
+                ><span class="fonticon-buying me-2 fonticons-32"></span
                 ><span>Buying</span></a
               >
-              <div aria-labelledby="buying-dropdown" class="dropdown-menu">
-                <a
-                  href="/en/YuGiOh/Orders/Purchases/Paid"
-                  title="My Purchases"
-                  class="dropdown-item dropdown-item-lg hvr-sweep-to-right d-flex align-items-center"
-                  ><span class="fonticon-purchases mr-2 fonticons-20"></span
-                  ><span>My Purchases</span></a
-                ><a
-                  href="/en/YuGiOh/Wants"
-                  title="My wants"
-                  class="dropdown-item dropdown-item-lg hvr-sweep-to-right d-flex align-items-center"
-                  ><span class="fonticon-wants mr-2 fonticons-20"></span
-                  ><span>My wants</span></a
-                ><a
-                  href="/en/YuGiOh/Wants/ShoppingWizard"
-                  title="Shopping Wizard"
-                  class="dropdown-item dropdown-item-lg hvr-sweep-to-right d-flex align-items-center"
-                  ><span class="fonticon-wand mr-2 fonticons-20"></span
-                  ><span>Shopping Wizard</span></a
-                ><a
-                  href="/en/YuGiOh/Products/Coupons"
-                  title="Buy Coupons"
-                  class="dropdown-item dropdown-item-lg hvr-sweep-to-right d-flex align-items-center"
-                  ><span class="fonticon-coupon mr-2 fonticons-20"></span
-                  ><span>Buy Coupons</span></a
-                >
-              </div>
+              <ul aria-labelledby="buying-dropdown" class="dropdown-menu">
+                <li>
+                  <a
+                    href="/en/YuGiOh/Orders/Purchases/Paid"
+                    title="My Purchases"
+                    class="dropdown-item dropdown-item-lg hvr-sweep-to-right d-flex align-items-center"
+                    ><span class="fonticon-purchases me-2 fonticons-20"></span
+                    ><span>My Purchases</span></a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="/en/YuGiOh/Wants"
+                    title="My wants"
+                    class="dropdown-item dropdown-item-lg hvr-sweep-to-right d-flex align-items-center"
+                    ><span class="fonticon-wants me-2 fonticons-20"></span
+                    ><span>My wants</span></a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="/en/YuGiOh/Wants/ShoppingWizard"
+                    title="Shopping Wizard"
+                    class="dropdown-item dropdown-item-lg hvr-sweep-to-right d-flex align-items-center"
+                    ><span class="fonticon-wand me-2 fonticons-20"></span
+                    ><span>Shopping Wizard</span></a
+                  >
+                </li>
+              </ul>
             </li>
           </ul>
           <div class="d-lg-none"><hr /></div>
@@ -578,7 +581,7 @@
                   ><span class="d-md-none">Magic: The Gathering</span></a
                 ><a
                   href="/en/Pokemon"
-                  title="Pokémon"
+                  title="Pok�mon"
                   class="dropdown-item hvr-sweep-to-right"
                   ><span
                     style="
@@ -590,7 +593,7 @@
                     "
                     class="d-none d-md-inline-block"
                   ></span
-                  ><span class="d-md-none">Pokémon</span></a
+                  ><span class="d-md-none">Pok�mon</span></a
                 ><a
                   href="/en/FleshAndBlood"
                   title="Flesh And Blood"
@@ -668,7 +671,7 @@
                   ><span class="d-md-none">Cardfight!! Vanguard</span></a
                 ><a
                   href="/en/WeissSchwarz"
-                  title="Weiß Schwarz"
+                  title="Wei� Schwarz"
                   class="dropdown-item hvr-sweep-to-right"
                   ><span
                     style="
@@ -680,7 +683,7 @@
                     "
                     class="d-none d-md-inline-block"
                   ></span
-                  ><span class="d-md-none">Weiß Schwarz</span></a
+                  ><span class="d-md-none">Wei� Schwarz</span></a
                 ><a
                   href="/en/FinalFantasy"
                   title="Final Fantasy TCG"
@@ -805,7 +808,12 @@
               >
             </li>
             <li class="nav-item hvr-sweep-to-right">
-              <a href="/en/YuGiOh/Help" title="Help" class="nav-link">Help</a>
+              <a
+                href="https://help.cardmarket.com/en"
+                title="Help"
+                class="nav-link"
+                >Help</a
+              >
             </li>
             <li class="nav-item hvr-sweep-to-right d-xl-none">
               <a href="/en/YuGiOh/Helpdesk" title="Helpdesk" class="nav-link"
@@ -813,7 +821,12 @@
               >
             </li>
             <li class="nav-item hvr-sweep-to-right">
-              <a href="/en/YuGiOh/Jobs" title="Jobs" class="nav-link">Jobs</a>
+              <a
+                href="https://cardmarket.jobs.personio.com/"
+                title="Jobs"
+                class="nav-link"
+                >Jobs</a
+              >
             </li>
             <li class="dropdown nav-item">
               <a
@@ -838,110 +851,125 @@
                 ></span
                 ><span>English</span></a
               >
-              <div class="dropdown-menu">
-                <h6 class="d-none d-lg-block dropdown-header">
-                  Choose a language
-                </h6>
-                <a
-                  href="/fr/YuGiOh/Wants"
-                  title="Français"
-                  rel="nofollow"
-                  class="dropdown-item text-uppercase hvr-sweep-to-right"
-                  ><span
-                    style="
-                      display: inline-block;
-                      width: 16px;
-                      height: 16px;
-                      background-image: url('//static.cardmarket.com/img/f8d806e6267c7c859592cba11335f3d6/spriteSheets/ssMain2.png');
-                      background-position: -48px -0px;
-                    "
-                    title=""
-                    data-toggle="tooltip"
-                    data-html="true"
-                    data-placement="bottom"
-                    onmouseover="return false;"
-                    onmouseout="return false;"
-                    data-original-title="French"
-                    class="icon mr-2 align-text-bottom"
-                  ></span
-                  ><span>Français</span></a
-                ><a
-                  href="/de/YuGiOh/Wants"
-                  title="Deutsch"
-                  rel="nofollow"
-                  class="dropdown-item text-uppercase hvr-sweep-to-right"
-                  ><span
-                    style="
-                      display: inline-block;
-                      width: 16px;
-                      height: 16px;
-                      background-image: url('//static.cardmarket.com/img/f8d806e6267c7c859592cba11335f3d6/spriteSheets/ssMain2.png');
-                      background-position: -80px -0px;
-                    "
-                    title=""
-                    data-toggle="tooltip"
-                    data-html="true"
-                    data-placement="bottom"
-                    onmouseover="return false;"
-                    onmouseout="return false;"
-                    data-original-title="German"
-                    class="icon mr-2 align-text-bottom"
-                  ></span
-                  ><span>Deutsch</span></a
-                ><a
-                  href="/es/YuGiOh/Wants"
-                  title="Español"
-                  rel="nofollow"
-                  class="dropdown-item text-uppercase hvr-sweep-to-right"
-                  ><span
-                    style="
-                      display: inline-block;
-                      width: 16px;
-                      height: 16px;
-                      background-image: url('//static.cardmarket.com/img/f8d806e6267c7c859592cba11335f3d6/spriteSheets/ssMain2.png');
-                      background-position: -112px -0px;
-                    "
-                    title=""
-                    data-toggle="tooltip"
-                    data-html="true"
-                    data-placement="bottom"
-                    onmouseover="return false;"
-                    onmouseout="return false;"
-                    data-original-title="Spanish"
-                    class="icon mr-2 align-text-bottom"
-                  ></span
-                  ><span>Español</span></a
-                ><a
-                  href="/it/YuGiOh/Wants"
-                  title="Italiano"
-                  rel="nofollow"
-                  class="dropdown-item text-uppercase hvr-sweep-to-right"
-                  ><span
-                    style="
-                      display: inline-block;
-                      width: 16px;
-                      height: 16px;
-                      background-image: url('//static.cardmarket.com/img/f8d806e6267c7c859592cba11335f3d6/spriteSheets/ssMain2.png');
-                      background-position: -144px -0px;
-                    "
-                    title=""
-                    data-toggle="tooltip"
-                    data-html="true"
-                    data-placement="bottom"
-                    onmouseover="return false;"
-                    onmouseout="return false;"
-                    data-original-title="Italian"
-                    class="icon mr-2 align-text-bottom"
-                  ></span
-                  ><span>Italiano</span></a
-                >
-                <p class="dropdown-info dropdown-item text-muted py-2">
-                  <small
-                    >This changes the language of the site.<br />It won't change
-                    any text entered by users.</small
+              <ul class="dropdown-menu">
+                <li>
+                  <h6 class="d-none d-lg-block dropdown-header dropdown-item">
+                    Choose a language
+                  </h6>
+                </li>
+                <li>
+                  <a
+                    href="/fr/YuGiOh/Wants"
+                    title="Fran�ais"
+                    rel="nofollow"
+                    class="dropdown-item text-uppercase hvr-sweep-to-right"
+                    ><span
+                      style="
+                        display: inline-block;
+                        width: 16px;
+                        height: 16px;
+                        background-image: url('//static.cardmarket.com/img/f8d806e6267c7c859592cba11335f3d6/spriteSheets/ssMain2.png');
+                        background-position: -48px -0px;
+                      "
+                      onmouseover="return false;"
+                      onmouseout="return false;"
+                      title="French"
+                      data-original-title="French"
+                      data-toggle="tooltip"
+                      data-html="true"
+                      data-placement="bottom"
+                      class="icon me-2 align-text-bottom"
+                    ></span
+                    ><span>Fran�ais</span></a
                   >
-                </p>
-              </div>
+                </li>
+                <li>
+                  <a
+                    href="/de/YuGiOh/Wants"
+                    title="Deutsch"
+                    rel="nofollow"
+                    class="dropdown-item text-uppercase hvr-sweep-to-right"
+                    ><span
+                      style="
+                        display: inline-block;
+                        width: 16px;
+                        height: 16px;
+                        background-image: url('//static.cardmarket.com/img/f8d806e6267c7c859592cba11335f3d6/spriteSheets/ssMain2.png');
+                        background-position: -80px -0px;
+                      "
+                      onmouseover="return false;"
+                      onmouseout="return false;"
+                      title="German"
+                      data-original-title="German"
+                      data-toggle="tooltip"
+                      data-html="true"
+                      data-placement="bottom"
+                      class="icon me-2 align-text-bottom"
+                    ></span
+                    ><span>Deutsch</span></a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="/es/YuGiOh/Wants"
+                    title="Espa�ol"
+                    rel="nofollow"
+                    class="dropdown-item text-uppercase hvr-sweep-to-right"
+                    ><span
+                      style="
+                        display: inline-block;
+                        width: 16px;
+                        height: 16px;
+                        background-image: url('//static.cardmarket.com/img/f8d806e6267c7c859592cba11335f3d6/spriteSheets/ssMain2.png');
+                        background-position: -112px -0px;
+                      "
+                      onmouseover="return false;"
+                      onmouseout="return false;"
+                      title="Spanish"
+                      data-original-title="Spanish"
+                      data-toggle="tooltip"
+                      data-html="true"
+                      data-placement="bottom"
+                      class="icon me-2 align-text-bottom"
+                    ></span
+                    ><span>Espa�ol</span></a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="/it/YuGiOh/Wants"
+                    title="Italiano"
+                    rel="nofollow"
+                    class="dropdown-item text-uppercase hvr-sweep-to-right"
+                    ><span
+                      style="
+                        display: inline-block;
+                        width: 16px;
+                        height: 16px;
+                        background-image: url('//static.cardmarket.com/img/f8d806e6267c7c859592cba11335f3d6/spriteSheets/ssMain2.png');
+                        background-position: -144px -0px;
+                      "
+                      onmouseover="return false;"
+                      onmouseout="return false;"
+                      title="Italian"
+                      data-original-title="Italian"
+                      data-toggle="tooltip"
+                      data-html="true"
+                      data-placement="bottom"
+                      class="icon me-2 align-text-bottom"
+                    ></span
+                    ><span>Italiano</span></a
+                  >
+                </li>
+                <li>
+                  <p class="dropdown-info dropdown-item text-muted py-2">
+                    <small
+                      >This changes the language of the site.<br />It won't
+                      change any text entered by users.</small
+                    >
+                  </p>
+                </li>
+              </ul>
             </li>
           </ul>
           <hr />
@@ -949,22 +977,22 @@
             href="/en/YuGiOh/PostGetAction/User_Logout"
             role="button"
             id="logout-link"
-            class="btn mt-3 btn-block btn-sm btn-outline-primary"
+            class="btn mt-3 btn-sm btn-outline-primary btn-block"
             >Log out</a
           >
         </div>
       </nav>
       <nav class="navbar navbar-light">
-        <div class="text-left">
+        <div class="text-start">
           <button
             type="submit"
             data-offcanvas-target="#offcanvas-products"
             aria-controls="offcanvas-products"
             aria-expanded="false"
             aria-label="Toggle navigation"
-            class="navbar-toggler dropdown-toggle-left products-toggler mr-3 mr-sm-4 mr-md-5 text-nowrap"
+            class="navbar-toggler dropdown-toggle-left products-toggler me-3 me-sm-4 me-md-5 text-nowrap"
           >
-            <span class="fonticon-products mr-md-2"></span
+            <span class="fonticon-products me-md-2"></span
             ><span class="d-none d-md-inline">Products</span>
           </button>
         </div>
@@ -974,7 +1002,7 @@
         >
           <ul class="navbar-nav navbar-list text-uppercase">
             <li
-              class="navbar-text d-md-none text-muted font-weight-bold border-bottom-0"
+              class="navbar-text d-md-none text-muted border-bottom-0 fw-bold"
             >
               Products
             </li>
@@ -1034,14 +1062,6 @@
                 >Cardmarket Products</a
               >
             </li>
-            <li class="nav-item hvr-sweep-to-right">
-              <a
-                href="/en/YuGiOh/Products/Coupons"
-                title="Cardmarket Coupons"
-                class="nav-link"
-                >Cardmarket Coupons</a
-              >
-            </li>
           </ul>
         </div>
         <form
@@ -1054,7 +1074,7 @@
             <label class="sr-only">Search</label>
             <div
               id="autoCompWrapper"
-              class="input-group input-group-sm autocomplete-wrapper show container"
+              class="autocomplete-wrapper show container input-group input-group-sm"
             >
               <input
                 type="text"
@@ -1076,7 +1096,7 @@
               /><input
                 type="hidden"
                 name="acSearchFun"
-                value="'%08%2B5%3F%29%3E%2A%003%04%03%11%07%0DLMB%08%5D%0F%0A__%5BD%10%11AD%13DBONM%18%19%1CHF%B1%E5%E4%E7%E7%E1%E5%BE%B9%B1%B3%E8%ED%B4%EF%BF%F5%F0%AB%A1%F0%F3%A1%A6%FA%F8%FC%AD%A5%FC%AA%FE%C1%C3%97%90%C0%C0%96%C2%9E%2A%2A%2A'+Base64.encode(JSON.stringify({'searchString':$('#ProductSearchInput').val().replace(/'/g,&quot;\'&quot;),'responsive':'1'}))"
+                value="'%08%2B5%3F%29%3E%2A%003%04%03%11%07%0DLMB_%08%0F%5B%5E%5E%0BAFA%16%16%14%40OI%1CHMI%1FG%1A%B2%B6%E1%B1%B1%E0%E4%B5%E9%EA%B9%BA%B9%B4%BB%B6%F3%A3%A1%A7%A3%A4%F2%A6%AE%AE%A2%FA%A4%FB%A7%AF%C3%C5%C7%97%97%C0%C2%9F%CA%2A%2A%2A'+Base64.encode(JSON.stringify({'searchString':$('#ProductSearchInput').val().replace(/'/g,&quot;\'&quot;),'responsive':'1'}))"
                 disabled
                 aria-disabled="true"
                 class="autocomplete-search-function"
@@ -1092,9 +1112,7 @@
                   title="Search"
                   class="btn btn-light"
                 >
-                  <span
-                    class="fonticon-search font-weight-bold mx-2 mx-lg-4"
-                  ></span>
+                  <span class="fonticon-search mx-2 mx-lg-4 fw-bold"></span>
                 </button>
               </div>
             </div>
@@ -1103,16 +1121,16 @@
             $("#ProductSearchInput").focus();
           </script>
         </form>
-        <div class="text-right">
+        <div class="text-end">
           <button
             type="submit"
             data-offcanvas-target="#offcanvas-apps"
             aria-controls="offcanvas-apps"
             aria-expanded="false"
             aria-label="Toggle navigation"
-            class="navbar-toggler dropdown-toggle-right apps-toggler ml-3 ml-sm-4 ml-md-5 text-nowrap"
+            class="navbar-toggler dropdown-toggle-right apps-toggler ms-3 ms-sm-4 ms-md-5 text-nowrap"
           >
-            <span class="fonticon-apps mr-md-2"></span
+            <span class="fonticon-apps me-md-2"></span
             ><span class="d-none d-md-inline">Apps</span>
           </button>
         </div>
@@ -1122,7 +1140,7 @@
         >
           <ul class="navbar-nav navbar-list text-uppercase apps-list">
             <li
-              class="navbar-text d-md-none text-muted font-weight-bold border-bottom-0"
+              class="navbar-text d-md-none text-muted border-bottom-0 fw-bold"
             >
               Apps
             </li>
@@ -1226,11 +1244,13 @@
           <input
             type="hidden"
             name="__cmtkn"
-            value="a7df2144ac20f25777cea691dfdcdc9189ca9a0ea92df71baf69a4aab53de0e6"
+            value="6bd730d173eba681e265b9e27c25eb2ac315959c23471d1678a8f90cde43ed8b"
             autocomplete="off"
           />
           <div class="form-group row">
-            <label for="swWantsListName" class="col-form-label col-12 col-md"
+            <label
+              for="swWantsListName"
+              class="form-label col-form-label col-12 col-md"
               >New List</label
             >
             <div class="input-group col-12 col-md-9">
@@ -1246,7 +1266,7 @@
               />
               <div class="input-group-append">
                 <button type="submit" class="btn newList-btn btn-success">
-                  <span class="fonticon-plus mr-2"></span>Add List
+                  <span class="fonticon-plus me-2"></span>Add List
                 </button>
               </div>
             </div>
@@ -1267,10 +1287,10 @@
             <a
               href="/en/YuGiOh/Wants?mode=list"
               role="button"
-              class="btn btn-primary btn-sm ml-1"
+              class="btn btn-primary btn-sm ms-1"
               ><span class="fonticon-table"></span
               ><span class="d-none d-md-inline">&nbsp;List View</span></a
-            ><a role="button" class="btn btn-sm ml-1 btn-primary disabled"
+            ><a role="button" class="btn btn-sm ms-1 btn-primary disabled"
               ><span class="fonticon-gallery"></span
               ><span class="d-none d-md-inline">&nbsp;Grid View</span></a
             >
@@ -1285,9 +1305,7 @@
                   ><img
                     src="/img/transparent.gif"
                     alt=""
-                    width="247"
-                    height="356"
-                    data-echo="//static.cardmarket.com/img/eca9f85e09930a4a11a2508a841d777e/items/5/GLAS/102481.jpg"
+                    data-echo="https://product-images.s3.cardmarket.com/5/SDMM/110687/110687.jpg"
                     class="card-img-top img-fluid lazy"
                 /></a>
                 <h4 class="card-subtitle py-3">
@@ -1297,18 +1315,15 @@
                   href="/en/YuGiOh/Wants/15628908"
                   role="button"
                   class="btn btn-primary btn-sm text-nowrap mb-3"
-                  ><span class="fonticon-edit mr-2"></span>View / Edit List</a
+                  ><span class="fonticon-edit me-2"></span>View / Edit List</a
+                ><a
+                  href="/en/YuGiOh/Wants/ShoppingWizard?idWantsList=15628908"
+                  role="button"
+                  target="_blank"
+                  class="btn btn-sm btn-outline-primary text-nowrap"
+                  ><span class="fonticon-wand"></span
+                  ><span class="ms-2">Shopping Wizard</span></a
                 >
-                <div class="w-100">
-                  <a
-                    href="/en/YuGiOh/Wants/ShoppingWizard?idWantsList=15628908"
-                    role="button"
-                    target="_blank"
-                    class="btn btn-sm btn-block btn-outline-primary text-nowrap"
-                    ><span class="fonticon-wand"></span
-                    ><span class="ml-2">Shopping Wizard</span></a
-                  >
-                </div>
               </div>
             </div>
           </div>
@@ -1320,9 +1335,7 @@
                   ><img
                     src="/img/transparent.gif"
                     alt=""
-                    width="251"
-                    height="364"
-                    data-echo="//static.cardmarket.com/img/730924b3bbe3756cf41327f2a9b0b02c/items/5/EEN/102193.jpg"
+                    data-echo="https://product-images.s3.cardmarket.com/5/PSV/580395/580395.jpg"
                     class="card-img-top img-fluid lazy"
                 /></a>
                 <h4 class="card-subtitle py-3">
@@ -1332,18 +1345,15 @@
                   href="/en/YuGiOh/Wants/15628681"
                   role="button"
                   class="btn btn-primary btn-sm text-nowrap mb-3"
-                  ><span class="fonticon-edit mr-2"></span>View / Edit List</a
+                  ><span class="fonticon-edit me-2"></span>View / Edit List</a
+                ><a
+                  href="/en/YuGiOh/Wants/ShoppingWizard?idWantsList=15628681"
+                  role="button"
+                  target="_blank"
+                  class="btn btn-sm btn-outline-primary text-nowrap"
+                  ><span class="fonticon-wand"></span
+                  ><span class="ms-2">Shopping Wizard</span></a
                 >
-                <div class="w-100">
-                  <a
-                    href="/en/YuGiOh/Wants/ShoppingWizard?idWantsList=15628681"
-                    role="button"
-                    target="_blank"
-                    class="btn btn-sm btn-block btn-outline-primary text-nowrap"
-                    ><span class="fonticon-wand"></span
-                    ><span class="ml-2">Shopping Wizard</span></a
-                  >
-                </div>
               </div>
             </div>
           </div>
@@ -1355,9 +1365,7 @@
                   ><img
                     src="/img/transparent.gif"
                     alt=""
-                    width="245"
-                    height="356"
-                    data-echo="//static.cardmarket.com/img/9fc9ce722d508d0a3e512e84d2777851/items/5/DESO/294185.jpg"
+                    data-echo="https://product-images.s3.cardmarket.com/5/DP04/106130/106130.jpg"
                     class="card-img-top img-fluid lazy"
                 /></a>
                 <h4 class="card-subtitle py-3">
@@ -1367,18 +1375,15 @@
                   href="/en/YuGiOh/Wants/15628776"
                   role="button"
                   class="btn btn-primary btn-sm text-nowrap mb-3"
-                  ><span class="fonticon-edit mr-2"></span>View / Edit List</a
+                  ><span class="fonticon-edit me-2"></span>View / Edit List</a
+                ><a
+                  href="/en/YuGiOh/Wants/ShoppingWizard?idWantsList=15628776"
+                  role="button"
+                  target="_blank"
+                  class="btn btn-sm btn-outline-primary text-nowrap"
+                  ><span class="fonticon-wand"></span
+                  ><span class="ms-2">Shopping Wizard</span></a
                 >
-                <div class="w-100">
-                  <a
-                    href="/en/YuGiOh/Wants/ShoppingWizard?idWantsList=15628776"
-                    role="button"
-                    target="_blank"
-                    class="btn btn-sm btn-block btn-outline-primary text-nowrap"
-                    ><span class="fonticon-wand"></span
-                    ><span class="ml-2">Shopping Wizard</span></a
-                  >
-                </div>
               </div>
             </div>
           </div>
@@ -1390,9 +1395,7 @@
                   ><img
                     src="/img/transparent.gif"
                     alt=""
-                    width="251"
-                    height="364"
-                    data-echo="//static.cardmarket.com/img/25a5f2064f31328ef386fdf3fa637a37/items/5/TAEV/106315.jpg"
+                    data-echo="https://product-images.s3.cardmarket.com/5/FOTB/103395/103395.jpg"
                     class="card-img-top img-fluid lazy"
                 /></a>
                 <h4 class="card-subtitle py-3">
@@ -1402,18 +1405,15 @@
                   href="/en/YuGiOh/Wants/15628867"
                   role="button"
                   class="btn btn-primary btn-sm text-nowrap mb-3"
-                  ><span class="fonticon-edit mr-2"></span>View / Edit List</a
+                  ><span class="fonticon-edit me-2"></span>View / Edit List</a
+                ><a
+                  href="/en/YuGiOh/Wants/ShoppingWizard?idWantsList=15628867"
+                  role="button"
+                  target="_blank"
+                  class="btn btn-sm btn-outline-primary text-nowrap"
+                  ><span class="fonticon-wand"></span
+                  ><span class="ms-2">Shopping Wizard</span></a
                 >
-                <div class="w-100">
-                  <a
-                    href="/en/YuGiOh/Wants/ShoppingWizard?idWantsList=15628867"
-                    role="button"
-                    target="_blank"
-                    class="btn btn-sm btn-block btn-outline-primary text-nowrap"
-                    ><span class="fonticon-wand"></span
-                    ><span class="ml-2">Shopping Wizard</span></a
-                  >
-                </div>
               </div>
             </div>
           </div>
@@ -1425,9 +1425,7 @@
                   ><img
                     src="/img/transparent.gif"
                     alt=""
-                    width="247"
-                    height="356"
-                    data-echo="//static.cardmarket.com/img/f9018e89f212ce5e606178b142b69282/items/5/DUSA/296503.jpg"
+                    data-echo="https://product-images.s3.cardmarket.com/5/DR2/105214/105214.jpg"
                     class="card-img-top img-fluid lazy"
                 /></a>
                 <h4 class="card-subtitle py-3">
@@ -1437,18 +1435,15 @@
                   href="/en/YuGiOh/Wants/15676562"
                   role="button"
                   class="btn btn-primary btn-sm text-nowrap mb-3"
-                  ><span class="fonticon-edit mr-2"></span>View / Edit List</a
+                  ><span class="fonticon-edit me-2"></span>View / Edit List</a
+                ><a
+                  href="/en/YuGiOh/Wants/ShoppingWizard?idWantsList=15676562"
+                  role="button"
+                  target="_blank"
+                  class="btn btn-sm btn-outline-primary text-nowrap"
+                  ><span class="fonticon-wand"></span
+                  ><span class="ms-2">Shopping Wizard</span></a
                 >
-                <div class="w-100">
-                  <a
-                    href="/en/YuGiOh/Wants/ShoppingWizard?idWantsList=15676562"
-                    role="button"
-                    target="_blank"
-                    class="btn btn-sm btn-block btn-outline-primary text-nowrap"
-                    ><span class="fonticon-wand"></span
-                    ><span class="ml-2">Shopping Wizard</span></a
-                  >
-                </div>
               </div>
             </div>
           </div>
@@ -1460,9 +1455,7 @@
                   ><img
                     src="/img/transparent.gif"
                     alt=""
-                    width="197"
-                    height="285"
-                    data-echo="//static.cardmarket.com/img/62380e1fec331e425842b8dbf78ae57a/items/5/DBT/103247.jpg"
+                    data-echo="https://product-images.s3.cardmarket.com/5/DBT/103247/103247.jpg"
                     class="card-img-top img-fluid lazy"
                 /></a>
                 <h4 class="card-subtitle py-3">1&nbsp;Wants (1&nbsp;Cards)</h4>
@@ -1470,18 +1463,15 @@
                   href="/en/YuGiOh/Wants/15627331"
                   role="button"
                   class="btn btn-primary btn-sm text-nowrap mb-3"
-                  ><span class="fonticon-edit mr-2"></span>View / Edit List</a
+                  ><span class="fonticon-edit me-2"></span>View / Edit List</a
+                ><a
+                  href="/en/YuGiOh/Wants/ShoppingWizard?idWantsList=15627331"
+                  role="button"
+                  target="_blank"
+                  class="btn btn-sm btn-outline-primary text-nowrap"
+                  ><span class="fonticon-wand"></span
+                  ><span class="ms-2">Shopping Wizard</span></a
                 >
-                <div class="w-100">
-                  <a
-                    href="/en/YuGiOh/Wants/ShoppingWizard?idWantsList=15627331"
-                    role="button"
-                    target="_blank"
-                    class="btn btn-sm btn-block btn-outline-primary text-nowrap"
-                    ><span class="fonticon-wand"></span
-                    ><span class="ml-2">Shopping Wizard</span></a
-                  >
-                </div>
               </div>
             </div>
           </div>
@@ -1493,9 +1483,7 @@
                   ><img
                     src="/img/transparent.gif"
                     alt=""
-                    width="206"
-                    height="300"
-                    data-echo="//static.cardmarket.com/img/ab9c65d1defa6b5d3f070f78d2a12605/items/5/MVP1/291346.jpg"
+                    data-echo="https://product-images.s3.cardmarket.com/5/LOB/106148/106148.jpg"
                     class="card-img-top img-fluid lazy"
                 /></a>
                 <h4 class="card-subtitle py-3">
@@ -1505,18 +1493,15 @@
                   href="/en/YuGiOh/Wants/12653301"
                   role="button"
                   class="btn btn-primary btn-sm text-nowrap mb-3"
-                  ><span class="fonticon-edit mr-2"></span>View / Edit List</a
+                  ><span class="fonticon-edit me-2"></span>View / Edit List</a
+                ><a
+                  href="/en/YuGiOh/Wants/ShoppingWizard?idWantsList=12653301"
+                  role="button"
+                  target="_blank"
+                  class="btn btn-sm btn-outline-primary text-nowrap"
+                  ><span class="fonticon-wand"></span
+                  ><span class="ms-2">Shopping Wizard</span></a
                 >
-                <div class="w-100">
-                  <a
-                    href="/en/YuGiOh/Wants/ShoppingWizard?idWantsList=12653301"
-                    role="button"
-                    target="_blank"
-                    class="btn btn-sm btn-block btn-outline-primary text-nowrap"
-                    ><span class="fonticon-wand"></span
-                    ><span class="ml-2">Shopping Wizard</span></a
-                  >
-                </div>
               </div>
             </div>
           </div>
@@ -1528,9 +1513,7 @@
                   ><img
                     src="/img/transparent.gif"
                     alt=""
-                    width="204"
-                    height="300"
-                    data-echo="//static.cardmarket.com/img/7234d1c32694e9ef60999b20970d29b3/items/5/ANPR/109550.jpg"
+                    data-echo="https://product-images.s3.cardmarket.com/5/CRV/106406/106406.jpg"
                     class="card-img-top img-fluid lazy"
                 /></a>
                 <h4 class="card-subtitle py-3">
@@ -1540,18 +1523,15 @@
                   href="/en/YuGiOh/Wants/15679303"
                   role="button"
                   class="btn btn-primary btn-sm text-nowrap mb-3"
-                  ><span class="fonticon-edit mr-2"></span>View / Edit List</a
+                  ><span class="fonticon-edit me-2"></span>View / Edit List</a
+                ><a
+                  href="/en/YuGiOh/Wants/ShoppingWizard?idWantsList=15679303"
+                  role="button"
+                  target="_blank"
+                  class="btn btn-sm btn-outline-primary text-nowrap"
+                  ><span class="fonticon-wand"></span
+                  ><span class="ms-2">Shopping Wizard</span></a
                 >
-                <div class="w-100">
-                  <a
-                    href="/en/YuGiOh/Wants/ShoppingWizard?idWantsList=15679303"
-                    role="button"
-                    target="_blank"
-                    class="btn btn-sm btn-block btn-outline-primary text-nowrap"
-                    ><span class="fonticon-wand"></span
-                    ><span class="ml-2">Shopping Wizard</span></a
-                  >
-                </div>
               </div>
             </div>
           </div>
@@ -1563,9 +1543,7 @@
                   ><img
                     src="/img/transparent.gif"
                     alt=""
-                    width="191"
-                    height="285"
-                    data-echo="//static.cardmarket.com/img/1538eba02ad4340593cd667bcd282f0b/items/5/PTDN/106301.jpg"
+                    data-echo="https://product-images.s3.cardmarket.com/5/DP03/103120/103120.jpg"
                     class="card-img-top img-fluid lazy"
                 /></a>
                 <h4 class="card-subtitle py-3">6&nbsp;Wants (7&nbsp;Cards)</h4>
@@ -1573,18 +1551,15 @@
                   href="/en/YuGiOh/Wants/15679595"
                   role="button"
                   class="btn btn-primary btn-sm text-nowrap mb-3"
-                  ><span class="fonticon-edit mr-2"></span>View / Edit List</a
+                  ><span class="fonticon-edit me-2"></span>View / Edit List</a
+                ><a
+                  href="/en/YuGiOh/Wants/ShoppingWizard?idWantsList=15679595"
+                  role="button"
+                  target="_blank"
+                  class="btn btn-sm btn-outline-primary text-nowrap"
+                  ><span class="fonticon-wand"></span
+                  ><span class="ms-2">Shopping Wizard</span></a
                 >
-                <div class="w-100">
-                  <a
-                    href="/en/YuGiOh/Wants/ShoppingWizard?idWantsList=15679595"
-                    role="button"
-                    target="_blank"
-                    class="btn btn-sm btn-block btn-outline-primary text-nowrap"
-                    ><span class="fonticon-wand"></span
-                    ><span class="ml-2">Shopping Wizard</span></a
-                  >
-                </div>
               </div>
             </div>
           </div>
@@ -1596,28 +1571,23 @@
                   ><img
                     src="/img/transparent.gif"
                     alt=""
-                    width="251"
-                    height="364"
-                    data-echo="//static.cardmarket.com/img/37fd575ef1a33868bcb36aac5f50388f/items/5/DRLG/266776.jpg"
+                    data-echo="https://product-images.s3.cardmarket.com/5/BLMR/717879/717879.jpg"
                     class="card-img-top img-fluid lazy"
                 /></a>
-                <h4 class="card-subtitle py-3">6&nbsp;Wants (6&nbsp;Cards)</h4>
+                <h4 class="card-subtitle py-3">7&nbsp;Wants (7&nbsp;Cards)</h4>
                 <a
                   href="/en/YuGiOh/Wants/15679087"
                   role="button"
                   class="btn btn-primary btn-sm text-nowrap mb-3"
-                  ><span class="fonticon-edit mr-2"></span>View / Edit List</a
+                  ><span class="fonticon-edit me-2"></span>View / Edit List</a
+                ><a
+                  href="/en/YuGiOh/Wants/ShoppingWizard?idWantsList=15679087"
+                  role="button"
+                  target="_blank"
+                  class="btn btn-sm btn-outline-primary text-nowrap"
+                  ><span class="fonticon-wand"></span
+                  ><span class="ms-2">Shopping Wizard</span></a
                 >
-                <div class="w-100">
-                  <a
-                    href="/en/YuGiOh/Wants/ShoppingWizard?idWantsList=15679087"
-                    role="button"
-                    target="_blank"
-                    class="btn btn-sm btn-block btn-outline-primary text-nowrap"
-                    ><span class="fonticon-wand"></span
-                    ><span class="ml-2">Shopping Wizard</span></a
-                  >
-                </div>
               </div>
             </div>
           </div>
@@ -1629,9 +1599,7 @@
                   ><img
                     src="/img/transparent.gif"
                     alt=""
-                    width="197"
-                    height="285"
-                    data-echo="//static.cardmarket.com/img/760f3bd4ec28266282cdb6a72b450c24/items/5/DP07/106165.jpg"
+                    data-echo="https://product-images.s3.cardmarket.com/5/DP07/106165/106165.jpg"
                     class="card-img-top img-fluid lazy"
                 /></a>
                 <h4 class="card-subtitle py-3">1&nbsp;Wants (1&nbsp;Cards)</h4>
@@ -1639,18 +1607,15 @@
                   href="/en/YuGiOh/Wants/15624978"
                   role="button"
                   class="btn btn-primary btn-sm text-nowrap mb-3"
-                  ><span class="fonticon-edit mr-2"></span>View / Edit List</a
+                  ><span class="fonticon-edit me-2"></span>View / Edit List</a
+                ><a
+                  href="/en/YuGiOh/Wants/ShoppingWizard?idWantsList=15624978"
+                  role="button"
+                  target="_blank"
+                  class="btn btn-sm btn-outline-primary text-nowrap"
+                  ><span class="fonticon-wand"></span
+                  ><span class="ms-2">Shopping Wizard</span></a
                 >
-                <div class="w-100">
-                  <a
-                    href="/en/YuGiOh/Wants/ShoppingWizard?idWantsList=15624978"
-                    role="button"
-                    target="_blank"
-                    class="btn btn-sm btn-block btn-outline-primary text-nowrap"
-                    ><span class="fonticon-wand"></span
-                    ><span class="ml-2">Shopping Wizard</span></a
-                  >
-                </div>
               </div>
             </div>
           </div>
@@ -1662,9 +1627,7 @@
                   ><img
                     src="/img/transparent.gif"
                     alt=""
-                    width="244"
-                    height="356"
-                    data-echo="//static.cardmarket.com/img/02dc7244a62a3adfdff25de372c60bcc/items/5/TOCH/465879.jpg"
+                    data-echo="https://product-images.s3.cardmarket.com/5/DRL2/283737/283737.jpg"
                     class="card-img-top img-fluid lazy"
                 /></a>
                 <h4 class="card-subtitle py-3">9&nbsp;Wants (9&nbsp;Cards)</h4>
@@ -1672,18 +1635,15 @@
                   href="/en/YuGiOh/Wants/15620344"
                   role="button"
                   class="btn btn-primary btn-sm text-nowrap mb-3"
-                  ><span class="fonticon-edit mr-2"></span>View / Edit List</a
+                  ><span class="fonticon-edit me-2"></span>View / Edit List</a
+                ><a
+                  href="/en/YuGiOh/Wants/ShoppingWizard?idWantsList=15620344"
+                  role="button"
+                  target="_blank"
+                  class="btn btn-sm btn-outline-primary text-nowrap"
+                  ><span class="fonticon-wand"></span
+                  ><span class="ms-2">Shopping Wizard</span></a
                 >
-                <div class="w-100">
-                  <a
-                    href="/en/YuGiOh/Wants/ShoppingWizard?idWantsList=15620344"
-                    role="button"
-                    target="_blank"
-                    class="btn btn-sm btn-block btn-outline-primary text-nowrap"
-                    ><span class="fonticon-wand"></span
-                    ><span class="ml-2">Shopping Wizard</span></a
-                  >
-                </div>
               </div>
             </div>
           </div>
@@ -1695,9 +1655,7 @@
                   ><img
                     src="/img/transparent.gif"
                     alt=""
-                    width="248"
-                    height="356"
-                    data-echo="//static.cardmarket.com/img/91406219015c69223dfe6b9504485859/items/5/CSOC/108477.jpg"
+                    data-echo="https://product-images.s3.cardmarket.com/5/DCR/105671/105671.jpg"
                     class="card-img-top img-fluid lazy"
                 /></a>
                 <h4 class="card-subtitle py-3">
@@ -1707,18 +1665,15 @@
                   href="/en/YuGiOh/Wants/15622189"
                   role="button"
                   class="btn btn-primary btn-sm text-nowrap mb-3"
-                  ><span class="fonticon-edit mr-2"></span>View / Edit List</a
+                  ><span class="fonticon-edit me-2"></span>View / Edit List</a
+                ><a
+                  href="/en/YuGiOh/Wants/ShoppingWizard?idWantsList=15622189"
+                  role="button"
+                  target="_blank"
+                  class="btn btn-sm btn-outline-primary text-nowrap"
+                  ><span class="fonticon-wand"></span
+                  ><span class="ms-2">Shopping Wizard</span></a
                 >
-                <div class="w-100">
-                  <a
-                    href="/en/YuGiOh/Wants/ShoppingWizard?idWantsList=15622189"
-                    role="button"
-                    target="_blank"
-                    class="btn btn-sm btn-block btn-outline-primary text-nowrap"
-                    ><span class="fonticon-wand"></span
-                    ><span class="ml-2">Shopping Wizard</span></a
-                  >
-                </div>
               </div>
             </div>
           </div>
@@ -1730,9 +1685,7 @@
                   ><img
                     src="/img/transparent.gif"
                     alt=""
-                    width="251"
-                    height="373"
-                    data-echo="//static.cardmarket.com/img/ab9c65d1defa6b5d3f070f78d2a12605/items/5/MVP1/291307.jpg"
+                    data-echo="https://product-images.s3.cardmarket.com/5/SDK/105927/105927.jpg"
                     class="card-img-top img-fluid lazy"
                 /></a>
                 <h4 class="card-subtitle py-3">3&nbsp;Wants (3&nbsp;Cards)</h4>
@@ -1740,18 +1693,15 @@
                   href="/en/YuGiOh/Wants/15622078"
                   role="button"
                   class="btn btn-primary btn-sm text-nowrap mb-3"
-                  ><span class="fonticon-edit mr-2"></span>View / Edit List</a
+                  ><span class="fonticon-edit me-2"></span>View / Edit List</a
+                ><a
+                  href="/en/YuGiOh/Wants/ShoppingWizard?idWantsList=15622078"
+                  role="button"
+                  target="_blank"
+                  class="btn btn-sm btn-outline-primary text-nowrap"
+                  ><span class="fonticon-wand"></span
+                  ><span class="ms-2">Shopping Wizard</span></a
                 >
-                <div class="w-100">
-                  <a
-                    href="/en/YuGiOh/Wants/ShoppingWizard?idWantsList=15622078"
-                    role="button"
-                    target="_blank"
-                    class="btn btn-sm btn-block btn-outline-primary text-nowrap"
-                    ><span class="fonticon-wand"></span
-                    ><span class="ml-2">Shopping Wizard</span></a
-                  >
-                </div>
               </div>
             </div>
           </div>
@@ -1763,9 +1713,7 @@
                   ><img
                     src="/img/transparent.gif"
                     alt=""
-                    width="251"
-                    height="368"
-                    data-echo="//static.cardmarket.com/img/5003e303e6bbc1734670724cd716195e/items/5/DB1/103955.jpg"
+                    data-echo="https://product-images.s3.cardmarket.com/5/BLAR/480164/480164.jpg"
                     class="card-img-top img-fluid lazy"
                 /></a>
                 <h4 class="card-subtitle py-3">3&nbsp;Wants (3&nbsp;Cards)</h4>
@@ -1773,18 +1721,15 @@
                   href="/en/YuGiOh/Wants/15626979"
                   role="button"
                   class="btn btn-primary btn-sm text-nowrap mb-3"
-                  ><span class="fonticon-edit mr-2"></span>View / Edit List</a
+                  ><span class="fonticon-edit me-2"></span>View / Edit List</a
+                ><a
+                  href="/en/YuGiOh/Wants/ShoppingWizard?idWantsList=15626979"
+                  role="button"
+                  target="_blank"
+                  class="btn btn-sm btn-outline-primary text-nowrap"
+                  ><span class="fonticon-wand"></span
+                  ><span class="ms-2">Shopping Wizard</span></a
                 >
-                <div class="w-100">
-                  <a
-                    href="/en/YuGiOh/Wants/ShoppingWizard?idWantsList=15626979"
-                    role="button"
-                    target="_blank"
-                    class="btn btn-sm btn-block btn-outline-primary text-nowrap"
-                    ><span class="fonticon-wand"></span
-                    ><span class="ml-2">Shopping Wizard</span></a
-                  >
-                </div>
               </div>
             </div>
           </div>
@@ -1796,9 +1741,7 @@
                   ><img
                     src="/img/transparent.gif"
                     alt=""
-                    width="197"
-                    height="285"
-                    data-echo="//static.cardmarket.com/img/62380e1fec331e425842b8dbf78ae57a/items/5/DBT/103247.jpg"
+                    data-echo="//static.cardmarket.com/img/b1b1af8084b41a11f0d06f4d150ca712/cardImageNotAvailable.jpg"
                     class="card-img-top img-fluid lazy"
                 /></a>
                 <h4 class="card-subtitle py-3">
@@ -1808,18 +1751,15 @@
                   href="/en/YuGiOh/Wants/15632728"
                   role="button"
                   class="btn btn-primary btn-sm text-nowrap mb-3"
-                  ><span class="fonticon-edit mr-2"></span>View / Edit List</a
+                  ><span class="fonticon-edit me-2"></span>View / Edit List</a
+                ><a
+                  href="/en/YuGiOh/Wants/ShoppingWizard?idWantsList=15632728"
+                  role="button"
+                  target="_blank"
+                  class="btn btn-sm btn-outline-primary text-nowrap"
+                  ><span class="fonticon-wand"></span
+                  ><span class="ms-2">Shopping Wizard</span></a
                 >
-                <div class="w-100">
-                  <a
-                    href="/en/YuGiOh/Wants/ShoppingWizard?idWantsList=15632728"
-                    role="button"
-                    target="_blank"
-                    class="btn btn-sm btn-block btn-outline-primary text-nowrap"
-                    ><span class="fonticon-wand"></span
-                    ><span class="ml-2">Shopping Wizard</span></a
-                  >
-                </div>
               </div>
             </div>
           </div>
@@ -1831,9 +1771,7 @@
                   ><img
                     src="/img/transparent.gif"
                     alt=""
-                    width="248"
-                    height="356"
-                    data-echo="//static.cardmarket.com/img/2a53f59cabaca5dd6e2218366330cc03/items/5/GLAS/104753.jpg"
+                    data-echo="https://product-images.s3.cardmarket.com/5/GLAS/104753/104753.jpg"
                     class="card-img-top img-fluid lazy"
                 /></a>
                 <h4 class="card-subtitle py-3">1&nbsp;Wants (1&nbsp;Cards)</h4>
@@ -1841,18 +1779,15 @@
                   href="/en/YuGiOh/Wants/15624860"
                   role="button"
                   class="btn btn-primary btn-sm text-nowrap mb-3"
-                  ><span class="fonticon-edit mr-2"></span>View / Edit List</a
+                  ><span class="fonticon-edit me-2"></span>View / Edit List</a
+                ><a
+                  href="/en/YuGiOh/Wants/ShoppingWizard?idWantsList=15624860"
+                  role="button"
+                  target="_blank"
+                  class="btn btn-sm btn-outline-primary text-nowrap"
+                  ><span class="fonticon-wand"></span
+                  ><span class="ms-2">Shopping Wizard</span></a
                 >
-                <div class="w-100">
-                  <a
-                    href="/en/YuGiOh/Wants/ShoppingWizard?idWantsList=15624860"
-                    role="button"
-                    target="_blank"
-                    class="btn btn-sm btn-block btn-outline-primary text-nowrap"
-                    ><span class="fonticon-wand"></span
-                    ><span class="ml-2">Shopping Wizard</span></a
-                  >
-                </div>
               </div>
             </div>
           </div>
@@ -1864,9 +1799,7 @@
                   ><img
                     src="/img/transparent.gif"
                     alt=""
-                    width="251"
-                    height="368"
-                    data-echo="//static.cardmarket.com/img/39dc17585d376e2118c6dd6604522807/items/5/FOTB/103846.jpg"
+                    data-echo="https://product-images.s3.cardmarket.com/5/EP1/102358/102358.jpg"
                     class="card-img-top img-fluid lazy"
                 /></a>
                 <h4 class="card-subtitle py-3">
@@ -1876,18 +1809,15 @@
                   href="/en/YuGiOh/Wants/12666106"
                   role="button"
                   class="btn btn-primary btn-sm text-nowrap mb-3"
-                  ><span class="fonticon-edit mr-2"></span>View / Edit List</a
+                  ><span class="fonticon-edit me-2"></span>View / Edit List</a
+                ><a
+                  href="/en/YuGiOh/Wants/ShoppingWizard?idWantsList=12666106"
+                  role="button"
+                  target="_blank"
+                  class="btn btn-sm btn-outline-primary text-nowrap"
+                  ><span class="fonticon-wand"></span
+                  ><span class="ms-2">Shopping Wizard</span></a
                 >
-                <div class="w-100">
-                  <a
-                    href="/en/YuGiOh/Wants/ShoppingWizard?idWantsList=12666106"
-                    role="button"
-                    target="_blank"
-                    class="btn btn-sm btn-block btn-outline-primary text-nowrap"
-                    ><span class="fonticon-wand"></span
-                    ><span class="ml-2">Shopping Wizard</span></a
-                  >
-                </div>
               </div>
             </div>
           </div>
@@ -1899,9 +1829,7 @@
                   ><img
                     src="/img/transparent.gif"
                     alt=""
-                    width="251"
-                    height="366"
-                    data-echo="//static.cardmarket.com/img/530e266ffc5df3593c4f62deadc89c22/items/5/LCJW/264543.jpg"
+                    data-echo="https://product-images.s3.cardmarket.com/5/AC02/663007/663007.jpg"
                     class="card-img-top img-fluid lazy"
                 /></a>
                 <h4 class="card-subtitle py-3">3&nbsp;Wants (3&nbsp;Cards)</h4>
@@ -1909,18 +1837,15 @@
                   href="/en/YuGiOh/Wants/15626305"
                   role="button"
                   class="btn btn-primary btn-sm text-nowrap mb-3"
-                  ><span class="fonticon-edit mr-2"></span>View / Edit List</a
+                  ><span class="fonticon-edit me-2"></span>View / Edit List</a
+                ><a
+                  href="/en/YuGiOh/Wants/ShoppingWizard?idWantsList=15626305"
+                  role="button"
+                  target="_blank"
+                  class="btn btn-sm btn-outline-primary text-nowrap"
+                  ><span class="fonticon-wand"></span
+                  ><span class="ms-2">Shopping Wizard</span></a
                 >
-                <div class="w-100">
-                  <a
-                    href="/en/YuGiOh/Wants/ShoppingWizard?idWantsList=15626305"
-                    role="button"
-                    target="_blank"
-                    class="btn btn-sm btn-block btn-outline-primary text-nowrap"
-                    ><span class="fonticon-wand"></span
-                    ><span class="ml-2">Shopping Wizard</span></a
-                  >
-                </div>
               </div>
             </div>
           </div>
@@ -1932,9 +1857,7 @@
                   ><img
                     src="/img/transparent.gif"
                     alt=""
-                    width="197"
-                    height="285"
-                    data-echo="//static.cardmarket.com/img/6c78c36bf491dc8aeb5e6cace7e0fb7a/items/5/MDP2/103663.jpg"
+                    data-echo="https://product-images.s3.cardmarket.com/5/TP1/102496/102496.jpg"
                     class="card-img-top img-fluid lazy"
                 /></a>
                 <h4 class="card-subtitle py-3">3&nbsp;Wants (3&nbsp;Cards)</h4>
@@ -1942,18 +1865,15 @@
                   href="/en/YuGiOh/Wants/15625973"
                   role="button"
                   class="btn btn-primary btn-sm text-nowrap mb-3"
-                  ><span class="fonticon-edit mr-2"></span>View / Edit List</a
+                  ><span class="fonticon-edit me-2"></span>View / Edit List</a
+                ><a
+                  href="/en/YuGiOh/Wants/ShoppingWizard?idWantsList=15625973"
+                  role="button"
+                  target="_blank"
+                  class="btn btn-sm btn-outline-primary text-nowrap"
+                  ><span class="fonticon-wand"></span
+                  ><span class="ms-2">Shopping Wizard</span></a
                 >
-                <div class="w-100">
-                  <a
-                    href="/en/YuGiOh/Wants/ShoppingWizard?idWantsList=15625973"
-                    role="button"
-                    target="_blank"
-                    class="btn btn-sm btn-block btn-outline-primary text-nowrap"
-                    ><span class="fonticon-wand"></span
-                    ><span class="ml-2">Shopping Wizard</span></a
-                  >
-                </div>
               </div>
             </div>
           </div>
@@ -1965,9 +1885,7 @@
                   ><img
                     src="/img/transparent.gif"
                     alt=""
-                    width="251"
-                    height="371"
-                    data-echo="//static.cardmarket.com/img/a1a4613223b0206faa0ae7f0a9813b73/items/5/MRL/106341.jpg"
+                    data-echo="https://product-images.s3.cardmarket.com/5/MAZE/699964/699964.jpg"
                     class="card-img-top img-fluid lazy"
                 /></a>
                 <h4 class="card-subtitle py-3">
@@ -1977,18 +1895,15 @@
                   href="/en/YuGiOh/Wants/15621831"
                   role="button"
                   class="btn btn-primary btn-sm text-nowrap mb-3"
-                  ><span class="fonticon-edit mr-2"></span>View / Edit List</a
+                  ><span class="fonticon-edit me-2"></span>View / Edit List</a
+                ><a
+                  href="/en/YuGiOh/Wants/ShoppingWizard?idWantsList=15621831"
+                  role="button"
+                  target="_blank"
+                  class="btn btn-sm btn-outline-primary text-nowrap"
+                  ><span class="fonticon-wand"></span
+                  ><span class="ms-2">Shopping Wizard</span></a
                 >
-                <div class="w-100">
-                  <a
-                    href="/en/YuGiOh/Wants/ShoppingWizard?idWantsList=15621831"
-                    role="button"
-                    target="_blank"
-                    class="btn btn-sm btn-block btn-outline-primary text-nowrap"
-                    ><span class="fonticon-wand"></span
-                    ><span class="ml-2">Shopping Wizard</span></a
-                  >
-                </div>
               </div>
             </div>
           </div>
@@ -2000,9 +1915,7 @@
                   ><img
                     src="/img/transparent.gif"
                     alt=""
-                    width="243"
-                    height="356"
-                    data-echo="//static.cardmarket.com/img/eddb38e25f069ae54a39b56ff32bb3dd/items/5/TOCH/466104.jpg"
+                    data-echo="https://product-images.s3.cardmarket.com/5/KICO/570809/570809.jpg"
                     class="card-img-top img-fluid lazy"
                 /></a>
                 <h4 class="card-subtitle py-3">7&nbsp;Wants (8&nbsp;Cards)</h4>
@@ -2010,18 +1923,15 @@
                   href="/en/YuGiOh/Wants/15623839"
                   role="button"
                   class="btn btn-primary btn-sm text-nowrap mb-3"
-                  ><span class="fonticon-edit mr-2"></span>View / Edit List</a
+                  ><span class="fonticon-edit me-2"></span>View / Edit List</a
+                ><a
+                  href="/en/YuGiOh/Wants/ShoppingWizard?idWantsList=15623839"
+                  role="button"
+                  target="_blank"
+                  class="btn btn-sm btn-outline-primary text-nowrap"
+                  ><span class="fonticon-wand"></span
+                  ><span class="ms-2">Shopping Wizard</span></a
                 >
-                <div class="w-100">
-                  <a
-                    href="/en/YuGiOh/Wants/ShoppingWizard?idWantsList=15623839"
-                    role="button"
-                    target="_blank"
-                    class="btn btn-sm btn-block btn-outline-primary text-nowrap"
-                    ><span class="fonticon-wand"></span
-                    ><span class="ml-2">Shopping Wizard</span></a
-                  >
-                </div>
               </div>
             </div>
           </div>
@@ -2033,9 +1943,7 @@
                   ><img
                     src="/img/transparent.gif"
                     alt=""
-                    width="210"
-                    height="300"
-                    data-echo="//static.cardmarket.com/img/2438d408f36ca199d245878abd443442/items/5/AST/104561.jpg"
+                    data-echo="https://product-images.s3.cardmarket.com/5/AST/104561/104561.jpg"
                     class="card-img-top img-fluid lazy"
                 /></a>
                 <h4 class="card-subtitle py-3">1&nbsp;Wants (1&nbsp;Cards)</h4>
@@ -2043,18 +1951,15 @@
                   href="/en/YuGiOh/Wants/15625925"
                   role="button"
                   class="btn btn-primary btn-sm text-nowrap mb-3"
-                  ><span class="fonticon-edit mr-2"></span>View / Edit List</a
+                  ><span class="fonticon-edit me-2"></span>View / Edit List</a
+                ><a
+                  href="/en/YuGiOh/Wants/ShoppingWizard?idWantsList=15625925"
+                  role="button"
+                  target="_blank"
+                  class="btn btn-sm btn-outline-primary text-nowrap"
+                  ><span class="fonticon-wand"></span
+                  ><span class="ms-2">Shopping Wizard</span></a
                 >
-                <div class="w-100">
-                  <a
-                    href="/en/YuGiOh/Wants/ShoppingWizard?idWantsList=15625925"
-                    role="button"
-                    target="_blank"
-                    class="btn btn-sm btn-block btn-outline-primary text-nowrap"
-                    ><span class="fonticon-wand"></span
-                    ><span class="ml-2">Shopping Wizard</span></a
-                  >
-                </div>
               </div>
             </div>
           </div>
@@ -2066,9 +1971,7 @@
                   ><img
                     src="/img/transparent.gif"
                     alt=""
-                    width="1"
-                    height="1"
-                    data-echo="//static.cardmarket.com/img/transparent.gif"
+                    data-echo="/img/transparent.gif"
                     class="card-img-top img-fluid lazy"
                 /></a>
                 <h4 class="card-subtitle py-3">0&nbsp;Wants (0&nbsp;Cards)</h4>
@@ -2079,23 +1982,18 @@
                   href="/en/YuGiOh/Wants/15514851"
                   role="button"
                   class="btn btn-primary btn-sm text-nowrap mb-3"
-                  ><span class="fonticon-edit mr-2"></span>View / Edit List</a
-                >
-                <div
+                  ><span class="fonticon-edit me-2"></span>View / Edit List</a
+                ><a
+                  role="button"
+                  target="_blank"
                   title="You haven't added cards to your wants list yet."
                   data-toggle="tooltip"
                   data-html="true"
                   data-placement="bottom"
-                  class="w-100"
+                  class="btn btn-sm btn-outline-primary text-nowrap disabled"
+                  ><span class="fonticon-wand"></span
+                  ><span class="ms-2">Shopping Wizard</span></a
                 >
-                  <a
-                    role="button"
-                    target="_blank"
-                    class="btn btn-sm btn-block btn-outline-primary text-nowrap disabled"
-                    ><span class="fonticon-wand"></span
-                    ><span class="ml-2">Shopping Wizard</span></a
-                  >
-                </div>
               </div>
             </div>
           </div>
@@ -2107,30 +2005,25 @@
                   ><img
                     src="/img/transparent.gif"
                     alt=""
-                    width="247"
-                    height="356"
-                    data-echo="//static.cardmarket.com/img/38d4f4febd7da8a89c52f2b7193e7178/items/5/BIK/582538.jpg"
+                    data-echo="https://product-images.s3.cardmarket.com/5/DCR/105679/105679.jpg"
                     class="card-img-top img-fluid lazy"
                 /></a>
                 <h4 class="card-subtitle py-3">
-                  10&nbsp;Wants (32&nbsp;Cards)
+                  11&nbsp;Wants (33&nbsp;Cards)
                 </h4>
                 <a
                   href="/en/YuGiOh/Wants/13816887"
                   role="button"
                   class="btn btn-primary btn-sm text-nowrap mb-3"
-                  ><span class="fonticon-edit mr-2"></span>View / Edit List</a
+                  ><span class="fonticon-edit me-2"></span>View / Edit List</a
+                ><a
+                  href="/en/YuGiOh/Wants/ShoppingWizard?idWantsList=13816887"
+                  role="button"
+                  target="_blank"
+                  class="btn btn-sm btn-outline-primary text-nowrap"
+                  ><span class="fonticon-wand"></span
+                  ><span class="ms-2">Shopping Wizard</span></a
                 >
-                <div class="w-100">
-                  <a
-                    href="/en/YuGiOh/Wants/ShoppingWizard?idWantsList=13816887"
-                    role="button"
-                    target="_blank"
-                    class="btn btn-sm btn-block btn-outline-primary text-nowrap"
-                    ><span class="fonticon-wand"></span
-                    ><span class="ml-2">Shopping Wizard</span></a
-                  >
-                </div>
               </div>
             </div>
           </div>
@@ -2142,9 +2035,7 @@
                   ><img
                     src="/img/transparent.gif"
                     alt=""
-                    width="251"
-                    height="366"
-                    data-echo="//static.cardmarket.com/img/5003e303e6bbc1734670724cd716195e/items/5/DB1/103356.jpg"
+                    data-echo="https://product-images.s3.cardmarket.com/5/DB2/102876/102876.jpg"
                     class="card-img-top img-fluid lazy"
                 /></a>
                 <h4 class="card-subtitle py-3">
@@ -2154,18 +2045,15 @@
                   href="/en/YuGiOh/Wants/15618183"
                   role="button"
                   class="btn btn-primary btn-sm text-nowrap mb-3"
-                  ><span class="fonticon-edit mr-2"></span>View / Edit List</a
+                  ><span class="fonticon-edit me-2"></span>View / Edit List</a
+                ><a
+                  href="/en/YuGiOh/Wants/ShoppingWizard?idWantsList=15618183"
+                  role="button"
+                  target="_blank"
+                  class="btn btn-sm btn-outline-primary text-nowrap"
+                  ><span class="fonticon-wand"></span
+                  ><span class="ms-2">Shopping Wizard</span></a
                 >
-                <div class="w-100">
-                  <a
-                    href="/en/YuGiOh/Wants/ShoppingWizard?idWantsList=15618183"
-                    role="button"
-                    target="_blank"
-                    class="btn btn-sm btn-block btn-outline-primary text-nowrap"
-                    ><span class="fonticon-wand"></span
-                    ><span class="ml-2">Shopping Wizard</span></a
-                  >
-                </div>
               </div>
             </div>
           </div>
@@ -2177,9 +2065,7 @@
                   ><img
                     src="/img/transparent.gif"
                     alt=""
-                    width="251"
-                    height="369"
-                    data-echo="//static.cardmarket.com/img/fac06aacfde1329c785f6aeea429a650/items/5/DB2/102110.jpg"
+                    data-echo="https://product-images.s3.cardmarket.com/5/SDK/105342/105342.jpg"
                     class="card-img-top img-fluid lazy"
                 /></a>
                 <h4 class="card-subtitle py-3">2&nbsp;Wants (2&nbsp;Cards)</h4>
@@ -2187,18 +2073,15 @@
                   href="/en/YuGiOh/Wants/12828722"
                   role="button"
                   class="btn btn-primary btn-sm text-nowrap mb-3"
-                  ><span class="fonticon-edit mr-2"></span>View / Edit List</a
+                  ><span class="fonticon-edit me-2"></span>View / Edit List</a
+                ><a
+                  href="/en/YuGiOh/Wants/ShoppingWizard?idWantsList=12828722"
+                  role="button"
+                  target="_blank"
+                  class="btn btn-sm btn-outline-primary text-nowrap"
+                  ><span class="fonticon-wand"></span
+                  ><span class="ms-2">Shopping Wizard</span></a
                 >
-                <div class="w-100">
-                  <a
-                    href="/en/YuGiOh/Wants/ShoppingWizard?idWantsList=12828722"
-                    role="button"
-                    target="_blank"
-                    class="btn btn-sm btn-block btn-outline-primary text-nowrap"
-                    ><span class="fonticon-wand"></span
-                    ><span class="ml-2">Shopping Wizard</span></a
-                  >
-                </div>
               </div>
             </div>
           </div>
@@ -2210,9 +2093,7 @@
                   ><img
                     src="/img/transparent.gif"
                     alt=""
-                    width="195"
-                    height="285"
-                    data-echo="//static.cardmarket.com/img/e3dc62a6c7db1e12ec0ed4234a797392/items/5/MOV/106356.jpg"
+                    data-echo="https://product-images.s3.cardmarket.com/5/EP1/102358/102358.jpg"
                     class="card-img-top img-fluid lazy"
                 /></a>
                 <h4 class="card-subtitle py-3">4&nbsp;Wants (4&nbsp;Cards)</h4>
@@ -2220,18 +2101,15 @@
                   href="/en/YuGiOh/Wants/15620110"
                   role="button"
                   class="btn btn-primary btn-sm text-nowrap mb-3"
-                  ><span class="fonticon-edit mr-2"></span>View / Edit List</a
+                  ><span class="fonticon-edit me-2"></span>View / Edit List</a
+                ><a
+                  href="/en/YuGiOh/Wants/ShoppingWizard?idWantsList=15620110"
+                  role="button"
+                  target="_blank"
+                  class="btn btn-sm btn-outline-primary text-nowrap"
+                  ><span class="fonticon-wand"></span
+                  ><span class="ms-2">Shopping Wizard</span></a
                 >
-                <div class="w-100">
-                  <a
-                    href="/en/YuGiOh/Wants/ShoppingWizard?idWantsList=15620110"
-                    role="button"
-                    target="_blank"
-                    class="btn btn-sm btn-block btn-outline-primary text-nowrap"
-                    ><span class="fonticon-wand"></span
-                    ><span class="ml-2">Shopping Wizard</span></a
-                  >
-                </div>
               </div>
             </div>
           </div>
@@ -2243,9 +2121,7 @@
                   ><img
                     src="/img/transparent.gif"
                     alt=""
-                    width="251"
-                    height="364"
-                    data-echo="//static.cardmarket.com/img/fac06aacfde1329c785f6aeea429a650/items/5/DB2/102373.jpg"
+                    data-echo="https://product-images.s3.cardmarket.com/5/DRLG/266767/266767.jpg"
                     class="card-img-top img-fluid lazy"
                 /></a>
                 <h4 class="card-subtitle py-3">
@@ -2255,18 +2131,15 @@
                   href="/en/YuGiOh/Wants/15619179"
                   role="button"
                   class="btn btn-primary btn-sm text-nowrap mb-3"
-                  ><span class="fonticon-edit mr-2"></span>View / Edit List</a
+                  ><span class="fonticon-edit me-2"></span>View / Edit List</a
+                ><a
+                  href="/en/YuGiOh/Wants/ShoppingWizard?idWantsList=15619179"
+                  role="button"
+                  target="_blank"
+                  class="btn btn-sm btn-outline-primary text-nowrap"
+                  ><span class="fonticon-wand"></span
+                  ><span class="ms-2">Shopping Wizard</span></a
                 >
-                <div class="w-100">
-                  <a
-                    href="/en/YuGiOh/Wants/ShoppingWizard?idWantsList=15619179"
-                    role="button"
-                    target="_blank"
-                    class="btn btn-sm btn-block btn-outline-primary text-nowrap"
-                    ><span class="fonticon-wand"></span
-                    ><span class="ml-2">Shopping Wizard</span></a
-                  >
-                </div>
               </div>
             </div>
           </div>
@@ -2278,9 +2151,7 @@
                   ><img
                     src="/img/transparent.gif"
                     alt=""
-                    width="400"
-                    height="580"
-                    data-echo="//static.cardmarket.com/img/9c762988837a43414cff5b686f0be15e/items/5/TP1/102659.jpg"
+                    data-echo="https://product-images.s3.cardmarket.com/5/BROL/585437/585437.jpg"
                     class="card-img-top img-fluid lazy"
                 /></a>
                 <h4 class="card-subtitle py-3">3&nbsp;Wants (3&nbsp;Cards)</h4>
@@ -2288,18 +2159,15 @@
                   href="/en/YuGiOh/Wants/15625141"
                   role="button"
                   class="btn btn-primary btn-sm text-nowrap mb-3"
-                  ><span class="fonticon-edit mr-2"></span>View / Edit List</a
+                  ><span class="fonticon-edit me-2"></span>View / Edit List</a
+                ><a
+                  href="/en/YuGiOh/Wants/ShoppingWizard?idWantsList=15625141"
+                  role="button"
+                  target="_blank"
+                  class="btn btn-sm btn-outline-primary text-nowrap"
+                  ><span class="fonticon-wand"></span
+                  ><span class="ms-2">Shopping Wizard</span></a
                 >
-                <div class="w-100">
-                  <a
-                    href="/en/YuGiOh/Wants/ShoppingWizard?idWantsList=15625141"
-                    role="button"
-                    target="_blank"
-                    class="btn btn-sm btn-block btn-outline-primary text-nowrap"
-                    ><span class="fonticon-wand"></span
-                    ><span class="ml-2">Shopping Wizard</span></a
-                  >
-                </div>
               </div>
             </div>
           </div>
@@ -2313,9 +2181,7 @@
       <div class="container-fluid">
         <div class="row d-none d-lg-flex">
           <div class="col">
-            <ul
-              class="nav align-items-center justify-content-start font-weight-bold"
-            >
+            <ul class="nav align-items-center justify-content-start fw-bold">
               <li class="nav-item text-uppercase">
                 <a
                   href="/en/YuGiOh/Policies/GeneralTermsAndConditions"
@@ -2338,12 +2204,22 @@
                 >
               </li>
               <li class="nav-item text-uppercase">
-                <a href="/en/YuGiOh/Help" title="Help" class="nav-link">Help</a>
+                <a
+                  href="https://help.cardmarket.com/en"
+                  title="Help"
+                  class="nav-link"
+                  >Help</a
+                >
               </li>
               <li class="nav-item text-uppercase">
-                <a href="/en/YuGiOh/Jobs" title="Jobs" class="nav-link">Jobs</a>
+                <a
+                  href="https://cardmarket.jobs.personio.com/"
+                  title="Jobs"
+                  class="nav-link"
+                  >Jobs</a
+                >
               </li>
-              <li class="dropup nav-item ml-auto">
+              <li class="dropup nav-item ms-auto">
                 <a
                   href="#"
                   data-toggle="dropdown"
@@ -2366,110 +2242,125 @@
                   ></span
                   ><span>English</span></a
                 >
-                <div class="dropdown-menu dropdown-menu-right">
-                  <h6 class="d-none d-lg-block dropdown-header">
-                    Choose a language
-                  </h6>
-                  <a
-                    href="/fr/YuGiOh/Wants"
-                    title="Français"
-                    rel="nofollow"
-                    class="dropdown-item text-uppercase hvr-sweep-to-right"
-                    ><span
-                      style="
-                        display: inline-block;
-                        width: 16px;
-                        height: 16px;
-                        background-image: url('//static.cardmarket.com/img/f8d806e6267c7c859592cba11335f3d6/spriteSheets/ssMain2.png');
-                        background-position: -48px -0px;
-                      "
-                      title=""
-                      data-toggle="tooltip"
-                      data-html="true"
-                      data-placement="bottom"
-                      onmouseover="return false;"
-                      onmouseout="return false;"
-                      data-original-title="French"
-                      class="icon mr-2 align-text-bottom"
-                    ></span
-                    ><span>Français</span></a
-                  ><a
-                    href="/de/YuGiOh/Wants"
-                    title="Deutsch"
-                    rel="nofollow"
-                    class="dropdown-item text-uppercase hvr-sweep-to-right"
-                    ><span
-                      style="
-                        display: inline-block;
-                        width: 16px;
-                        height: 16px;
-                        background-image: url('//static.cardmarket.com/img/f8d806e6267c7c859592cba11335f3d6/spriteSheets/ssMain2.png');
-                        background-position: -80px -0px;
-                      "
-                      title=""
-                      data-toggle="tooltip"
-                      data-html="true"
-                      data-placement="bottom"
-                      onmouseover="return false;"
-                      onmouseout="return false;"
-                      data-original-title="German"
-                      class="icon mr-2 align-text-bottom"
-                    ></span
-                    ><span>Deutsch</span></a
-                  ><a
-                    href="/es/YuGiOh/Wants"
-                    title="Español"
-                    rel="nofollow"
-                    class="dropdown-item text-uppercase hvr-sweep-to-right"
-                    ><span
-                      style="
-                        display: inline-block;
-                        width: 16px;
-                        height: 16px;
-                        background-image: url('//static.cardmarket.com/img/f8d806e6267c7c859592cba11335f3d6/spriteSheets/ssMain2.png');
-                        background-position: -112px -0px;
-                      "
-                      title=""
-                      data-toggle="tooltip"
-                      data-html="true"
-                      data-placement="bottom"
-                      onmouseover="return false;"
-                      onmouseout="return false;"
-                      data-original-title="Spanish"
-                      class="icon mr-2 align-text-bottom"
-                    ></span
-                    ><span>Español</span></a
-                  ><a
-                    href="/it/YuGiOh/Wants"
-                    title="Italiano"
-                    rel="nofollow"
-                    class="dropdown-item text-uppercase hvr-sweep-to-right"
-                    ><span
-                      style="
-                        display: inline-block;
-                        width: 16px;
-                        height: 16px;
-                        background-image: url('//static.cardmarket.com/img/f8d806e6267c7c859592cba11335f3d6/spriteSheets/ssMain2.png');
-                        background-position: -144px -0px;
-                      "
-                      title=""
-                      data-toggle="tooltip"
-                      data-html="true"
-                      data-placement="bottom"
-                      onmouseover="return false;"
-                      onmouseout="return false;"
-                      data-original-title="Italian"
-                      class="icon mr-2 align-text-bottom"
-                    ></span
-                    ><span>Italiano</span></a
-                  >
-                  <p class="dropdown-info dropdown-item text-muted py-2">
-                    <small
-                      >This changes the language of the site.<br />It won't
-                      change any text entered by users.</small
+                <ul class="dropdown-menu dropdown-menu-right">
+                  <li>
+                    <h6 class="d-none d-lg-block dropdown-header dropdown-item">
+                      Choose a language
+                    </h6>
+                  </li>
+                  <li>
+                    <a
+                      href="/fr/YuGiOh/Wants"
+                      title="Fran�ais"
+                      rel="nofollow"
+                      class="dropdown-item text-uppercase hvr-sweep-to-right"
+                      ><span
+                        style="
+                          display: inline-block;
+                          width: 16px;
+                          height: 16px;
+                          background-image: url('//static.cardmarket.com/img/f8d806e6267c7c859592cba11335f3d6/spriteSheets/ssMain2.png');
+                          background-position: -48px -0px;
+                        "
+                        onmouseover="return false;"
+                        onmouseout="return false;"
+                        title="French"
+                        data-original-title="French"
+                        data-toggle="tooltip"
+                        data-html="true"
+                        data-placement="bottom"
+                        class="icon me-2 align-text-bottom"
+                      ></span
+                      ><span>Fran�ais</span></a
                     >
-                  </p>
-                </div>
+                  </li>
+                  <li>
+                    <a
+                      href="/de/YuGiOh/Wants"
+                      title="Deutsch"
+                      rel="nofollow"
+                      class="dropdown-item text-uppercase hvr-sweep-to-right"
+                      ><span
+                        style="
+                          display: inline-block;
+                          width: 16px;
+                          height: 16px;
+                          background-image: url('//static.cardmarket.com/img/f8d806e6267c7c859592cba11335f3d6/spriteSheets/ssMain2.png');
+                          background-position: -80px -0px;
+                        "
+                        onmouseover="return false;"
+                        onmouseout="return false;"
+                        title="German"
+                        data-original-title="German"
+                        data-toggle="tooltip"
+                        data-html="true"
+                        data-placement="bottom"
+                        class="icon me-2 align-text-bottom"
+                      ></span
+                      ><span>Deutsch</span></a
+                    >
+                  </li>
+                  <li>
+                    <a
+                      href="/es/YuGiOh/Wants"
+                      title="Espa�ol"
+                      rel="nofollow"
+                      class="dropdown-item text-uppercase hvr-sweep-to-right"
+                      ><span
+                        style="
+                          display: inline-block;
+                          width: 16px;
+                          height: 16px;
+                          background-image: url('//static.cardmarket.com/img/f8d806e6267c7c859592cba11335f3d6/spriteSheets/ssMain2.png');
+                          background-position: -112px -0px;
+                        "
+                        onmouseover="return false;"
+                        onmouseout="return false;"
+                        title="Spanish"
+                        data-original-title="Spanish"
+                        data-toggle="tooltip"
+                        data-html="true"
+                        data-placement="bottom"
+                        class="icon me-2 align-text-bottom"
+                      ></span
+                      ><span>Espa�ol</span></a
+                    >
+                  </li>
+                  <li>
+                    <a
+                      href="/it/YuGiOh/Wants"
+                      title="Italiano"
+                      rel="nofollow"
+                      class="dropdown-item text-uppercase hvr-sweep-to-right"
+                      ><span
+                        style="
+                          display: inline-block;
+                          width: 16px;
+                          height: 16px;
+                          background-image: url('//static.cardmarket.com/img/f8d806e6267c7c859592cba11335f3d6/spriteSheets/ssMain2.png');
+                          background-position: -144px -0px;
+                        "
+                        onmouseover="return false;"
+                        onmouseout="return false;"
+                        title="Italian"
+                        data-original-title="Italian"
+                        data-toggle="tooltip"
+                        data-html="true"
+                        data-placement="bottom"
+                        class="icon me-2 align-text-bottom"
+                      ></span
+                      ><span>Italiano</span></a
+                    >
+                  </li>
+                  <li>
+                    <p class="dropdown-info dropdown-item text-muted py-2">
+                      <small
+                        >This changes the language of the site.<br />It won't
+                        change any text entered by users.</small
+                      >
+                    </p>
+                  </li>
+                </ul>
               </li>
               <li class="dropup nav-item">
                 <a
@@ -2481,59 +2372,63 @@
                   class="nav-link dropdown-toggle text-nowrap text-uppercase"
                   ><span class="fonticon-cog"></span
                 ></a>
-                <div class="dropdown-menu dropdown-menu-right">
-                  <h6 class="dropdown-header">
-                    Override product language settings
-                  </h6>
-                  <div class="dropdown-divider"></div>
-                  <form
-                    method="POST"
-                    action="/en/YuGiOh/PostGetAction/User_Settings_SetLanguageSettings"
-                    class="dropdown-item"
-                  >
-                    <input
-                      type="hidden"
-                      name="__cmtkn"
-                      value="a7df2144ac20f25777cea691dfdcdc9189ca9a0ea92df71baf69a4aab53de0e6"
-                      autocomplete="off"
-                    />
-                    <div
-                      onclick="event.stopPropagation()"
-                      class="custom-control custom-checkbox mb-3"
+                <ul class="dropdown-menu dropdown-menu-right">
+                  <li>
+                    <h6 class="dropdown-header dropdown-item">
+                      Override product language settings
+                    </h6>
+                  </li>
+                  <li><div class="dropdown-divider dropdown-item"></div></li>
+                  <li>
+                    <form
+                      method="POST"
+                      action="/en/YuGiOh/PostGetAction/User_Settings_SetLanguageSettings"
+                      class="dropdown-item"
                     >
                       <input
-                        type="checkbox"
-                        name="checkboxArticleLang"
-                        id="checkboxArticleLang-6456b69cc6d8e"
-                        class="custom-control-input"
-                      /><label
-                        for="checkboxArticleLang-6456b69cc6d8e"
-                        class="d-inline-flex custom-control-label"
-                        ><span
-                          >Use language of the product<sup> **</sup></span
-                        ></label
+                        type="hidden"
+                        name="__cmtkn"
+                        value="6bd730d173eba681e265b9e27c25eb2ac315959c23471d1678a8f90cde43ed8b"
+                        autocomplete="off"
+                      />
+                      <div
+                        onclick="event.stopPropagation()"
+                        class="custom-control custom-checkbox mb-3"
                       >
-                      <p class="dropdown-info dropdown-item text-muted py-2">
-                        <small
-                          ><sup>*</sup>Product names in
-                          <strong>shipments</strong> use the language they were
-                          listed in.</small
+                        <input
+                          type="checkbox"
+                          name="checkboxArticleLang"
+                          id="checkboxArticleLang-64ada7313a645"
+                          class="custom-control-input"
+                        /><label
+                          for="checkboxArticleLang-64ada7313a645"
+                          class="d-inline-flex custom-control-label"
+                          ><span
+                            >Use language of the product<sup> **</sup></span
+                          ></label
                         >
-                      </p>
-                    </div>
-                    <input
-                      type="hidden"
-                      name="submitArticleLanguage"
-                      value="1"
-                    /><input
-                      type="submit"
-                      value="Save Settings"
-                      title="Save Settings"
-                      tabindex="3"
-                      class="btn btn-primary btn-block btn-sm mb-3"
-                    />
-                  </form>
-                </div>
+                        <p class="dropdown-info dropdown-item text-muted py-2">
+                          <small
+                            ><sup>*</sup>Product names in
+                            <strong>shipments</strong> use the language they
+                            were listed in.</small
+                          >
+                        </p>
+                      </div>
+                      <input
+                        type="hidden"
+                        name="submitArticleLanguage"
+                        value="1"
+                      /><input
+                        type="submit"
+                        value="Save Settings"
+                        title="Save Settings"
+                        tabindex="3"
+                        class="btn btn-primary btn-sm mb-3 btn-block"
+                      />
+                    </form>
+                  </li>
+                </ul>
               </li>
             </ul>
           </div>
@@ -2547,7 +2442,7 @@
               >
             </p>
           </div>
-          <div class="col d-none d-md-block text-right">
+          <div class="col d-none d-md-block text-end">
             <a
               href="https://www.facebook.com/CardmarketYugioh"
               target="_blank"
@@ -2556,7 +2451,7 @@
               data-toggle="tooltip"
               data-html="true"
               data-placement="top"
-              class="icon no-decoration my-2 ml-3 is-24x24"
+              class="icon no-decoration my-2 ms-3 is-24x24"
               ><span class="fonticon-facebook"></span></a
             ><a
               href="https://twitter.com/CardmarketYGO"
@@ -2566,7 +2461,7 @@
               data-toggle="tooltip"
               data-html="true"
               data-placement="top"
-              class="icon no-decoration my-2 ml-3 is-24x24"
+              class="icon no-decoration my-2 ms-3 is-24x24"
               ><span class="fonticon-twitter"></span></a
             ><a
               href="https://www.instagram.com/cardmarket_yugioh/"
@@ -2576,7 +2471,7 @@
               data-toggle="tooltip"
               data-html="true"
               data-placement="top"
-              class="icon no-decoration my-2 ml-3 is-24x24"
+              class="icon no-decoration my-2 ms-3 is-24x24"
               ><span class="fonticon-instagram"></span></a
             ><a
               href="https://www.twitch.tv/cardmarket_yugioh"
@@ -2586,7 +2481,7 @@
               data-toggle="tooltip"
               data-html="true"
               data-placement="top"
-              class="icon no-decoration my-2 ml-3 is-24x24"
+              class="icon no-decoration my-2 ms-3 is-24x24"
               ><span class="fonticon-twitch"></span></a
             ><a
               href="https://youtube.com/c/CardmarketYGO"
@@ -2596,7 +2491,7 @@
               data-toggle="tooltip"
               data-html="true"
               data-placement="top"
-              class="icon no-decoration my-2 ml-3 is-24x24"
+              class="icon no-decoration my-2 ms-3 is-24x24"
               ><span class="fonticon-youtube"></span></a
             ><a
               href="https://www.tiktok.com/@cardmarket_yugioh"
@@ -2606,7 +2501,7 @@
               data-toggle="tooltip"
               data-html="true"
               data-placement="top"
-              class="icon no-decoration my-2 ml-3 is-24x24"
+              class="icon no-decoration my-2 ms-3 is-24x24"
               ><span class="fonticon-tiktok"></span
             ></a>
           </div>
