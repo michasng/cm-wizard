@@ -46,7 +46,7 @@ poetry run flet run -m -r cm_wizard
 ### Tests
 
 ```bash
-poetry run pytest
+poetry run pytest tests
 ```
 
 ### Code Analysis
