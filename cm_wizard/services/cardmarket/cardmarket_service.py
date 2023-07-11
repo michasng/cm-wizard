@@ -169,14 +169,14 @@ class CardmarketService:
     @sleep_and_retry
     @limits(calls=RATE_LIMIT_CALL_COUNT, period=RATE_LIMIT_PERIOD_SECONDS)
     def _request_rate_limited(self, url: str, params: dict):
-        return self._get_session().get(url, params=params)
+        return self.session.get(url, params=params)
 
     def _request_authenticated_page(
         self, endpoint: str, params: dict | None = None
     ) -> str:
         _logger.info(f"GET {endpoint}{'' if params is None else ' ' + str(params)}")
 
-        session = self._get_session()
+        session = self.session
         url = f"{self._cardmarket_url()}/{endpoint}"
 
         if self._rate_limited:
@@ -209,7 +209,8 @@ class CardmarketService:
 
         return page_response.text
 
-    def _get_session(self) -> requests.Session:
+    @property
+    def session(self) -> requests.Session:
         assert self._session is not None
         return self._session
 
