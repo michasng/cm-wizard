@@ -1010,6 +1010,21 @@ files = [
 full = ["numpy"]
 
 [[package]]
+name = "ratelimiter"
+version = "1.2.0.post0"
+description = "Simple python rate limiting object"
+category = "main"
+optional = false
+python-versions = "*"
+files = [
+    {file = "ratelimiter-1.2.0.post0-py3-none-any.whl", hash = "sha256:a52be07bc0bb0b3674b4b304550f10c769bbb00fead3072e035904474259809f"},
+    {file = "ratelimiter-1.2.0.post0.tar.gz", hash = "sha256:5c395dcabdbbde2e5178ef3f89b568a3066454a6ddc223b76473dac22f89b4f7"},
+]
+
+[package.extras]
+test = ["pytest (>=3.0)", "pytest-asyncio"]
+
+[[package]]
 name = "repath"
 version = "0.9.0"
 description = "Generate regular expressions form ExpressJS path patterns"
@@ -1367,4 +1382,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "4763999d98f4906a480ae4369408c53721f9360f9824f9ec32286ea217c2f270"
+content-hash = "a11fde90d0a85f3d310d13017fb2b07527e469e660b858b74afc4005977f04e2"

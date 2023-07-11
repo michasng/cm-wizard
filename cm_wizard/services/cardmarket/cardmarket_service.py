@@ -5,7 +5,8 @@ from http.cookiejar import CookieJar
 import browser_cookie3
 import requests
 from bs4 import BeautifulSoup
-from requests.adapters import HTTPAdapter, Retry
+from ratelimiter import RateLimiter
+from requests.adapters import HTTPAdapter
 
 from cm_wizard.services.browser import Browser
 from cm_wizard.services.cardmarket.card_query import CardQuery
@@ -19,6 +20,8 @@ from cm_wizard.services.cardmarket.pages.wants_lists_page import WantsListsPage
 
 CARDMARKET_COOKIE_DOMAIN = ".cardmarket.com"
 CARDMARKET_BASE_URL = f"https://www{CARDMARKET_COOKIE_DOMAIN}"
+RATE_LIMIT_PERIOD_SECONDS = 1
+RATE_LIMIT_MAX_CALLS = 1
 
 _logger = logging.getLogger(__name__)
 _logger.setLevel(logging.DEBUG)
@@ -162,6 +165,7 @@ class CardmarketService:
             out.write(content)
         _logger.info(f'Log file written "{path}".')
 
+    @RateLimiter(max_calls=RATE_LIMIT_MAX_CALLS, period=RATE_LIMIT_PERIOD_SECONDS)
     def _request_authenticated_page(
         self, endpoint: str, params: dict | None = None
     ) -> str:
