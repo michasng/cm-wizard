@@ -41,6 +41,7 @@ class CardmarketService:
     _session: requests.Session | None = None
     _language: CardmarketLanguage
     _game: CardmarketGame
+    _rate_limited: bool = True
 
     def _cardmarket_url(self) -> str:
         return f"{CARDMARKET_BASE_URL}/{self._language.value}/{self._game.value}"
@@ -167,16 +168,21 @@ class CardmarketService:
 
     @sleep_and_retry
     @limits(calls=RATE_LIMIT_CALL_COUNT, period=RATE_LIMIT_PERIOD_SECONDS)
+    def _request_rate_limited(self, url: str, params: dict):
+        return self._get_session().get(url, params=params)
+
     def _request_authenticated_page(
         self, endpoint: str, params: dict | None = None
     ) -> str:
         _logger.info(f"GET {endpoint}{'' if params is None else ' ' + str(params)}")
 
         session = self._get_session()
+        url = f"{self._cardmarket_url()}/{endpoint}"
 
-        page_response = session.get(
-            f"{self._cardmarket_url()}/{endpoint}", params=params
-        )
+        if self._rate_limited:
+            page_response = self._request_rate_limited(url, params)
+        else:
+            page_response = session.get(url, params=params)
 
         if page_response.status_code != 200:
             _logger.error(

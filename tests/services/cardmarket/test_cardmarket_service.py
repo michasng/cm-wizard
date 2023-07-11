@@ -18,6 +18,7 @@ def cardmarket_service() -> CardmarketService:
         language=CardmarketLanguage.ENGLISH,
         game=CardmarketGame.YU_GI_OH,
     )
+    cs._rate_limited = False
     return cs
 
 
