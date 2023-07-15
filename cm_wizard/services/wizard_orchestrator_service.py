@@ -1,6 +1,7 @@
 import bisect
 import logging
 from dataclasses import dataclass
+from enum import Enum, auto
 from functools import cache
 from typing import Callable
 
@@ -21,6 +22,17 @@ _logger = logging.getLogger(__name__)
 _logger.setLevel(logging.DEBUG)
 
 constant_shipping_cost = 200  # rough estimate
+
+
+class WizardOrchestratorStage(Enum):
+    GET_WANTS_LIST = auto()
+    GET_CARDS_SELLERS = auto()
+    RANK_SELLERS = auto()
+    GET_SELLERS_OFFERS = auto()
+    FIND_BEST_COMBINATION = auto()
+
+
+OnProgressCallable = Callable[[float, WizardOrchestratorStage], None]
 
 
 @dataclass
@@ -54,51 +66,43 @@ class WizardOrchestratorService:
         self.cardmarket_service = cardmarket_service
         self.shopping_wizard_service = shopping_wizard_service
 
-    def run(
-        self, wants_list_id: str, on_progress: Callable[[float], None]
-    ) -> WizardOrchestratorResult:
-        current_progress: float = 0.0
-
-        def progress_by(additional_progress: float):
-            nonlocal current_progress
-            current_progress += additional_progress
-            on_progress(current_progress)
-
-        wants_list_page = self.cardmarket_service.get_wants_list(wants_list_id)
-        _logger.info(f"Running shopping wizard for {len(wants_list_page.items)} cards.")
-        progress_by(0.1)
-
-        if len(wants_list_page.items) == 0:
-            on_progress(1)
-            return WizardOrchestratorResult(
-                total_price_euro_cents=0,
-                missing_cards=[],
-                sellers=[],
-            )
-
-        sellers: dict[str, dict[str, list[int]]] = {}
-        wanted_cards: list[str] = []
-        get_card_progress = 0.3 / len(wants_list_page.items)
-        for item in wants_list_page.items:
+    def _find_card_sellers(
+        self,
+        wants_items: list[WantsListPageItem],
+        on_progress: OnProgressCallable,
+    ) -> list[str]:
+        current_progress: float = 0
+        on_progress(current_progress, WizardOrchestratorStage.GET_CARDS_SELLERS)
+        seller_ids: list[str] = []
+        for item in wants_items:
             card = self.cardmarket_service.get_card(item)
+            current_progress += 1 / len(wants_items)
+            on_progress(current_progress, WizardOrchestratorStage.GET_CARDS_SELLERS)
 
             if len(card.offers) == 0:
                 _logger.warn(f"No offers found for card {card.name}.")
-                progress_by(get_card_progress)
                 continue
 
             _logger.debug(
                 f'Lowest price for "{card.name}" is {format_price(card.offers[0].price_euro_cents)} cents by {card.offers[0].seller.id}.'
             )
-            wanted_cards.append(item.id)
             # TODO: Include more sellers depending on price and stats
-            sellers[card.offers[0].seller.id] = {}
-            progress_by(get_card_progress)
+            seller_ids.append(card.offers[0].seller.id)
+        return seller_ids
 
-        # current_progress is now at 0.4
-
-        get_seller_wanted_offers_progress = 0.4 / len(wants_list_page.items)
-        for seller_id, seller_offers in sellers.items():
+    def _find_sellers_offers(
+        self,
+        wants_list_id: str,
+        wants_ids: list[str],
+        seller_ids: list[str],
+        on_progress: OnProgressCallable,
+    ) -> dict[str, dict[str, list[int]]]:
+        current_progress: float = 0
+        on_progress(current_progress, WizardOrchestratorStage.GET_SELLERS_OFFERS)
+        sellers_offers: dict[str, dict[str, list[int]]] = {
+            seller_id: {} for seller_id in seller_ids
+        }
+        for seller_id, seller_offers in sellers_offers.items():
             # TODO: use pagination for more results
             seller_offers_page = self.cardmarket_service.get_seller_wanted_offers(
                 seller_id=seller_id,
@@ -109,7 +113,7 @@ class WizardOrchestratorService:
             )
             for offer in seller_offers_page.offers:
                 card_id_match = process.extractOne(
-                    offer.id, wanted_cards, scorer=fuzz.WRatio
+                    offer.id, wants_ids, scorer=fuzz.WRatio
                 )
                 if card_id_match[1] < 100:
                     _logger.debug(
@@ -121,18 +125,25 @@ class WizardOrchestratorService:
                     seller_offers[card_id] = []
                 for _ in range(offer.quantity):
                     bisect.insort(seller_offers[card_id], offer.price_euro_cents)
-            progress_by(get_seller_wanted_offers_progress)
+            current_progress += 1 / len(sellers_offers)
+            on_progress(current_progress, WizardOrchestratorStage.GET_SELLERS_OFFERS)
+        return sellers_offers
 
-        # current_progress is now at 0.8
-
+    def _find_best_combination(
+        self,
+        wants_ids: list[str],
+        wants_items: list[WantsListPageItem],
+        sellers_offers: dict[str, dict[str, list[int]]],
+        on_progress: OnProgressCallable,
+    ) -> WizardOrchestratorResult:
+        on_progress(0, WizardOrchestratorStage.FIND_BEST_COMBINATION)
         result = shopping_wizard_service.find_best_offers(
-            wanted_cards, sellers, constant_shipping_cost
+            wants_ids, sellers_offers, constant_shipping_cost
         )
-        progress_by(0.2)
 
         @cache
         def get_item(card_id: str) -> WantsListPageItem:
-            for item in wants_list_page.items:
+            for item in wants_items:
                 if item.id == card_id:
                     return item
             raise ValueError(f"Item {card_id} not found on wants list.")
@@ -155,6 +166,39 @@ class WizardOrchestratorService:
                 )
                 for seller_id, seller_offers in result.sellers.items()
             ],
+        )
+
+    def run(
+        self, wants_list_id: str, on_progress: OnProgressCallable
+    ) -> WizardOrchestratorResult:
+        wants_list_page = self.cardmarket_service.get_wants_list(wants_list_id)
+        _logger.info(f"Running shopping wizard for {len(wants_list_page.items)} cards.")
+
+        if len(wants_list_page.items) == 0:
+            return WizardOrchestratorResult(
+                total_price_euro_cents=0,
+                missing_cards=[],
+                sellers=[],
+            )
+        wants_ids: list[str] = [item.id for item in wants_list_page.items]
+
+        seller_ids = self._find_card_sellers(
+            wants_items=wants_list_page.items,
+            on_progress=on_progress,
+        )
+
+        sellers_offers = self._find_sellers_offers(
+            wants_list_id=wants_list_id,
+            wants_ids=wants_ids,
+            seller_ids=seller_ids,
+            on_progress=on_progress,
+        )
+
+        return self._find_best_combination(
+            wants_ids=wants_ids,
+            wants_items=wants_list_page.items,
+            sellers_offers=sellers_offers,
+            on_progress=on_progress,
         )
 
 
