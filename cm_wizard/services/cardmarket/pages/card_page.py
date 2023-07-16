@@ -86,9 +86,7 @@ class CardPageOffer(HtmlChildElement[CardPage]):
 
     @cached_property
     def price_euro_cents(self) -> int:
-        return parse_euro_cents(
-            self._offer_column.find(class_="price-container").find("span").text
-        )
+        return parse_euro_cents(self._offer_column.find(class_="price-container").text)
 
     @cached_property
     def amount(self) -> int:
