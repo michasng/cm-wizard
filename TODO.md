@@ -50,7 +50,7 @@
        This occurs when we send many requests to find the best prices. Pause 30 seconds (plus 2 seconds to avoid race conditions). Then retry those failed requests.
 - [x] Avoid 429 by limiting requests.  
        Running into 429 repeatedly might eventually be noticed by cardmarket staff, which should be avoided. They likely don't want people scraping their platform, but on the other hand their official shopping wizard does not find the best prices, so this is sadly the only alternative for buying many single cards.
-- [ ] Navigating back while loading does not interrupt the wizard.  
+- [x] Navigating back while loading does not interrupt the wizard.  
        This will break the UI and the user gets stuck on the previous page.
 - [ ] Variable shipping costs.  
        Shipping costs are currently constant. Instead they should depend on seller and buyer countries.

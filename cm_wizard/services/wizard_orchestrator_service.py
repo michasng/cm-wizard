@@ -1,5 +1,6 @@
 import bisect
 import logging
+import threading
 from dataclasses import dataclass
 from enum import Enum, auto
 from functools import cache
@@ -65,6 +66,11 @@ class WizardOrchestratorService:
     ):
         self.cardmarket_service = cardmarket_service
         self.shopping_wizard_service = shopping_wizard_service
+        self.stop_event = threading.Event()
+
+    def _assert_not_stopped(self):
+        if self.stop_event.is_set():
+            raise InterruptedError("Wizard was stopped.")
 
     def _find_card_sellers(
         self,
@@ -75,6 +81,7 @@ class WizardOrchestratorService:
         on_progress(current_progress, WizardOrchestratorStage.GET_CARDS_SELLERS)
         seller_ids: list[str] = []
         for item in wants_items:
+            self._assert_not_stopped()
             card = self.cardmarket_service.get_card(item)
             current_progress += 1 / len(wants_items)
             on_progress(current_progress, WizardOrchestratorStage.GET_CARDS_SELLERS)
@@ -103,6 +110,7 @@ class WizardOrchestratorService:
             seller_id: {} for seller_id in seller_ids
         }
         for seller_id, seller_offers in sellers_offers.items():
+            self._assert_not_stopped()
             # TODO: use pagination for more results
             seller_offers_page = self.cardmarket_service.get_seller_wanted_offers(
                 seller_id=seller_id,
@@ -136,6 +144,7 @@ class WizardOrchestratorService:
         sellers_offers: dict[str, dict[str, list[int]]],
         on_progress: OnProgressCallable,
     ) -> WizardOrchestratorResult:
+        self._assert_not_stopped()
         on_progress(0, WizardOrchestratorStage.FIND_BEST_COMBINATION)
         result = shopping_wizard_service.find_best_offers(
             wants_ids, sellers_offers, constant_shipping_cost

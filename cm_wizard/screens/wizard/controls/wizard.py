@@ -25,9 +25,20 @@ class Wizard(ft.UserControl):
         self.update()
 
     def on_visit(self):
-        result = wizard_orchestrator_service.run(self._wants_list_id, self.on_progress)
-        self.controls = [WizardResultView(self._wants_list_id, result)]
-        self.update()
+        wizard_orchestrator_service.stop_event.clear()
+        try:
+            result = wizard_orchestrator_service.run(
+                self._wants_list_id, self.on_progress
+            )
+            self.controls = [WizardResultView(self._wants_list_id, result)]
+            self.update()
+        except InterruptedError:
+            pass
+        finally:
+            wizard_orchestrator_service.stop_event.clear()
+
+    def stop_wizard(self):
+        wizard_orchestrator_service.stop_event.set()
 
     def build(self) -> ft.Control:
         return ft.Container(

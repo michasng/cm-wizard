@@ -14,6 +14,7 @@ class WizardScreen(AbstractScreen):
             wizard_ref.current.on_visit()
 
         def back(_):
+            wizard_ref.current.stop_wizard()
             self.page.route = f"/wants/{id}"
             self.page.update()
 
