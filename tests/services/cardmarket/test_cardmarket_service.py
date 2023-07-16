@@ -112,7 +112,7 @@ def test_get_card(requests_mock, cardmarket_service: CardmarketService):
         == "https://static.cardmarket.com/img/f7771ab8d3e18816866f63d3d07becfd/items/5/LEHD/364705.jpg"
     )
     assert offer.price_euro_cents == 2
-    assert offer.amount == 1
+    assert offer.quantity == 1
     seller = offer.seller
     assert seller.id == "wkleebe1"
     assert seller.rating == "very-good"
