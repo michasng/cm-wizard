@@ -1,3 +1,5 @@
+import threading
+
 import flet as ft
 
 from cm_wizard.screens.wizard.controls.wizard_loading_view import WizardLoadingView
@@ -18,14 +20,17 @@ class Wizard(ft.UserControl):
         self._wants_list_id = id
         self._stage = WizardOrchestratorStage.GET_WANTS_LIST
         self._loading_ref = ft.Ref[WizardLoadingView]()
+        self.stop_event = threading.Event()
 
     def on_progress(self, progress: float, stage: WizardOrchestratorStage):
+        if self.stop_event.is_set():
+            raise InterruptedError("Wizard was stopped.")
         self._stage = stage
         self._loading_ref.current.progress(progress, stage)
         self.update()
 
     def on_visit(self):
-        wizard_orchestrator_service.stop_event.clear()
+        self.stop_event.clear()
         try:
             result = wizard_orchestrator_service.run(
                 self._wants_list_id, self.on_progress
@@ -35,10 +40,10 @@ class Wizard(ft.UserControl):
         except InterruptedError:
             pass
         finally:
-            wizard_orchestrator_service.stop_event.clear()
+            self.stop_event.clear()
 
     def stop_wizard(self):
-        wizard_orchestrator_service.stop_event.set()
+        self.stop_event.set()
 
     def build(self) -> ft.Control:
         return ft.Container(
