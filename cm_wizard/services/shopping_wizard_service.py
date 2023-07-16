@@ -45,7 +45,7 @@ class ShoppingWizardService:
     # TODO: handle shipping costs
     def find_best_offers(
         self,
-        wanted_cards: list[str],
+        wanted_cards: set[str],
         sellers: dict[str, dict[str, list[int]]],
         shipping_cost: int = 0,
     ) -> WizardResult:
