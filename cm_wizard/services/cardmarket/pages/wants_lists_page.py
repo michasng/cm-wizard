@@ -18,7 +18,7 @@ class WantsListsPage(HtmlPageElement):
     def items(self) -> list["WantsListsPageItem"]:
         cards: ResultSet[Tag] = self._tag.find_all(class_="card")
         _logger.info(f"{len(cards)} wants lists found.")
-        return [WantsListsPageItem(self, card) for card in cards]
+        return [WantsListsPageItem(self, card, self._locale) for card in cards]
 
 
 class WantsListsPageItem(HtmlChildElement[WantsListsPage]):

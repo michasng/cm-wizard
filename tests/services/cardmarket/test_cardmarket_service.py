@@ -8,6 +8,7 @@ from cm_wizard.services.cardmarket.enums.card_condition import CardCondition
 from cm_wizard.services.cardmarket.enums.card_language import CardLanguage
 from cm_wizard.services.cardmarket.enums.cardmarket_game import CardmarketGame
 from cm_wizard.services.cardmarket.enums.cardmarket_language import CardmarketLanguage
+from cm_wizard.services.cardmarket.enums.location import Location
 
 
 @pytest.fixture
@@ -119,8 +120,8 @@ def test_get_card(requests_mock, cardmarket_service: CardmarketService):
     assert seller.sale_count == 45
     assert seller.item_count == 80
     assert seller.eta_days == 4
-    assert seller.eta_country_days == 3
-    assert seller.country == "Germany"
+    assert seller.eta_location_days == 3
+    assert seller.location == Location.GERMANY
     product = offer.product
     assert product.expansion == "LEHD"
     assert product.rarity == "Common"
@@ -144,7 +145,7 @@ def test_get_seller_wanted_offers(requests_mock, cardmarket_service: CardmarketS
     result = cardmarket_service.get_seller_wanted_offers("wkleebe1", "15628908")
 
     assert result.id == "wkleebe1"
-    assert result.country == "Germany"
+    assert result.location == Location.GERMANY
     assert result.eta_days == 4
     assert result.total_count == 1
     assert result.current_page == 1

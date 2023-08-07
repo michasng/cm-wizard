@@ -12,11 +12,13 @@ from cm_wizard.services.browser import Browser
 from cm_wizard.services.cardmarket.card_query import CardQuery
 from cm_wizard.services.cardmarket.enums.cardmarket_game import CardmarketGame
 from cm_wizard.services.cardmarket.enums.cardmarket_language import CardmarketLanguage
+from cm_wizard.services.cardmarket.enums.location import Location
 from cm_wizard.services.cardmarket.log_retry import LogRetry
 from cm_wizard.services.cardmarket.pages.card_page import CardPage
 from cm_wizard.services.cardmarket.pages.seller_offers_page import SellerOffersPage
 from cm_wizard.services.cardmarket.pages.wants_list_page import WantsListPage
 from cm_wizard.services.cardmarket.pages.wants_lists_page import WantsListsPage
+from cm_wizard.services.locale import Locale
 
 CARDMARKET_COOKIE_DOMAIN = ".cardmarket.com"
 CARDMARKET_BASE_URL = f"https://www{CARDMARKET_COOKIE_DOMAIN}"
@@ -40,6 +42,7 @@ class CardmarketException(Exception):
 class CardmarketService:
     _session: requests.Session | None = None
     _language: CardmarketLanguage
+    _locale: Locale
     _game: CardmarketGame
     _rate_limited: bool = True
 
@@ -49,6 +52,10 @@ class CardmarketService:
     @property
     def language(self) -> CardmarketLanguage:
         return self._language
+
+    @property
+    def locale(self) -> Locale:
+        return self._locale
 
     @property
     def game(self) -> CardmarketGame:
@@ -127,16 +134,16 @@ class CardmarketService:
 
     def get_wants_lists(self) -> WantsListsPage:
         page_text = self._request_authenticated_page("Wants")
-        return WantsListsPage(page_text, self.language)
+        return WantsListsPage(page_text, self.locale)
 
     def get_wants_list(self, id: str) -> WantsListPage:
         page_text = self._request_authenticated_page(f"Wants/{id}")
-        return WantsListPage(page_text, self.language)
+        return WantsListPage(page_text, self.locale)
 
     def get_card(self, query: CardQuery):
         params = {}
         if query.languages is not None:
-            params["language"] = ",".join([str(l.value.id) for l in query.languages])
+            params["language"] = ",".join([str(l.value) for l in query.languages])
         if query.min_condition is not None:
             params["minCondition"] = str(query.min_condition.value.id)
         bool_params = {
@@ -150,7 +157,7 @@ class CardmarketService:
                 continue
             params[key] = "Y" if value else "N"
         page_text = self._request_authenticated_page(f"Cards/{query.id}", params)
-        return CardPage(page_text, self.language)
+        return CardPage(page_text, self.locale)
 
     def get_seller_wanted_offers(
         self, seller_id: str, wants_list_id: str
@@ -159,7 +166,7 @@ class CardmarketService:
             f"Users/{seller_id}/Offers/Singles",
             params={"idWantslist": wants_list_id},
         )
-        return SellerOffersPage(page_text, self.language)
+        return SellerOffersPage(page_text, self.locale)
 
     def _log_to_file(self, path: str, content: str):
         with open(path, "w") as out:
@@ -227,6 +234,7 @@ class CardmarketService:
 
         self._session = requests.Session()
         self._language = language
+        self._locale = Locale(language)
         self._game = game
 
         self._session.headers.update(
@@ -264,6 +272,7 @@ class CardmarketService:
             _logger.debug("Session closed.")
         self._session = None
         self._language = None
+        self._locale = None
         self._game = None
 
     def _extract_cookies(self, browser: Browser) -> CookieJar:

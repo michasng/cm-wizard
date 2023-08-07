@@ -4,6 +4,7 @@ from functools import cached_property
 
 from bs4 import ResultSet, Tag
 
+from cm_wizard.services.cardmarket.enums.location import Location
 from cm_wizard.services.cardmarket.pages.card_product_info import CardProductInfo
 from cm_wizard.services.cardmarket.pages.helpers import (
     extract_tooltip_image_url,
@@ -61,7 +62,7 @@ class CardPage(HtmlPageElement):
             class_="article-row"
         )
         _logger.info(f"{len(rows)} offers found.")
-        return [CardPageOffer(self, row) for row in rows]
+        return [CardPageOffer(self, row, self._locale) for row in rows]
 
 
 class CardPageOffer(HtmlChildElement[CardPage]):
@@ -73,12 +74,12 @@ class CardPageOffer(HtmlChildElement[CardPage]):
     @cached_property
     def seller(self) -> "CardPageOfferSeller":
         seller_column = self._tag.find(class_="col-seller")
-        return CardPageOfferSeller(self, seller_column)
+        return CardPageOfferSeller(self, seller_column, self._locale)
 
     @cached_property
     def product(self) -> "CardProductInfo":
         product_column = self._tag.find(class_="col-product")
-        return CardProductInfo(self, product_column)
+        return CardProductInfo(self, product_column, self._locale)
 
     @cached_property
     def _offer_column(self) -> Tag:
@@ -156,11 +157,11 @@ class CardPageOfferSeller(HtmlChildElement[CardPageOffer]):
         return self._eta_matches[0]
 
     @cached_property
-    def eta_country_days(self) -> int:
+    def eta_location_days(self) -> int:
         return self._eta_matches[-1]
 
     @cached_property
-    def country(self) -> str:
+    def location(self) -> Location:
         tooltip_title = self._seller_col_name.find(
             attrs={"data-toggle": "tooltip"}
         ).attrs["title"]
@@ -168,4 +169,5 @@ class CardPageOfferSeller(HtmlChildElement[CardPageOffer]):
         assert (
             len(location_matches) == 1
         ), f'Location not found in tooltip title "{tooltip_title}".'
-        return location_matches[0]
+        location_label = location_matches[0]
+        return Location.find_by_label(self._locale, location_label)

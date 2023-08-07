@@ -4,6 +4,7 @@ from functools import cached_property
 
 from bs4 import ResultSet, Tag
 
+from cm_wizard.services.cardmarket.enums.location import Location
 from cm_wizard.services.cardmarket.pages.card_product_info import CardProductInfo
 from cm_wizard.services.cardmarket.pages.helpers import (
     extract_card_id_from_url,
@@ -38,8 +39,9 @@ class SellerOffersPage(HtmlPageElement):
         return self._h1.find(string=True, recursive=False).get_text(strip=True)
 
     @cached_property
-    def country(self) -> str:
-        return find_tooltip(self._h1).attrs["data-original-title"]
+    def location(self) -> Location:
+        location_label = find_tooltip(self._h1).attrs["data-original-title"]
+        return Location.find_by_label(self._locale, location_label)
 
     @cached_property
     def eta_days(self) -> int | None:
@@ -83,7 +85,7 @@ class SellerOffersPage(HtmlPageElement):
             class_="article-row"
         )
         _logger.info(f"{len(rows)} offers found.")
-        return [SellerSinglesPageOffer(self, row) for row in rows]
+        return [SellerSinglesPageOffer(self, row, self._locale) for row in rows]
 
 
 class SellerSinglesPageOffer(HtmlChildElement[SellerOffersPage]):
@@ -111,7 +113,7 @@ class SellerSinglesPageOffer(HtmlChildElement[SellerOffersPage]):
     @cached_property
     def product(self) -> "CardProductInfo":
         product_column = self._col_seller_product_info.find(class_="col-product")
-        return CardProductInfo(self, product_column)
+        return CardProductInfo(self, product_column, self._locale)
 
     @cached_property
     def _col_offer(self) -> Tag:

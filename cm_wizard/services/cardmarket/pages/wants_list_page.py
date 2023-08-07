@@ -65,7 +65,7 @@ class WantsListPage(HtmlPageElement):
         table_body = self._table.find("tbody")
         rows: ResultSet[Tag] = table_body.find_all("tr")
         _logger.info(f"{len(rows)} wanted found.")
-        return [WantsListPageItem(self, row) for row in rows]
+        return [WantsListPageItem(self, row, self._locale) for row in rows]
 
 
 class WantsListPageItem(HtmlChildElement[WantsListPage], CardQuery):
@@ -116,7 +116,7 @@ class WantsListPageItem(HtmlChildElement[WantsListPage], CardQuery):
         tooltips = self._find_td_tooltips("languages")
         return [
             CardLanguage.find_by_label(
-                self._parent._language, tooltip.attrs["data-original-title"]
+                self._locale, tooltip.attrs["data-original-title"]
             )
             for tooltip in tooltips
         ]

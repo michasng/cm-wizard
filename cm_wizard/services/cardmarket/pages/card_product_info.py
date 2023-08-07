@@ -85,7 +85,7 @@ class CardProductInfo(HtmlChildElement[HtmlElement]):
         assert tooltip is not None, "No card language found in tooltips."
 
         return CardLanguage.find_by_label(
-            CardmarketLanguage.ENGLISH, tooltip.attrs["data-original-title"]
+            self._locale, tooltip.attrs["data-original-title"]
         )
 
     @cached_property
