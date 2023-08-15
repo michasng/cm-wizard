@@ -2,7 +2,7 @@
 
 ## Must have
 
-- [x] Bypass cloudflare and login.
+- [x] Bypass Cloudflare and login.
 - [x] Show overview of all wants lists.
 - [x] Show wants list, listing cards.
 - [x] Find cheapest prices for single cards.
@@ -54,3 +54,6 @@
        This will break the UI and the user gets stuck on the previous page.
 - [ ] Variable shipping costs.  
        Shipping costs are currently constant. Instead they should depend on seller and buyer countries.
+- [ ] Bypass Cloudflare Static image protection.  
+       Static images are now also protected by Cloudflare, so the wants list images are no longer visible.
+       We likely need to request them with the same session object. Does this mean they also influence the rate limit?
