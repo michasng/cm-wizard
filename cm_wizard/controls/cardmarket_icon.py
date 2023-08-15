@@ -3,16 +3,9 @@ from enum import Enum
 from io import BytesIO
 
 import flet as ft
-import requests
 from PIL import Image
 
-_icon_sprite_sheet = Image.open(
-    BytesIO(
-        requests.get(
-            "https://static.cardmarket.com/img/f8d806e6267c7c859592cba11335f3d6/spriteSheets/ssMain2.png"
-        ).content
-    )
-)
+_icon_sprite_sheet = Image.open("assets/icons.webp")
 
 _ICON_SIZE = 16
 
