@@ -94,9 +94,8 @@ class CardmarketService:
             r'name="__cmtkn" value="(?P<token>\w+)"', login_page_response.text
         )
         if token_match is None or token_match.lastindex is None:
-            _logger.error("Token not found.")
-            self._log_to_file("login_page_response.html", login_page_response.text)
-            raise CardmarketException("No token found. Check login_page_response.html.")
+            _logger.info("Token not found. Assuming the user is already logged in.")
+            return
         token = token_match.group("token")
 
         login_response = session.post(
