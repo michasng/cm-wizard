@@ -165,7 +165,7 @@ class CardPageOfferSeller(HtmlChildElement[CardPageOffer]):
         tooltip_title = self._seller_col_name.find(
             attrs={"data-toggle": "tooltip"}
         ).attrs["title"]
-        location_matches = re.findall(r":\s*(\w+)", tooltip_title)
+        location_matches = re.findall(r":\s*(.+)", tooltip_title)
         assert (
             len(location_matches) == 1
         ), f'Location not found in tooltip title "{tooltip_title}".'
