@@ -3,14 +3,19 @@
 Improved cardmarket shopping wizard! 🧙‍♂️  
 Find the best combination of sellers for cards on your wants lists. 🪄
 
+This project is inspired by and in part based on [cw-wizard](https://github.com/BenSouchet/cw-wizard). Check it out!
+
+## ⚠️ Important notice ⚠️
+
+This project is discontinued, because it is no longer possible to skip cardmarket's cloudflare protection by using cookies from another browser.  
+I am exploring ways around this, which will be implemented in a re-write of this project.
+
+## Features
+
 - Browse your wants lists. ✅
 - Find the best prices. ✅
 - Supports all card games on cardmarket. ⚠️ Currently only Yu-Gi-Oh!.
 - Open Source, MIT Licensed. Clean, easy to read code. ✅
-
-⚠️ Work in progress. Not all features are implemented yet. ⚠️
-
-This project is inspired by and in part based on [cw-wizard](https://github.com/BenSouchet/cw-wizard). Check it out!
 
 ## Installation & Running
 
